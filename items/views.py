@@ -3,8 +3,10 @@ from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
 from django.contrib import messages
+from django.urls import reverse_lazy
 
 from .models import Item, Cart
+from .forms import CartUpdateForm
 
 class Index(LoginRequiredMixin, generic.ListView):
     template_name = "items/index.html"
@@ -55,14 +57,23 @@ class Carts(LoginRequiredMixin, generic.TemplateView):
         
 def addCarts(request, pk):
     item = get_object_or_404(Item, pk=pk)
-    cart = request.user.cart_set.filter(item_id=item.id).get()
-    if cart:
+    
+    if request.user.cart_set.filter(item_id=item.id).exists():
+        cart = request.user.cart_set.filter(item_id=item.id).get()
         cart.amount += 1
         cart.save()
+        messages.success(request, f"{item.name}をカートに追加しました。カート内の数量: {cart.amount}")
     else:
         Cart(item=item, user=request.user, amount=1).save()
+        messages.success(request, f"{item.name}をカートに追加しました。カート内の数量: 1")
 
     return redirect("items:index")
+    
+def update_cart(request, pk):
+    cart = get_object_or_404(Cart, pk=pk)
+    cart.amount = request.POST.get("amount")
+    cart.save()
+    return redirect("items:carts")
     
 def purchase(request):
     carts = request.user.cart_set.all()

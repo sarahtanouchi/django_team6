@@ -10,5 +10,6 @@ urlpatterns = [
     path("update/<int:pk>/", views.Update.as_view(), name="update"), # 編集
     path("add_carts/<int:pk>", views.addCarts, name="add_carts"),
     path("carts/", views.Carts.as_view(), name="carts"),
+    path("carts/update/<int:pk>", views.update_cart, name="update_cart"),
     path("purchase/", views.purchase, name="purchase"),
 ]
