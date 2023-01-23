@@ -1,0 +1,76 @@
+{% extends "layouts/default.html" %}
+ 
+{% block title %}{{ title }}{% endblock %}
+
+{% block additional_css %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'stylesheets/styles.css' %}">
+{% endblock %}
+ 
+{% block content %}
+    {% include 'includes/logged_in_header.html' %}
+    <div class="container contents">
+		<h1>{{ title }}</h1>
+		{% if messages %}
+        	<ul>
+	        {% for message in messages %}
+	            <li>{{ message.tags }}:{{ message }}</li>
+	        {% endfor %}
+	        </ul>
+	    {% endif %}
+		<div class="row">
+			<form class="search col-6">
+				<div class="input-group">
+					<input class="form-control" type="text" name="keyword" placeholder="商品名の一部を入れて検索">
+					<span class="input-group-append">
+						<input class="btn btn-outline-secondary" type="submit" value="検索" >
+					</span>
+				</div>
+			</form>
+		</div>
+		<div class="row">
+			<div class="col-3">
+				<h2>メニュー</h2>
+				<p>ここに各種メニューを追加してください。</p>
+			</div>
+			<div class="col-9">
+			  {% for item in item_list %}
+				  <div class="card item">
+					<div class="row item_row">
+						<div class="col-6 item_figure">
+						    {% if item.image %}
+                                <img class="img-fluid" src="{{ item.image.url }}">
+                            {% else %}
+                                {% load static %}
+                                <img class="item_image" src="{% static 'images/no_image.jpg' %}">
+                            {% endif %}
+						</div>
+						<div class="col-6 item_description">
+							<h2 class="item_title">
+								<a href="{% url 'items:detail' item.id %}">
+									{{ item.name }}: 
+								</a>
+							</h2>
+							{% if item.stock > 0 %}
+								<div>{{ item.price }}円</div>
+							{% else %}
+								<div>売り切れ</div>
+							{% endif %}
+							<div>{{ item.description }}</div>
+							<form method="post" action="{% url 'items:add_carts' item.id %}">
+                                {% csrf_token %}
+                                <button type="submit">カートに入れる</button>
+                            </form>
+						</div>
+					</div>
+				</div>
+				{% empty %}
+                  <p>出品商品はありません。</p>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+	<footer class="text-center">
+		<p><small>&copy;CodeCamp All Rights Reserved.</small></p>
+	</footer>
+{% endblock %}

@@ -1,0 +1,163 @@
+.header_nav {
+  display: flex;
+  list-style: none;
+  padding-left: 0;
+}
+.header_nav li {
+  margin-right: 30px;
+}
+
+/* エラーメッセージ用のスタイル */
+.error {
+  color: red;
+}
+/* 成功メッセージ用のスタイル */
+.success {
+  color: green;
+}
+
+/* 投稿のスタイル */
+.items {
+  padding: 0;
+}
+.item {
+  margin-bottom: 30px;
+  list-style: none;
+  border-top: solid 1px black;
+  border-bottom: solid 1px black;
+}
+.item_main {
+  display: flex;
+}
+.item_heading {
+  background-color: #dddddd;
+  font-weight: bold;
+}
+.item_main_img {
+  width: 100px;
+}
+.item_main_img img{
+  width: 100%;
+}
+
+.nav-bg-custom {
+   background-color: #1C7F7A;
+}
+
+.header_nav {
+    display: flex;
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0px;
+}
+
+.header_nav li {
+    margin-right: 30px;
+}
+
+.header_nav a {
+    font-weight: bold;
+}
+
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:visited,
+.btn-primary:focus {
+  background-color: #E38C89 !important;
+  border-color: #E38C89 !important;
+}
+
+.link-button-style {
+	background-color: #E38C89 !important;
+	text-decoration: none;
+	color: #ffffff;
+}
+
+.form-container {
+	margin-top: 10%;
+}
+
+#logout {
+	display:none;
+}
+
+.item_table {
+	border-collapse: collapse;
+	margin-top: 20px;
+}
+
+.item_table th, .item_table td {
+	border: solid 1px black;
+	padding: 5px;
+}
+
+.item_image {
+	height: 150px;
+	width: 150px;
+}
+
+.navbar-light .navbar-brand.logo {
+	color: #283c63;
+	font-size: 25px;
+	font-weight: bold;
+}
+
+.main_title {
+	color: #283c63;
+}
+
+.contents {
+	padding-top: 30px;
+}
+.search {
+	margin: 20px 0;
+}
+
+.search .btn.btn-outline-secondary {
+	background-color: #f1eaf5;
+}
+.category {
+	padding: 10px;
+}
+
+.nav_title {
+	font-size: 16px;
+	color: #283c63;
+	background-color: #f0b400;
+	padding: 10px 0;
+}
+
+.nav-link {
+	padding-bottom: 5px !important;
+	font-weight: bold;
+}
+
+.category_menu a {
+	display: block;
+}
+
+
+.item.card {
+	margin-bottom: 20px;
+	padding: 10px;
+	border: solid 5px #f0b400;
+
+}
+
+.item_row {
+	align-items: center;
+}
+.item_figure {
+	/* padding: 10px; */
+}
+.item_description {
+
+}
+.item_title {
+	font-size: 20px;
+}
+.item_title a {
+	color: #f85f73;
+}
+

@@ -1,0 +1,62 @@
+{% extends "layouts/default.html" %}
+ 
+{% block title %}{{ title }}{% endblock %}
+
+{% block additional_css %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'stylesheets/styles.css' %}">
+{% endblock %}
+ 
+{% block content %}
+    {% include 'includes/logged_in_header.html' %}
+	<div class="container contents">
+		<h1>{{ title }}</h1>
+		<div class="row">
+			<div class="col-9">
+			  {% for cart in carts %}
+				  <div class="card item">
+					<div class="row item_row">
+						<div class="col-6 item_figure">
+						    {% if cart.item.image %}
+                                <img class="img-fluid" src="{{ cart.item.image.url }}">
+                            {% else %}
+                                {% load static %}
+                                <img class="item_image" src="{% static 'images/no_image.jpg' %}">
+                            {% endif %}
+						</div>
+						<div class="col-6 item_description">
+							<dl>
+                                <dt>商品名</dt>
+                                <dd>{{ cart.item.name }}</dd>
+                                <dt>カテゴリ</dt>
+                                <dd>{{ cart.item.category.name }}</dd>
+                                <dt>価格</dt>
+                                <dd>{{ cart.item.price }}円</dd>
+                                <dt>説明</dt>
+                                <dd>{{ cart.item.description }}</dd>
+                                <dt>購入数</dt>
+                                <dd>{{ cart.amount }}</dd>
+                                <dt>合計金額</dt>
+                                <dd>{{ cart.total_amount }}円</dd>
+                            </dl>
+						</div>
+					</div>
+				</div>
+				{% empty %}
+                  <p>カート内に商品はありません。</p>
+				{% endfor %}
+			</div>
+			<div class="col-3">
+				<h2>購入情報</h2>
+				<p>合計金額: {{ total }}円</p>
+				<form method="post" action="{% url 'items:purchase' %}">
+                    {% csrf_token %}
+                    <button type="submit">購入する</button>
+                </form>
+			</div>
+		</div>
+	</div>
+	<footer class="text-center">
+		<p><small>&copy;CodeCamp All Rights Reserved.</small></p>
+	</footer>
+{% endblock %}
