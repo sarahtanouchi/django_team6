@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.urls import reverse_lazy
 
 from .models import Item, Cart
-from .forms import CartUpdateForm
+from .forms import CartUpdateForm, ItemCreateForm
 
 class Index(LoginRequiredMixin, generic.ListView):
     template_name = "items/index.html"
@@ -18,13 +18,29 @@ class Index(LoginRequiredMixin, generic.ListView):
         context = super().get_context_data(**kwargs)
         context["title"] = "トップ"
         return context
+        
+class Admin(LoginRequiredMixin, generic.TemplateView):
+    template_name = "items/admin.html"
+    def get_context_data(self, **kwargs):
+        items = Item.objects.all()
+        context = super().get_context_data(**kwargs)
+        context["title"] = "管理ページ"
+        context["items"] = items
+        return context
  
-class Create(LoginRequiredMixin, generic.TemplateView):
+class Create(LoginRequiredMixin, generic.CreateView):
+    model = Item
+    form_class = ItemCreateForm
     template_name = "items/create.html"
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "商品の新規登録"
         return context
+    
+    def form_valid(self, form):
+        item = form.save(commit=False)
+        item.save()
+        return redirect("items:admin")
  
 class Detail(LoginRequiredMixin, generic.TemplateView):
     template_name = "items/detail.html"
@@ -32,13 +48,20 @@ class Detail(LoginRequiredMixin, generic.TemplateView):
         context = super().get_context_data(**kwargs)
         context["title"] = "商品詳細"
         return context
- 
-class Update(LoginRequiredMixin, generic.TemplateView):
+        
+class Update(LoginRequiredMixin, generic.UpdateView):
+    model = Item
+    form_class = ItemCreateForm
+    success_url = reverse_lazy("items:index")
     template_name = "items/update.html"
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "商品情報の編集"
         return context
+        
+class Delete(LoginRequiredMixin, generic.DeleteView):
+    model = Item
+    success_url = reverse_lazy("items:admin")
         
 class Carts(LoginRequiredMixin, generic.TemplateView):
     template_name = "items/carts.html"
@@ -54,45 +77,4 @@ class Carts(LoginRequiredMixin, generic.TemplateView):
         context["total"] = total
         
         return context
-        
-def addCarts(request, pk):
-    item = get_object_or_404(Item, pk=pk)
-    
-    if request.user.cart_set.filter(item_id=item.id).exists():
-        cart = request.user.cart_set.filter(item_id=item.id).get()
-        cart.amount += 1
-        cart.save()
-        messages.success(request, f"{item.name}をカートに追加しました。カート内の数量: {cart.amount}")
-    else:
-        Cart(item=item, user=request.user, amount=1).save()
-        messages.success(request, f"{item.name}をカートに追加しました。カート内の数量: 1")
-
-    return redirect("items:index")
-    
-def update_cart(request, pk):
-    cart = get_object_or_404(Cart, pk=pk)
-    cart.amount = request.POST.get("amount")
-    cart.save()
-    return redirect("items:carts")
-    
-def purchase(request):
-    carts = request.user.cart_set.all()
-    for cart in carts:
-        if cart.amount > cart.item.stock:
-            messages.error(request, f"{cart.item.name}の在庫が足りません。購入可能数: {cart.item.stock}")
-        else:
-            cart.item.stock -= cart.amount
-    print(len(messages.get_messages(request)))
-    if len(messages.get_messages(request)) > 0:
-        return redirect("items:index")
-    
-    for cart in carts:
-        cart.item.save()
-        
-    for cart in carts:
-        cart.delete()
-        
-    messages.success(request, "商品を購入しました。")
-        
-    return redirect("items:index")
     

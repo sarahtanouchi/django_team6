@@ -36,20 +36,10 @@
 						<div class="col-6 item_description">
 							<h2 class="item_title">
 								<a href="{% url 'items:detail' item.id %}">
-									{{ item.name }}: 
+									{{ item.name }}
 								</a>
 							</h2>
 							<div>{{ item.description }}</div>
-							{% if item.stock > 0 %}
-								<div>{{ item.price }}円</div>
-								<form method="post" action="{% url 'items:add_carts' item.id %}">
-                                	{% csrf_token %}
-                                <button type="submit">カートに入れる</button>
-                            </form>
-							{% else %}
-								<div>売り切れ</div>
-							{% endif %}
-
 						</div>
 					</div>
 				</div>

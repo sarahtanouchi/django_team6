@@ -5,4 +5,15 @@
 {% block content %}
     {% include 'includes/logged_in_header.html' %}
     <h1>{{ title }}</h1>
+    <form action="" method="POST" enctype="multipart/form-data">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <button class="button is-primary" type="submit">更新</button>
+    </form>
+    <h2>現在の画像</h2>
+    {% if item.image %}
+        <p><img src="{{ item.image.url }}"></p>
+    {% else %}
+        <p>画像はありません。</p>
+    {% endif %}
 {% endblock %}

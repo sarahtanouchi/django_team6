@@ -2,15 +2,20 @@
     <div class="container">
         <ul class="header_nav">
             <li>
+                こんにちは！ {{ request.user.username }} さん
+            </li>
+            <li>
                 <a href="{% url 'items:index' %}">
                     トップ
                 </a>
             </li>
+            {% if request.user.username == 'admin' %}
             <li>
-                <a href="{% url 'items:carts' %}">
-                    カート一覧
+                <a href="{% url 'items:admin' %}">
+                    管理画面
                 </a>
             </li>
+            {% endif %}
             <li>
                 <a href="{% url 'accounts:logout' %}">
                     ログアウト
