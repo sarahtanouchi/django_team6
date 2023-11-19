@@ -51,7 +51,7 @@
 			<div class="col-3">
 				<h2>購入情報</h2>
 				<p>合計金額: {{ total }}円</p>
-				<form method="post" action="{% url 'items:purchase' %}">
+				<form method="post" action="{% url 'items:carts' %}">
                     {% csrf_token %}
                     <button type="submit">購入する</button>
                 </form>

@@ -9,6 +9,11 @@
                     トップ
                 </a>
             </li>
+            <li>
+                <a href="{% url 'items:carts' %}">
+                    カート
+                </a>
+            </li>
             {% if request.user.username == 'admin' %}
             <li>
                 <a href="{% url 'items:admin' %}">

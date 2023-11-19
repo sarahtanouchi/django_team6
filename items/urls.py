@@ -10,5 +10,6 @@ urlpatterns = [
     path("detail/<int:pk>/", views.Detail.as_view(), name="detail"), # 詳細
     path("update/<int:pk>/", views.Update.as_view(), name="update"), # 編集
     path("delete/<int:pk>/", views.Delete.as_view(), name="delete"), # 編集
+    path("carts/", views.Carts.as_view(), name="carts"),
     
 ]
