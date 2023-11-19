@@ -10,7 +10,9 @@ class ItemCreateForm(forms.ModelForm):
             "category",
             "price",
             "stock",
-            "image"
+            "image",
+            "second_image",
+            
         ]
  
 class CartUpdateForm(forms.Form):

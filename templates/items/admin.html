@@ -15,6 +15,7 @@
 				<th>在庫数</th>
 				<th>説明</th>
 				<th>画像</th>
+				<th>画像２</th>
 				<th>操作</th>
 			</tr>
 		</thead>
@@ -31,6 +32,14 @@
                     {% else %}
                         <img src="images/no_image.png">
                     {% endif %}
+				</td>
+				<td>
+				    {% if item.second_image %}
+                        <img class="img-fluid" src="{{ item.second_image.url }}">
+                    {% else %}
+                        <img src="images/no_image.png">
+                    {% endif %}
+				</td>
 				<td>
 				    <a href="{% url 'items:update' item.id %}">
                       編集

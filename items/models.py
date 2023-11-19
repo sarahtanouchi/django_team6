@@ -14,6 +14,7 @@ class Item(models.Model):
     description = models.CharField("説明", max_length=1000)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="カテゴリー")
     image = models.ImageField("画像", blank=True)
+    second_image = models.ImageField("画像2", blank=True)
     price = models.PositiveIntegerField("価格", )
     stock = models.PositiveIntegerField("在庫数", )
     cart_users = models.ManyToManyField(get_user_model(), related_name="cart_items", through="Cart")
