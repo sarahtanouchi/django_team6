@@ -27,8 +27,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["8d6505a2d4544c27be984d7d7f97653a.vfs.cloud9.us-east-1.amazonaws.com",
                  "4fffdffa8f0244efb6c00b6acae26f60.vfs.cloud9.us-east-1.amazonaws.com",
+<<<<<<< HEAD
                  "231c042d19b445b7800e17e44b1cddae.vfs.cloud9.us-east-1.amazonaws.com",
                  "c125b0ec6ea245dda5e504819d79257b.vfs.cloud9.us-east-1.amazonaws.com"]
+=======
+                 "c125b0ec6ea245dda5e504819d79257b.vfs.cloud9.us-east-1.amazonaws.com",
+                 "231c042d19b445b7800e17e44b1cddae.vfs.cloud9.us-east-1.amazonaws.com",
+                 ]
+>>>>>>> 55e85757f77a901e7ac785a074ce80b78d0c633a
 
 
 # Application definition
