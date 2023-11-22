@@ -8,7 +8,8 @@ from django.urls import reverse_lazy
 from .models import Item, Cart
 from .forms import CartUpdateForm, ItemCreateForm
 
-class Index(LoginRequiredMixin, generic.ListView):
+# class Index(LoginRequiredMixin, generic.ListView):
+class Index(generic.ListView):
     template_name = "items/index.html"
     # 追記
     model = Item

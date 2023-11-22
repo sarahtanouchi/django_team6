@@ -21,11 +21,19 @@
                 </a>
             </li>
             {% endif %}
+            {% if request.user.username %}
             <li>
                 <a href="{% url 'accounts:logout' %}">
                     ログアウト
                 </a>
             </li>
+            {% else %}
+            <li>
+                <a href="{% url 'accounts:login' %}">
+                    ログイン
+                </a>
+            </li>
+            {% endif %}
         </ul>
     </div>
 </header>
