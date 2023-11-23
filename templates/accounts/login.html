@@ -9,13 +9,21 @@
         {{ form.non_field_errors }}
  
         {% for field in form %}
-        <p>
-            <label for="{{ field.id_for_label }}">{{ field.label_tag }}</label>
-            {{ field }}
-            {{ field.errors }}
-        </p>
-        {% endfor %}
-        {% csrf_token %}
-        <button type="submit">送信</button>
+            {% if field.name == 'username' %}
+                <p>
+                    <label for="{{ field.id_for_label }}">ログインID</label>
+                    <input type="text" id="{{ field.id_for_label }}" name="{{ field.name }}">
+                </p>
+        {% else %}
+                <p>
+                    <label for="{{ field.id_for_label }}">{{ field.label_tag }}</label>
+                    {{ field }}
+                    {{ field.errors }}
+                </p>
+        {% endif %}
+    {% endfor %}
+        
+    {% csrf_token %}
+    <button type="submit">ログイン</button>
     </form>
 {% endblock %}
