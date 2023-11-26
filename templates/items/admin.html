@@ -11,9 +11,15 @@
 		<thead>
 			<tr>
 				<th>名前</th>
-				<th>金額</th>
+				<th>価格</th>
+				<th>公開フラグ</th>
 				<th>在庫数</th>
-				<th>説明</th>
+				<th>詳細情報</th>
+				<th>商品タイプ</th>
+				<th>利用場面</th>
+				<th>お茶タイプ</th>
+				<th>テイスト</th>
+				<th>生産地</th>
 				<th>画像</th>
 				<th>画像２</th>
 				<th>操作</th>
@@ -24,8 +30,14 @@
 			<tr>
 				<td>{{ item.name }}</td>
 				<td>{{ item.price }}</td>
+				<td>{{ item.status }}</td>
 				<td>{{ item.stock }}</td>
 				<td>{{ item.description }}</td>
+				<td>{{ item.item_type }}</td>
+				<td>{{ item.occasion }}</td>
+				<td>{{ item.tea_type }}</td>
+				<td>{{ item.taste }}</td>
+				<td>{{ item.area }}</td>
 				<td>
 				    {% if item.image %}
                         <img class="img-fluid" src="{{ item.image.url }}">

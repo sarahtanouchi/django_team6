@@ -5,8 +5,8 @@ from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.urls import reverse_lazy
 
-from .models import Item, Cart, Area, Item_type, Occasion, Tea_set_type, Tea_type, Taste
-from .forms import CartUpdateForm, ItemCreateForm, AreaCreateForm, ItemTypeCreateForm, OccasionCreateForm, TeaSetTypeCreateForm, TeaTypeCreateForm, TasteCreateForm
+from .models import Item, Cart, Area, Item_type, Occasion, Tea_type, Taste
+from .forms import CartUpdateForm, ItemCreateForm, AreaCreateForm, ItemTypeCreateForm, OccasionCreateForm, TeaTypeForm, TasteForm
 
 # class Index(LoginRequiredMixin, generic.ListView):
 class Index(generic.ListView):
@@ -28,77 +28,7 @@ class Admin(LoginRequiredMixin, generic.TemplateView):
         context["title"] = "管理ページ"
         context["items"] = items
         return context
-        
-class Create_item_type(LoginRequiredMixin, generic.CreateView):
-    model = Item_type
-    form_class = ItemTypeCreateForm
-    template_name = "items/create.html"
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["title"] = "商品タイプ登録"
-        return context
-        
-    def form_valid(self, form):
-        item = form.save(commit=False)
-        item.save()
-        return redirect("items:create_item_type")
 
-class Create_occasion(LoginRequiredMixin, generic.CreateView):
-    model = Occasion
-    form_class = OccasionCreateForm
-    template_name = "items/create.html"
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["title"] = "利用シーン登録"
-        return context
-        
-    def form_valid(self, form):
-        item = form.save(commit=False)
-        item.save()
-        return redirect("items:create_occasion")
-
-class Create_tea_set_type(LoginRequiredMixin, generic.CreateView):
-    model = Tea_set_type
-    form_class = TeaSetTypeCreateForm
-    template_name = "items/create.html"
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["title"] = "茶器タイプ登録"
-        return context
-    
-    def form_valid(self, form):
-        item = form.save(commit=False)
-        item.save()
-        return redirect("items:create_tea_set_type")
-               
-class Create_tea_type(LoginRequiredMixin, generic.CreateView):
-    model = Tea_type
-    form_class = TeaTypeCreateForm
-    template_name = "items/create.html"
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["title"] = "お茶タイプ登録"
-        return context
-    
-    def form_valid(self, form):
-        item = form.save(commit=False)
-        item.save()
-        return redirect("items:create_tea_type")
-        
-class Create_taste(LoginRequiredMixin, generic.CreateView):
-    model = Taste
-    form_class = TasteCreateForm
-    template_name = "items/create.html"
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["title"] = "テイスト登録"
-        return context
-        
-    def form_valid(self, form):
-        item = form.save(commit=False)
-        item.save()
-        return redirect("items:create_taste")
-        
 class Create_area(LoginRequiredMixin, generic.CreateView):
     model = Area
     form_class = AreaCreateForm
@@ -108,10 +38,28 @@ class Create_area(LoginRequiredMixin, generic.CreateView):
         context["title"] = "エリア登録"
         return context
         
+class Create_item_type(LoginRequiredMixin, generic.CreateView):
+    model = Item_type
+    form_class = ItemTypeCreateForm
+    template_name = "items/create.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "商品タイプ登録"
+        return context
+
+class Create_occasion(LoginRequiredMixin, generic.CreateView):
+    model = Occasion
+    form_class = OccasionCreateForm
+    template_name = "items/create.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "エリア登録"
+        return context
+    
     def form_valid(self, form):
         item = form.save(commit=False)
         item.save()
-        return redirect("items:create_area")
+        return redirect("items:admin")
  
 class Create(LoginRequiredMixin, generic.CreateView):
     model = Item
