@@ -5,15 +5,15 @@ from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.urls import reverse_lazy
 
-from .models import Item, Cart
-from .forms import CartUpdateForm, ItemCreateForm
+from .models import Item, Cart, Area
+from .forms import CartUpdateForm, ItemCreateForm, AreaCreateForm
 
 # class Index(LoginRequiredMixin, generic.ListView):
 class Index(generic.ListView):
     template_name = "items/index.html"
     # 追記
     model = Item
-    ordering = "-created_at"
+    ordering = "-create_date"
  
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -28,6 +28,20 @@ class Admin(LoginRequiredMixin, generic.TemplateView):
         context["title"] = "管理ページ"
         context["items"] = items
         return context
+
+class Create_area(LoginRequiredMixin, generic.CreateView):
+    model = Area
+    form_class = AreaCreateForm
+    template_name = "items/create.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "エリア登録"
+        return context
+    
+    def form_valid(self, form):
+        item = form.save(commit=False)
+        item.save()
+        return redirect("items:admin")
  
 class Create(LoginRequiredMixin, generic.CreateView):
     model = Item
