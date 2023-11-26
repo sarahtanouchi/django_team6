@@ -7,15 +7,33 @@ from accounts.models import User
 
 class Item_type(models.Model):
     name = models.CharField("商品タイプ名", max_length=200)
+    
+    def __str__(self):
+        return self.name
 
 class Occasion(models.Model):
-    name = models.CharField("利用場面名", max_length=200)
+    name = models.CharField("利用シーン名", max_length=200)
+    
+    def __str__(self):
+        return self.name
+        
+class Tea_set_type(models.Model):
+    name = models.CharField("茶器タイプ名", max_length=200)
+    
+    def __str__(self):
+        return self.name
     
 class Tea_type(models.Model):
-    name = models.CharField("お茶の種類名", max_length=200)
+    name = models.CharField("お茶タイプ名", max_length=200)
+    
+    def __str__(self):
+        return self.name
     
 class Taste(models.Model):
     name = models.CharField("テイスト名", max_length=200)
+    
+    def __str__(self):
+        return self.name
     
 class Area(models.Model):
     name = models.CharField("生産地名", max_length=200)
@@ -30,11 +48,12 @@ class Item(models.Model):
     status = models.BooleanField("公開フラグ", default=True)
     stock = models.PositiveIntegerField("在庫数")
     description = models.CharField("商品詳細", max_length=1000)
-    item_type = models.ForeignKey(Item_type, on_delete=models.CASCADE, verbose_name="カテゴリー")
-    occasion = models.ForeignKey(Occasion, on_delete=models.CASCADE)
-    tea_type = models.ForeignKey(Tea_type, on_delete=models.CASCADE, blank=True)
-    taste = models.ForeignKey(Taste, on_delete=models.CASCADE, blank=True)
-    area = models.ForeignKey(Area, on_delete=models.CASCADE)
+    item_type = models.ForeignKey(Item_type, on_delete=models.CASCADE, null=True, verbose_name="商品タイプ")
+    occasion = models.ForeignKey(Occasion, on_delete=models.CASCADE, null=True, verbose_name="利用シーン")
+    tea_set_type = models.ForeignKey(Tea_set_type, on_delete=models.CASCADE, blank=True, null=True, verbose_name="茶器タイプ")
+    tea_type = models.ForeignKey(Tea_type, on_delete=models.CASCADE, blank=True, null=True, verbose_name="お茶タイプ")
+    taste = models.ForeignKey(Taste, on_delete=models.CASCADE, blank=True, null=True, verbose_name="テイスト")
+    area = models.ForeignKey(Area, on_delete=models.CASCADE, blank=True, null=True, verbose_name="生産地")
     image = models.ImageField("画像", blank=True)
     second_image = models.ImageField("画像2", blank=True)
     cart_users = models.ManyToManyField(get_user_model(), related_name="cart_items", through="Cart")
