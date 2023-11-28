@@ -53,6 +53,7 @@ class Item(models.Model):
     tea_set_type = models.ForeignKey(Tea_set_type, on_delete=models.CASCADE, blank=True, null=True, verbose_name="茶器タイプ")
     tea_type = models.ForeignKey(Tea_type, on_delete=models.CASCADE, blank=True, null=True, verbose_name="お茶タイプ")
     taste = models.ForeignKey(Taste, on_delete=models.CASCADE, blank=True, null=True, verbose_name="テイスト")
+    second_taste = models.ForeignKey(Taste, on_delete=models.CASCADE, blank=True, null=True, verbose_name="テイスト2", related_name="second_taste")
     area = models.ForeignKey(Area, on_delete=models.CASCADE, blank=True, null=True, verbose_name="生産地")
     image = models.ImageField("画像", blank=True)
     second_image = models.ImageField("画像2", blank=True)

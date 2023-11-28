@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 
 class CustomUser(AbstractUser):
-    pass
+    last_login = None
 
 class User(models.Model):
     email = models.EmailField("メールアドレス")

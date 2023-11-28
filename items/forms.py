@@ -17,6 +17,7 @@ class ItemCreateForm(forms.ModelForm):
             "tea_set_type",
             "tea_type",
             "taste",
+            "second_taste",
             "area",
             "image",
             "second_image",

@@ -99,6 +99,7 @@ class Create_taste(LoginRequiredMixin, generic.CreateView):
         item.save()
         return redirect("items:create_taste")
         
+        
 class Create_area(LoginRequiredMixin, generic.CreateView):
     model = Area
     form_class = AreaCreateForm
