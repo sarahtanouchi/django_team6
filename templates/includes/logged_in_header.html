@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -5,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>土佐茶オンラインショップ</title>
-    <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="{% static 'stylesheets/header.css' %}"> 
 </head>
 
 <body>
@@ -13,25 +14,25 @@
 <header>
     <div class="upper_row">
         <div class="logo">
-            <img src="logo.png" alt="土佐茶のロゴ">
+            <img src="{% static 'images/logo.png' %}" alt="ロゴ">
         </div>
         <div class="user_actions">
             <!--{% if request.user.username == 'admin' %}-->
-            <a href="{% url 'username:admin' %}">
+            <!--<a href="{% url 'username:admin' %}">-->
                 <!--{{ request.user.username }} 様-->
-            </a>
+            <!--</a>-->
             <!--{% else %}-->
-            <a href="{% url 'accounts:login' %}">
-                ログイン
-            </a>
+            <!--<a href="{% url 'accounts:login' %}">-->
+            <!--    ログイン-->
+            <!--</a>-->
             <!--{% endif %}-->
-            <a href="{% url '' %}"><img src="mypage-icon.png" alt="マイページ"></a>
-            <a href="{% url '' %}"><img src="favorites-icon.png" alt="お気に入りリスト"></a>
-            <a href="{% url 'items:carts' %}"><img src="cart-icon.png" alt="カート"></a>
-        </div>
+            <a href="{% url 'user' %}"><img src="{% static 'images/icon/mypage_icon.png' %}" alt="マイページ"></a>
+            <a href="{% url 'items:likes' %}"><img src="{% static 'images/icon/favorites_icon.png' %}" alt="お気に入りリスト"></a>
+            <a href="{% url 'items:carts' %}"><img src="{% static 'images/icon/cart_icon.png' %}" alt="カート"></a>
+       </div>
     </div>
     
-    <div ckass="lower_row">
+    <div class="lower_row">
         <div class="container">
             <ul class="header_nav">
                 <li>
@@ -53,6 +54,10 @@
                     <a href="{% url 'items:index' category='gift_sets' %}">
                         ギフトセット
                     </a>
+                </li>
+                <li class="search-container">
+                    <img src="images/icon/search-icon.png" alt="検索アイコン">
+                    <input type="text" placeholder="キーワード検索">
                 </li>
             </ul>
         </div>    

@@ -52,6 +52,26 @@ header {
     text-decoration: none;
 }
 
+.search-container {
+    position: relative;
+    display: inline-block;
+}
+
+.search-container input[type="text"] {
+    padding: 5px;
+    padding-right: 25px; /* アイコンの分のスペースを確保 */
+}
+
+.search-container img {
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
 footer {
     text-align: center;
     padding: 10px 0;
