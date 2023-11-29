@@ -1,39 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>土佐茶オンラインショップ</title>
+    <link rel="stylesheet" href="header.css">
+</head>
+
+<body>
+
 <header>
-    <div class="container">
-        <ul class="header_nav">
-            <li>
-                こんにちは！ {{ request.user.username }} さん
-            </li>
-            <li>
-                <a href="{% url 'items:index' %}">
-                    トップ
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'items:carts' %}">
-                    カート
-                </a>
-            </li>
-            {% if request.user.username == 'admin' %}
-            <li>
-                <a href="{% url 'items:admin' %}">
-                    管理画面
-                </a>
-            </li>
-            {% endif %}
-            {% if request.user.username %}
-            <li>
-                <a href="{% url 'accounts:logout' %}">
-                    ログアウト
-                </a>
-            </li>
-            {% else %}
-            <li>
-                <a href="{% url 'accounts:login' %}">
-                    ログイン
-                </a>
-            </li>
-            {% endif %}
-        </ul>
+    <div class="upper_row">
+        <div class="logo">
+            <img src="logo.png" alt="土佐茶のロゴ">
+        </div>
+        <div class="user_actions">
+            <!--{% if request.user.username == 'admin' %}-->
+            <a href="{% url 'username:admin' %}">
+                <!--{{ request.user.username }} 様-->
+            </a>
+            <!--{% else %}-->
+            <a href="{% url 'accounts:login' %}">
+                ログイン
+            </a>
+            <!--{% endif %}-->
+            <a href="{% url '' %}"><img src="mypage-icon.png" alt="マイページ"></a>
+            <a href="{% url '' %}"><img src="favorites-icon.png" alt="お気に入りリスト"></a>
+            <a href="{% url 'items:carts' %}"><img src="cart-icon.png" alt="カート"></a>
+        </div>
+    </div>
+    
+    <div ckass="lower_row">
+        <div class="container">
+            <ul class="header_nav">
+                <li>
+                    <a href="{% url 'items:index' category='tea' %}">
+                        お茶
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'items:index' category='sweets' %}">
+                        お菓子
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'items:index' category='utensils' %}">
+                        茶器
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'items:index' category='gift_sets' %}">
+                        ギフトセット
+                    </a>
+                </li>
+            </ul>
+        </div>    
     </div>
 </header>
+
+</body>
+
+</html>
