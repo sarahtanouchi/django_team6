@@ -1,5 +1,5 @@
 from django import forms
-from .models import Item, Area, Item_type, Occasion, Tea_set_type, Tea_type, Taste
+from .models import Item, Area, Item_type, Occasion, Tea_set_type, Tea_type, Taste, Flavor
 
 
 
@@ -18,6 +18,7 @@ class ItemCreateForm(forms.ModelForm):
             "tea_type",
             "taste",
             "second_taste",
+            "flavor",
             "area",
             "image",
             "second_image",
@@ -60,6 +61,14 @@ class TasteCreateForm(forms.ModelForm):
         fields = [
             "name"
         ]
+
+class FlavorCreateForm(forms.ModelForm):
+    class Meta:
+        model = Flavor
+        fields = [
+            "name"
+        ]
+
 
 class AreaCreateForm(forms.ModelForm):
     class Meta:

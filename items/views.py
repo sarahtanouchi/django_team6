@@ -5,8 +5,8 @@ from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.urls import reverse_lazy
 
-from .models import Item, Cart, Area, Item_type, Occasion, Tea_set_type, Tea_type, Taste
-from .forms import CartUpdateForm, ItemCreateForm, AreaCreateForm, ItemTypeCreateForm, OccasionCreateForm, TeaSetTypeCreateForm, TeaTypeCreateForm, TasteCreateForm
+from .models import Item, Cart, Area, Item_type, Occasion, Tea_set_type, Tea_type, Taste, Flavor
+from .forms import CartUpdateForm, ItemCreateForm, AreaCreateForm, ItemTypeCreateForm, OccasionCreateForm, TeaSetTypeCreateForm, TeaTypeCreateForm, TasteCreateForm, FlavorCreateForm
 
 # class Index(LoginRequiredMixin, generic.ListView):
 class Index(generic.ListView):
@@ -99,6 +99,19 @@ class Create_taste(LoginRequiredMixin, generic.CreateView):
         item.save()
         return redirect("items:create_taste")
         
+class Create_flavor(LoginRequiredMixin, generic.CreateView):
+    model = Flavor
+    form_class = FlavorCreateForm
+    template_name = "items/create.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "風味登録"
+        return context
+        
+    def form_valid(self, form):
+        item = form.save(commit=False)
+        item.save()
+        return redirect("items:create_flavor")
         
 class Create_area(LoginRequiredMixin, generic.CreateView):
     model = Area

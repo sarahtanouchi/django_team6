@@ -12,6 +12,7 @@ urlpatterns = [
     path("create_tea_set_type/", views.Create_tea_set_type.as_view(), name="create_tea_set_type"),
     path("create_tea_type/", views.Create_tea_type.as_view(), name="create_tea_type"),
     path("create_taste/",views.Create_taste.as_view(), name="create_taste"),
+    path("create_flavor/",views.Create_flavor.as_view(), name="create_flavor"),
     path("create_area/", views.Create_area.as_view(), name="create_area"),
     path("detail/<int:pk>/", views.Detail.as_view(), name="detail"), # 詳細
     path("update/<int:pk>/", views.Update.as_view(), name="update"), # 編集
