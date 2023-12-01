@@ -21,7 +21,8 @@
 				<th>テイスト</th>
 				<th>生産地</th>
 				<th>画像</th>
-				<th>画像２</th>
+				<!--<th>画像２</th>-->
+				<!--<th>画像3</th>-->
 				<th>操作</th>
 			</tr>
 		</thead>
@@ -38,16 +39,26 @@
 				<td>{{ item.tea_type }}</td>
 				<td>{{ item.taste }}</td>
 				<td>{{ item.area }}</td>
+				<!--<td>-->
+				<!--    {% if item.image %}-->
+    <!--                    <img class="img-fluid" src="{{ item.image.url }}">-->
+    <!--                {% else %}-->
+    <!--                    <img src="images/no_image.png">-->
+    <!--                {% endif %}-->
+				<!--</td>-->
+				<!--<td>-->
+				<!--    {% if item.second_image %}-->
+    <!--                    <img class="img-fluid" src="{{ item.second_image.url }}">-->
+    <!--                {% else %}-->
+    <!--                    <img src="images/no_image.png">-->
+    <!--                {% endif %}-->
+				<!--</td>-->
 				<td>
-				    {% if item.image %}
-                        <img class="img-fluid" src="{{ item.image.url }}">
-                    {% else %}
-                        <img src="images/no_image.png">
-                    {% endif %}
-				</td>
-				<td>
-				    {% if item.second_image %}
-                        <img class="img-fluid" src="{{ item.second_image.url }}">
+				    {% if item.item_images %}
+				    	{% for image in item.item_images.all %}
+				    		<p>{{image.name}}</p>
+                        	<img class="img-fluid" src="{{ image.image.url }}">
+                        {% endfor %}
                     {% else %}
                         <img src="images/no_image.png">
                     {% endif %}

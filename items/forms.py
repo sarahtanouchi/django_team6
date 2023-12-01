@@ -1,5 +1,5 @@
 from django import forms
-from .models import Item, Area, Item_type, Occasion, Tea_set_type, Tea_type, Taste
+from .models import Item, Area, Item_type, Occasion, Tea_set_type, Tea_type, Taste, Flavor, Image
 
 
 
@@ -17,12 +17,16 @@ class ItemCreateForm(forms.ModelForm):
             "tea_set_type",
             "tea_type",
             "taste",
+            "second_taste",
+            "flavor",
             "area",
-            "image",
-            "second_image",
+            # "image",
+            # "second_image",
+            "item_images",
         ]
         widgets = {
-            "description":forms.Textarea(attrs={"rows":4})
+            "description":forms.Textarea(attrs={"rows":4}),
+            'item_images':forms.CheckboxSelectMultiple()
         }
         
 class ItemTypeCreateForm(forms.ModelForm):
@@ -60,12 +64,28 @@ class TasteCreateForm(forms.ModelForm):
             "name"
         ]
 
+class FlavorCreateForm(forms.ModelForm):
+    class Meta:
+        model = Flavor
+        fields = [
+            "name"
+        ]
+
+
 class AreaCreateForm(forms.ModelForm):
     class Meta:
         model = Area
         fields = [
             "name",
             "description"
+        ]
+        
+class ImageCreateForm(forms.ModelForm):
+    class Meta:
+        model = Image
+        fields = [
+            "name",
+            "image"
         ]
         
 class CartUpdateForm(forms.Form):

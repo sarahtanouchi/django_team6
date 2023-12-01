@@ -25,13 +25,24 @@
 			  {% for item in item_list %}
 				  <div class="card item">
 					<div class="row item_row">
+						<!--<div class="col-6 item_figure">-->
+						<!--    {% if item.image %}-->
+      <!--                          <img class="img-fluid" src="{{ item.image.url }}">-->
+      <!--                      {% else %}-->
+      <!--                          {% load static %}-->
+      <!--                          <img class="item_image" src="{% static 'images/no_image.jpg' %}">-->
+      <!--                      {% endif %}-->
+						<!--</div>-->
 						<div class="col-6 item_figure">
-						    {% if item.image %}
-                                <img class="img-fluid" src="{{ item.image.url }}">
-                            {% else %}
-                                {% load static %}
-                                <img class="item_image" src="{% static 'images/no_image.jpg' %}">
-                            {% endif %}
+						    {% if item.item_images %}
+				    			{% for image in item.item_images.all %}
+				    				<p>{{image.name}}</p>
+                        			<img class="img-fluid" src="{{ image.image.url }}">
+                        		{% endfor %}
+                    		{% else %}
+                    			 {% load static %}
+                        		<img class="item_image" src="{% static 'images/no_image.jpg' %}">
+                    		{% endif %}
 						</div>
 						<div class="col-6 item_description">
 							<h2 class="item_title">
