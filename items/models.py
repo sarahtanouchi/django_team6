@@ -47,6 +47,13 @@ class Area(models.Model):
     
     def __str__(self):
         return self.name
+        
+class Image(models.Model):
+    name = models.CharField("画像名", max_length=200)
+    image = models.ImageField("画像")
+    
+    def __str__(self):
+        return self.name
     
 class Item(models.Model):
     name = models.CharField("商品名", max_length=200)
@@ -62,21 +69,18 @@ class Item(models.Model):
     second_taste = models.ForeignKey(Taste, on_delete=models.CASCADE, blank=True, null=True, verbose_name="テイスト2", related_name="second_taste")
     flavor = models.ForeignKey(Flavor, on_delete=models.CASCADE, blank=True, null=True, verbose_name="風味")
     area = models.ForeignKey(Area, on_delete=models.CASCADE, blank=True, null=True, verbose_name="生産地")
-    image = models.ImageField("画像", blank=True)
-    second_image = models.ImageField("画像2", blank=True)
+    # image = models.ImageField("画像", blank=True)
+    # second_image = models.ImageField("画像2", blank=True)
+    item_images = models.ManyToManyField(Image, related_name="item", blank=True)
     cart_users = models.ManyToManyField(get_user_model(), related_name="cart_items", through="Cart")
     create_date = models.DateTimeField("作成日", auto_now_add=True)
     update_date = models.DateTimeField("更新日", auto_now=True)
     
     def __str__(self):
         return self.name
-      
-class Image(models.Model):
-    image = models.ImageField("画像")
-
-class Item_image(models.Model):
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    image = models.ForeignKey(Image, on_delete=models.CASCADE)
+        
+    # def used_image_ids(self):
+    #     return [item_image.id for item_image in self.item_image.all()]
   
     
 class Review(models.Model):
