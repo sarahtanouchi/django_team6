@@ -52,3 +52,11 @@ class Update(LoginRequiredMixin, generic.TemplateView):
         context = super().get_context_data(**kwargs)
         context["title"] = "プロフィール編集"
         return context
+        
+# トップページ表示
+class HomeView(generic.TemplateView):
+    template_name = "accounts/home.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "トップページ"
+        return context
