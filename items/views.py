@@ -141,20 +141,43 @@ class Create_image(LoginRequiredMixin, generic.CreateView):
         item.save()
         return redirect("items:create_image")
         
+class Image_list(generic.ListView):
+    model = Image
+    
+    template_name = "items/image_list.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "画像の編集"
+        return context
+        
+class Image_update(LoginRequiredMixin, generic.UpdateView):
+    model = Image
+    form_class = ImageCreateForm
+    success_url = reverse_lazy("items:image_list")
+    template_name = "items/update.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "画像の編集"
+        return context
+
+class Delete_image(LoginRequiredMixin, generic.DeleteView):
+    model = Image
+    success_url = reverse_lazy("items:image_list")
  
 class Create(LoginRequiredMixin, generic.CreateView):
     model = Item
     form_class = ItemCreateForm
+    success_url = reverse_lazy("items:admin")
     template_name = "items/create.html"
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "商品の新規登録"
         return context
     
-    def form_valid(self, form):
-        item = form.save(commit=False)
-        item.save()
-        return redirect("items:admin")
+    # def form_valid(self, form):
+    #     item = form.save(commit=False)
+    #     item.save()
+    #     return redirect("items:admin")
  
 class Detail(LoginRequiredMixin, generic.TemplateView):
     template_name = "items/detail.html"

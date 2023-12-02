@@ -18,7 +18,7 @@
     <!--{% endif %}-->
     {% if item.item_images %}
 	    {% for image in item.item_images.all %}
-            <img class="img-fluid" src="{{ image.image.url }}">
+            <img class="item_image img-fluid" src="{{ image.image.url }}">
         {% endfor %}
     {% else %}
         <p>画像はありません。</p>

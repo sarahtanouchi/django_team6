@@ -36,7 +36,6 @@
 						<div class="col-6 item_figure">
 						    {% if item.item_images %}
 				    			{% for image in item.item_images.all %}
-				    				<p>{{image.name}}</p>
                         			<img class="img-fluid" src="{{ image.image.url }}">
                         		{% endfor %}
                     		{% else %}
