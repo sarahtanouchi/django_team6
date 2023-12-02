@@ -1,12 +1,14 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="ja">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>土佐茶オンラインショップ</title>
-    <link rel="stylesheet" href="{% static 'stylesheets/header.css' %}"> 
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="{% static 'stylesheets/header.css' %}">
+    <link rel="icon" href="favicon.ico">
 </head>
 
 <body>
@@ -16,47 +18,38 @@
         <div class="logo">
             <img src="{% static 'images/logo.png' %}" alt="ロゴ">
         </div>
-        <div class="user_actions">
-            <!--{% if request.user.username == 'admin' %}-->
-            <!--<a href="{% url 'username:admin' %}">-->
-                <!--{{ request.user.username }} 様-->
-            <!--</a>-->
-            <!--{% else %}-->
-            <!--<a href="{% url 'accounts:login' %}">-->
-            <!--    ログイン-->
-            <!--</a>-->
-            <!--{% endif %}-->
-            <a href="{% url 'user' %}"><img src="{% static 'images/icon/mypage_icon.png' %}" alt="マイページ"></a>
-            <a href="{% url 'items:likes' %}"><img src="{% static 'images/icon/favorites_icon.png' %}" alt="お気に入りリスト"></a>
-            <a href="{% url 'items:carts' %}"><img src="{% static 'images/icon/cart_icon.png' %}" alt="カート"></a>
-       </div>
+        <ul class="user_actions">
+            <li><a href="#"><img src="{% static 'images/icon/mypage_icon.png' %}" alt="マイページ"></a></li>
+            <li><a href="#"><img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入りリスト"></a></li>
+            <li><a href="#"><img src="{% static 'images/icon/cart_icon.png' %}" alt="カート"></a></li>
+       </ul>
     </div>
     
     <div class="lower_row">
         <div class="container">
             <ul class="header_nav">
                 <li>
-                    <a href="{% url 'items:index' category='tea' %}">
+                    <a href="#">
                         お茶
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'items:index' category='sweets' %}">
+                    <a href="#">
                         お菓子
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'items:index' category='utensils' %}">
+                    <a href="#">
                         茶器
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'items:index' category='gift_sets' %}">
+                    <a href="#">
                         ギフトセット
                     </a>
                 </li>
                 <li class="search-container">
-                    <img src="images/icon/search-icon.png" alt="検索アイコン">
+                    <img src="{% static 'images/icon/search_icon.png' %}"alt="検索アイコン">
                     <input type="text" placeholder="キーワード検索">
                 </li>
             </ul>

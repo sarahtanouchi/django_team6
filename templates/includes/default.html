@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="{% static 'stylesheets/header.css' %}">
+    <link rel="icon" href="favicon.ico">
+</head>
+
+<body>
+    {% block content %}{% endblock %}
+</body>
+</html>
