@@ -1,0 +1,61 @@
+{% extends "layouts/default.html" %}
+ 
+{% block title %}{{ title }}{% endblock %}
+ 
+{% block content %}
+    {% include 'includes/logged_in_header.html' %}
+    <div class="content-wrapper mt-5">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-5 offset-1">
+                    {% with item.item_images.all.0 as first_image %}
+                       <img class="rounded img-fluid auto" src="{{ first_image.image.url }}">
+                    {% endwith %}
+            	</div>
+                <div class="col-6">
+                    <div class = "row">
+                        <div class="d-flex flex-row bd-highlight mb-5">
+                             {% for image in item.item_images.all %}
+                			     {%if forloop.first %}
+                                 {% else %}
+                            		 <div id="gallery">
+                            			 <img class="justify-content-start rounded" src="{{ image.image.url }}">
+                            		</div>
+                            	{% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="row">
+                         <div>               
+                            <p class="font-weight-bold">{{ item.name }}</p>
+                            <p>{{ item.description }}</p>
+                            <p class="text-right">税込{{ item.price }}円</p>
+                            <p class="text-right">送料：無料</p>
+                            <div class="row">
+                                <div class="col-sm">
+                                    <p class="text-center">個数</p>
+                                </div>
+                                <div class="col-sm mr-auto ml-auto">
+                                    <div class="spinner-container">
+                                        <span class="spinner-sub disabled">-</span>
+                                        <input class="spinner" type="number" min="0" max="50" value="0">
+                                        <span class="spinner-add">+</span>
+                                    </div>
+                                </div>
+                                <button type="submit" class="col-sm btn btn-sm btn-success" name="button">
+                                カートに入れる<i class="fas fa-shopping-cart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                
+            
+        </div>
+        {% load static %}
+        <script src="{% static 'js/spinner_script.js' %}"></script>
+    </div>
+            
+        
+{% endblock %}

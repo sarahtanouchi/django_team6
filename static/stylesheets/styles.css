@@ -26,6 +26,11 @@
   border-top: solid 1px black;
   border-bottom: solid 1px black;
 }
+
+.flex {
+	display: flex;
+}
+
 .item_main {
   display: flex;
   flex-wrap: wrap;
@@ -95,8 +100,15 @@
 }
 
 .item_image {
-	height: 150px;
-	width: 150px;
+	height: 180px;
+	width: 180px;
+}
+
+#gallery img{
+   width: 120px;
+   height: 120px;
+   margin-top: 5px;
+   margin-right: 20px;
 }
 
 .navbar-light .navbar-brand.logo {
@@ -163,3 +175,45 @@
 	color: #f85f73;
 }
 
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  user-select: none;
+  border: 1px solid black;
+  border-radius: 10%;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.spinner {
+  width: 35px;
+  padding: 0;
+  text-align: center;
+  background: none;
+  border-top-width: 0;
+  border-bottom-width: 0;
+  outline: none;
+  pointer-events: none;
+}
+
+.spinner::-webkit-inner-spin-button,
+.spinner::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+.spinner-sub,
+.spinner-add {
+  display: block;
+  width: 35px;
+  height: 35px;
+  text-align: center;
+  cursor: pointer;
+  line-height: 35px;
+}
+
+.disabled {
+  opacity: 0.3;
+  cursor: inherit;
+}

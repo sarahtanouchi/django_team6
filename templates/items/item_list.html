@@ -1,0 +1,58 @@
+{% extends "layouts/default.html" %}
+
+{% block content %}
+    {% include 'includes/logged_in_header.html' %}
+    <div class="container contents">
+		<h2>商品を絞り込む</h2>
+		
+		<h2>商品一覧</h2>
+		<div class="row">
+			{% for item in item_list %}
+				<div class="col-3">
+					 <div>
+					    {% if item.item_images %}
+			    			{% with item.item_images.all.0 as image %}
+		    					<a href="{% url 'items:item_detail' item.id %}">
+			    					<img class="item_image img-fluid rounded" src="{{ image.image.url }}">
+				    			</a>
+				    			<div class="row mx-auto">
+				    				<div class="co-6 ml-auto">
+					    				<div class="row">
+					    					<a href="{% url 'items:item_detail' item.id %}">
+						    					<span>{{ item.name }}</span>
+						    				</a>
+						    			</div>
+						    			<div class="row">
+						    				<span>{{ item.price }}円(税込)</span>
+						    			</div>
+				    				</div>
+					    			<div class="col-6 ml-auto">
+					    				<div class="row">
+					    					{% if item.tea_type %}
+				    							<span class="border rounded bg-light">{{ item.tea_type }}</span>
+				    						{% else %}
+				    							<span class="border rounded bg-light">{{ item.item_type }}</span>
+				    						{% endif %}
+				    					</div>
+				    					<div class="row">
+				    						{% if item.tea_type %}
+				    							<span class="border rounded bg-light">{{ item.taste }}</span>
+				    						{% else %}
+				    							<span class="border rounded bg-light">{{ item.occasion }}</span>
+                    						{% endif %}			
+				    					</div>
+				    				</div>
+		    					</div>
+                    		{% endwith %}
+                		{% else %}
+                			{% load static %}
+                    		<img class="item_image" src="{% static 'images/no_image.jpg' %}">
+                    	{% endif %}
+					</div>
+				</div>
+			{% empty %}
+            	<p>出品商品はありません。</p>
+			{% endfor %}
+		</div>
+	</div>
+{% endblock %}

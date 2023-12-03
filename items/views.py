@@ -179,12 +179,6 @@ class Create(LoginRequiredMixin, generic.CreateView):
     #     item.save()
     #     return redirect("items:admin")
  
-class Detail(LoginRequiredMixin, generic.TemplateView):
-    template_name = "items/detail.html"
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["title"] = "商品詳細"
-        return context
         
 class Update(LoginRequiredMixin, generic.UpdateView):
     model = Item
@@ -199,6 +193,23 @@ class Update(LoginRequiredMixin, generic.UpdateView):
 class Delete(LoginRequiredMixin, generic.DeleteView):
     model = Item
     success_url = reverse_lazy("items:admin")
+    
+class Item_list(generic.ListView):
+    template_name = "items/item_list.html"
+    model = Item
+    # ordering = "-create_date"
+ 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+class Item_detail(generic.DetailView):
+    model = Item
+    template_name = "items/item_detail.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "商品詳細"
+        return context
         
 class Carts(LoginRequiredMixin, generic.TemplateView):
     template_name = "items/carts.html"
