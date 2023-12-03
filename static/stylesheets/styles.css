@@ -1,4 +1,4 @@
-body{
+body {
 	font-family: "源ノ角ゴシック","ヒラギノ角ゴシック","MSゴシック",sans-serif;
 }
 
@@ -235,4 +235,23 @@ body{
 /*トップページ*/
 .news{
 	margin: 30px;
+}
+
+.search_item {
+    height: 180px;
+    overflow: hidden; /* 画像が要素をはみ出すのを防ぐために追加 */
+    text-align: center; 
+	font-size: 14px;
+    font-weight: bold;
+
+}
+
+.search_item a{
+	text-decoration: none;
+	color: #000000;	
+}
+
+.search_image {
+    height: 150px;
+    width: 150px;
 }
