@@ -3,10 +3,57 @@
 {% block title %}{{ title }}{% endblock %}
  
 {% block content %}
+
+{% load static %}
+<!--カルーセル -->
+    <div id="cl" class="carousel slide mt-3" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#cl" data-slide-to="0" class="active"></li>
+            <li data-target="#cl" data-slide-to="1"></li>
+            <li data-target="#cl" data-slide-to="2"></li>
+        </ol>
+        
+        <div class="carousel-inner"> 
+            <div class="carousel-item active"><img src="{% static 'images/top.png' %}" class="d-block w-100"></div>
+            <div class="carousel-item"><img src="{% static 'images/top2.jpg' %}" class="d-block w-100"></div>
+            <div class="carousel-item"><img src="{% static 'images/top3.jpeg' %}" class="d-block w-100"></div>
+        </div>
+    </div>
+
     {% include 'includes/logged_in_header.html' %}
     
-    <h1>{{ title }}</h1>
+     <div class="text-center mt-3 news">
+        <h5>NEWS 2023/12/3　新商品を入荷しました。</h5>
+    </div>
     
+    <div class="container category_search">
+        <h4>商品を探す</h4>
+        <div class="row mt-3">
+            <div class="col-12 col-lg-2 offset-lg-1" style="height: 30px;">お茶の種類から探す</div>
+            <div class="col-2 ml-3" style="height: 100px;background: #FDC6C7;">煎茶</div>
+            <div class="col-2 ml-3" style="height: 100px;background: #C8C8FF;">玉露</div>
+            <div class="col-2 ml-3" style="height: 100px;background: #CBFFC8;">ほうじ茶</div>
+        </div>
+        <br>
+        <div class="row mt-3">
+            <div class="col-12 col-lg-2 offset-lg-1" style="height: 30px;">利用シーンから探す</div>
+            <div class="col-2 ml-3" style="height: 100px;background: #FDC6C7;">自宅用</div>
+            <div class="col-2 ml-3" style="height: 100px;background: #C8C8FF;">お土産</div>
+            <div class="col-2 ml-3" style="height: 100px;background: #CBFFC8;">贈答用</div>
+        </div>
+        <br>
+        <div class="row mt-3">
+            <div class="col-12 col-lg-2 offset-lg-1" style="height: 30px;">価格から探す</div>
+            <div class="col-2 ml-3" style="height: 100px;background: #FDC6C7;">1,000円以下</div>
+            <div class="col-2 ml-3" style="height: 100px;background: #C8C8FF;">1,000～5,000円</div>
+            <div class="col-2 ml-3" style="height: 100px;background: #CBFFC8;">5,000円以上</div>
+        </div>
+    </div>
     
-     {% include 'includes/footer.html' %}
+    <!--<h4>好み診断</h4>-->
+     
+    <!--<h4>土佐茶とは</h4>-->
+      
+      
+    {% include 'includes/footer.html' %}
 {% endblock %}

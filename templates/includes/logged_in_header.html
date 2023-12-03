@@ -1,64 +1,34 @@
-<!DOCTYPE html>
-<html lang="ja">
-
-<head>
-    <meta charset="UTF-8">
-    <title>土佐茶オンラインショップ</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" 
-    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <!--{% load static %}-->
-    <link rel="stylesheet" href="{% static 'stylesheets/header.css' %}">
-    <link rel="icon" href="favicon.ico">
-</head>
-
-<body>
-
-<header>
+{% load static %}
+<header class="container-fluid">
     <div class="upper_row">
         <div class="logo">
-            <a href="#">
-            　<img src="{% static 'images/logo.png' %}" alt="ロゴ">
-            </a>
+            <a href="#"><img src="{% static 'images/logo.png' %}" alt="ロゴ"></a>
         </div>
-        <ul class="user_actions">
+        <ul class="header_user_actions">
             <li><a href="#"><img src="{% static 'images/icon/mypage_icon.png' %}" alt="マイページ"></a></li>
             <li><a href="#"><img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入りリスト"></a></li>
             <li><a href="#"><img src="{% static 'images/icon/cart_icon.png' %}" alt="カート"></a></li>
        </ul>
     </div>
     
-    <div class="lower_row">
-        <div class="container">
-            <ul class="header_nav">
-                <li>
-                    <a href="#">
-                        お茶
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        お菓子
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        茶器
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        ギフトセット
-                    </a>
-                </li>
-                <li class="search-container">
-                    <img src="{% static 'images/icon/search_icon.png' %}"alt="検索アイコン">
-                    <input type="text" placeholder="キーワード検索">
-                </li>
-            </ul>
-        </div>    
-    </div>
+    <nav class="lower_row">
+        <ul class="header_nav">
+            <li>
+                <a href="#">お茶</a>
+            </li>
+            <li>
+                <a href="#">お菓子</a>
+            </li>
+            <li>
+                <a href="#">茶器</a>
+            </li>
+            <li>
+                <a href="#">ギフトセット</a>
+            </li>
+            <li class="search-container">
+                <img src="{% static 'images/icon/search_icon.png' %}"alt="検索アイコン">
+                <input type="text" placeholder="キーワード検索">
+            </li>
+        </ul>
+    </nav>
 </header>
-
-</body>
-
-</html>

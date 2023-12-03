@@ -1,10 +1,5 @@
-.header_nav {
-  display: flex;
-  list-style: none;
-  padding-left: 0;
-}
-.header_nav li {
-  margin-right: 30px;
+body{
+	font-family: "源ノ角ゴシック","ヒラギノ角ゴシック","MSゴシック",sans-serif;
 }
 
 /* エラーメッセージ用のスタイル */
@@ -44,21 +39,6 @@
 
 .nav-bg-custom {
    background-color: #1C7F7A;
-}
-
-.header_nav {
-    display: flex;
-    list-style: none;
-    padding-left: 0;
-    margin-bottom: 0px;
-}
-
-.header_nav li {
-    margin-right: 30px;
-}
-
-.header_nav a {
-    font-weight: bold;
 }
 
 .btn-primary,
@@ -163,3 +143,96 @@
 	color: #f85f73;
 }
 
+/*　↓　ヘッダー フッター　川名記載*/
+.upper_row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.logo img {
+    width: 150px;
+    height: 50px;
+}
+
+.header_user_actions {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    margin-bottom: 0px;
+}
+
+.header_user_actions a {
+    text-decoration: none;
+    margin-left: 10px;
+}
+
+.header_user_actions img {
+    width: 20px;
+    height: 20px;
+}
+
+.lower_row,
+.footer_row{
+	display: flex;
+	height: 80px;
+    justify-content: center;
+    align-items: center;
+    background-color: #F5DEB3;
+    /*background: url("{% static 'images/washi.jpg' %}");*/
+}
+.lower_row{
+	margin-bottom: 50px;
+}
+.footer_row{
+	margin-top: 50px;
+}
+
+.header_nav,
+.footer_nav{
+    display: flex;
+    list-style: none;
+    padding-left: 0;
+    align-items: center;
+    margin: 20px;
+}
+
+.header_nav li,
+.footer_nav li{
+    margin-right: 30px;
+}
+
+.header_nav a,
+.footer_nav a{
+	text-decoration: none;
+	font-size: 14px;
+    font-weight: bold;
+    color: #000000;
+}
+.search-container {
+    position: relative;
+    display: inline-block;
+}
+
+.search-container input[type="text"] {
+    padding: 5px;
+    padding-right: 25px; /* アイコンの分のスペースを確保 */
+}
+
+.search-container img {
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    transform: translateY(-50%);
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+}
+.copylight_container{
+	text-align: center;
+}
+/*トップページ*/
+.news{
+	margin: 30px;
+}
