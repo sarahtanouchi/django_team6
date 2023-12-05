@@ -4,7 +4,7 @@ from . import views
 app_name = "items"
  
 urlpatterns = [
-    path("", views.Index.as_view(), name="index"), # 一覧
+    path("", views.Index.as_view(), name="index"), # 商品一覧
     path("admin/", views.Admin.as_view(), name="admin"), # 新規作成
     path("create/", views.Create.as_view(), name="create"), # 新規作成
     path("create_item_type/", views.Create_item_type.as_view(), name="create_item_type"),
