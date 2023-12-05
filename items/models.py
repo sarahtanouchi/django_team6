@@ -95,7 +95,7 @@ class Review(models.Model):
 class Cart(models.Model):
     item = models.ForeignKey("Item", on_delete=models.CASCADE)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    amount = models.PositiveIntegerField("購入数", )
+    amount = models.PositiveIntegerField("購入数", default=1)
     
     class Meta:
         unique_together = ('item', 'user')

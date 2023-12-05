@@ -22,6 +22,7 @@ urlpatterns = [
     path("delete/<int:pk>/", views.Delete.as_view(), name="delete"),
     path("item_list/", views.Item_list.as_view(), name="item_list"),
     path("item_detail/<int:pk>/", views.Item_detail.as_view(), name="item_detail"), # 詳細
+    path("add_item/", views.Add_item.as_view(), name="add_item"),
     path("carts/", views.Carts.as_view(), name="carts"),
     
 ]

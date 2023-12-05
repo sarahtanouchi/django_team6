@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
 from django.contrib import messages
@@ -211,6 +212,30 @@ class Item_detail(generic.DetailView):
         context["title"] = "商品詳細"
         return context
         
+class Add_item(LoginRequiredMixin, generic.TemplateView):
+    model = Item
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+        
+    def add_item(request):
+        item = get_object_or_404(Item)
+        cart = Cart.objects.filter(user=request.user)
+        
+        if cart.exists():
+            cart = cart[0]
+            if cart.items.filter.exists():
+                cart.quantity += 1
+                cart.save()
+            else:
+                cart.items.add(cart)
+        else:
+            cart = Cart.objects.create(user=request.user)
+            cart.items.add(cart)
+            
+        return redirect("items:carts")
+                
+        
 class Carts(LoginRequiredMixin, generic.TemplateView):
     template_name = "items/carts.html"
     context_object_name = 'profile_user'
@@ -225,4 +250,6 @@ class Carts(LoginRequiredMixin, generic.TemplateView):
         context["total"] = total
         
         return context
+        
+    
     
