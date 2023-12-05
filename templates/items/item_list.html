@@ -28,18 +28,22 @@
 				    				</div>
 					    			<div class="col-6 ml-auto">
 					    				<div class="row">
-					    					{% if item.tea_type %}
-				    							<span class="border rounded bg-light">{{ item.tea_type }}</span>
-				    						{% else %}
-				    							<span class="border rounded bg-light">{{ item.item_type }}</span>
-				    						{% endif %}
+			    							<span class="border rounded bg-light">
+						    					{% if item.taste %}
+				    								{{ item.tea_type }}
+					    						{% else %}
+					    							{{ item.item_type }}
+					    						{% endif %}
+		    								</span>
 				    					</div>
 				    					<div class="row">
-				    						{% if item.tea_type %}
-				    							<span class="border rounded bg-light">{{ item.taste }}</span>
-				    						{% else %}
-				    							<span class="border rounded bg-light">{{ item.occasion }}</span>
-                    						{% endif %}			
+				    						<span class="border rounded bg-light">
+						    					{% if item.taste %}
+				    								{{ item.taste }}
+					    						{% else %}
+					    							{{ item.occasion }}
+					    						{% endif %}
+		    								</span>
 				    					</div>
 				    				</div>
 		    					</div>
