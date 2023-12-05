@@ -146,7 +146,7 @@ body {
 /*　↓　ヘッダー フッター　川名記載*/
 .upper_row {
     display: flex;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
     align-items: center;
     margin-top: 10px;
 }
@@ -156,18 +156,18 @@ body {
     height: 50px;
 }
 
-.header_user_actions {
-    list-style: none;
+.header_user_actions{
+    /*list-style: none;*/
     display: flex;
     align-items: center;
     margin-bottom: 0px;
 }
 
-.header_user_actions a {
-    text-decoration: none;
+.header_user_actions a{
+    /*text-decoration: none;*/
     margin-left: 10px;
+    color: #000000;
 }
-
 .header_user_actions img {
     width: 20px;
     height: 20px;
@@ -192,7 +192,7 @@ body {
 .header_nav,
 .footer_nav{
     display: flex;
-    list-style: none;
+    /*list-style: none;*/
     padding-left: 0;
     align-items: center;
     margin: 20px;
@@ -247,7 +247,7 @@ body {
 }
 
 .search_item a{
-	text-decoration: none;
+	/*text-decoration: none;*/
 	color: #000000;	
 }
 
