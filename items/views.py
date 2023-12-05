@@ -17,7 +17,7 @@ class Index(generic.ListView):
  
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["title"] = "トップ"
+        context["title"] = "商品一覧"#トップ→商品一覧に変更aya
         return context
         
 class Admin(LoginRequiredMixin, generic.TemplateView):
