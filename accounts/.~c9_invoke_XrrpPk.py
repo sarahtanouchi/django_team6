@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.views import generic
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView, LogoutView
-from django.contrib.auth.mixins import LoginRequiredMixin 
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 from .forms import SignupForm, LoginForm
  
@@ -19,14 +20,19 @@ class SignUp(generic.CreateView):
  
         # 以下で、 辞書データ context に値を追加
         context["title"] = "ユーザー登録"
+ 
         return context
         
 # ログイン
-class Login(LoginView):
-    """ログインページ"""
-    form_class = LoginForm
+class Login(gen):
+    # """ログインページ""" #
+    # form_class = LoginForm #
     template_name = 'accounts/login.html'
-  
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "ログイン"
+        return context
+ 
 # ログアウト
 class Logout(generic.TemplateView):
     template_name = "accounts/logout.html"

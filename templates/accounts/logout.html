@@ -3,6 +3,9 @@
 {% block title %}{{ title }}{% endblock %}
  
 {% block content %}
-    {% include 'includes/not_logged_in_header.html' %}
+    <!--{% include 'includes/not_logged_in_header.html' %}-->
+    {% load static %}
     <h1>{{ title }}</h1>
+    <img src="{% static 'images/tea_00028.jpg' %}" alt="画像の説明">
+    <button type="submit">ログイン</button>
 {% endblock %}
