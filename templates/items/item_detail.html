@@ -4,15 +4,14 @@
  
 {% block content %}
     {% include 'includes/logged_in_header.html' %}
-    <div class="content-wrapper mt-5">
-        <div class="container-fluid">
+        <div class="container-fluid contents">
             <div class="row">
-                <div class="col-5 offset-1">
+                <div class="col-5 offset-1 mb-5">
                     {% with item.item_images.all.0 as first_image %}
                        <img class="rounded img-fluid auto" src="{{ first_image.image.url }}">
                     {% endwith %}
             	</div>
-                <div class="col-6">
+                <div class="col-6 mb-5">
                     <div class = "row">
                         <div class="d-flex flex-row bd-highlight mb-5">
                              {% for image in item.item_images.all %}
@@ -27,7 +26,7 @@
                     </div>
                     <div class="row">
                          <div>               
-                            <p class="font-weight-bold">{{ item.name }}</p>
+                            <h2 class="font-weight-bold">{{ item.name }}</h2>
                             <p>{{ item.description }}</p>
                             <p class="text-right">税込{{ item.price }}円</p>
                             <p class="text-right">送料：無料</p>
@@ -50,12 +49,28 @@
                     </div>
                 </div>
             </div>
-                
+            <div class="row">
+                <div class="col-5 offset-1 mt-5 mb-5">
+                    <h3>産地情報等</h3>
+                    <p>{{item.area.description}}</p>
+                </div>
+                <div class="col-6 mt-5 mb-5">
+                    <img class="rounded img-fluid auto" src="{{ item.area.area_image.url }}">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-5 offset-1 mt-5">
+                    <h3>レビュー</h3>
+                </div>
+                <div class="col-6 mt-5">
+                    <p>口コミ口コミ口コミ</p>
+                </div>
+            </div>
+                    
             
         </div>
         {% load static %}
         <script src="{% static 'js/spinner_script.js' %}"></script>
-    </div>
             
         
 {% endblock %}

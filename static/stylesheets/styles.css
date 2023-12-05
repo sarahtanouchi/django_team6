@@ -3,7 +3,7 @@
   list-style: none;
   padding-left: 0;
 }
-.header_nav li {
+.header_nav {
   margin-right: 30px;
 }
 
@@ -123,6 +123,7 @@
 
 .contents {
 	padding-top: 30px;
+	font-family: "Noto Sans Japanese",sans-serif;
 }
 .search {
 	margin: 20px 0;
