@@ -211,31 +211,38 @@ class Item_detail(generic.DetailView):
         context = super().get_context_data(**kwargs)
         context["title"] = "商品詳細"
         return context
+
+@login_required        
+def add_item(request,pk):
+    item = get_object_or_404(Item, pk=pk)
+    cart_item, created = Cart.objects.get_or_create(
+        item=item,
+        user=request.user,
+        ordered=False
+    )
+    if created:
+        cart_item.amount = 1
+    else:
+        cart_item.amount += 1
+    cart_item.save()
+    
+    
+    # cart_records = Cart.objects.filter(user=request.user, ordered=False)
+    
+    # if cart_records.exists():
+    #     cart = cart[0]
+    #     if cart.items.filter(item_pk=item.pk).exists():
+    #         cart.quantity += 1
+    #         cart.save()
+    #     else:
+    #         cart.items.add(cart_item)
+    # else:
+    #     cart = Cart.objects.create(user=request.user, item=)
+    #     cart.items.add(cart_item)
         
-class Add_item(LoginRequiredMixin, generic.TemplateView):
-    model = Item
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-        
-    def add_item(request):
-        item = get_object_or_404(Item)
-        cart = Cart.objects.filter(user=request.user)
-        
-        if cart.exists():
-            cart = cart[0]
-            if cart.items.filter.exists():
-                cart.quantity += 1
-                cart.save()
-            else:
-                cart.items.add(cart)
-        else:
-            cart = Cart.objects.create(user=request.user)
-            cart.items.add(cart)
+    return redirect("items:carts")
             
-        return redirect("items:carts")
-                
-        
+    
 class Carts(LoginRequiredMixin, generic.TemplateView):
     template_name = "items/carts.html"
     context_object_name = 'profile_user'

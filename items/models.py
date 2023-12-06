@@ -96,9 +96,13 @@ class Cart(models.Model):
     item = models.ForeignKey("Item", on_delete=models.CASCADE)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     amount = models.PositiveIntegerField("購入数", default=1)
+    ordered = models.BooleanField(default=False)
     
     class Meta:
         unique_together = ('item', 'user')
     
     def total_amount(self):
         return self.item.price * self.amount
+        
+    def __str__(self):
+        return f"{self.item.name}：{self.amount}"

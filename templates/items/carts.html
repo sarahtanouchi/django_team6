@@ -32,11 +32,13 @@
                                 <dd>{{ cart.item.price }}円</dd>
                                 <dt>購入数</dt>
                                 <dd>
+                                	{% comment %}
                             		<form method="post" action="{% url 'items:update_cart' cart.id %}">
 					                    {% csrf_token %}
 					                    <input type="number" value="{{ cart.amount }}" name="amount">
 					                    <button type="submit">更新</button>
 					                </form>
+					                {% endcomment %}
 					            </dd>
                                 <dt>合計金額</dt>
                                 <dd>{{ cart.total_amount }}円</dd>
