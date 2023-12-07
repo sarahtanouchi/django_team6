@@ -9,7 +9,7 @@
  
 {% block content %}
     {% include 'includes/logged_in_header.html' %}
-	<div class="container contents">
+	<div class="container-fluid contents">
 		<h1>{{ title }}</h1>
 		<div class="row">
 			<div class="col-9">
@@ -31,6 +31,7 @@
                                 <dt>価格</dt>
                                 <dd>{{ cart.item.price }}円</dd>
                                 <dt>購入数</dt>
+                                <dd>{{ cart.amount }}個</dd>
                                 <dd>
                                 	{% comment %}
                             		<form method="post" action="{% url 'items:update_cart' cart.id %}">

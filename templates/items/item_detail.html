@@ -34,16 +34,21 @@
                                 <div class="col-sm">
                                     <p class="text-center">個数</p>
                                 </div>
-                                <div class="col-sm mr-auto ml-auto">
-                                    <div class="spinner-container">
-                                        <span class="spinner-sub disabled">-</span>
-                                        <input class="spinner" type="number" min="0" max="50" value="0">
-                                        <span class="spinner-add">+</span>
+                                <form method="post" action="{% url 'items:add_item' item.pk %}">
+                                    {% csrf_token %}
+                                    <div class="col-sm mr-auto ml-auto">
+                                        <div class="spinner-container">
+                                            <span class="spinner-sub disabled">-</span>
+                                            <input class="spinner" type="number" min="1" max="50" value="1" name="amount">
+                                            <span class="spinner-add">+</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <a class="btn btn-secondary" href="{% url 'items:add_item' item.pk %}">
-                                カートに入れる
-                                </a>
+                                    <button type="submit" class="btn btn-secondary" name="button">
+                                    <!--<a class="btn btn-secondary" href="{% url 'items:add_item' item.pk %}">-->
+                                    カートに入れる
+                                    <!--</a>-->
+                                    </button> 
+                                </form>
                             </div>
                         </div>
                     </div>
