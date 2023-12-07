@@ -1,0 +1,45 @@
+{% load static %}
+
+{% block additional_css %}
+<link rel="stylesheet" href="{% static 'stylesheets/home.css' %}">
+{% endblock %}
+
+<header>
+    <nav class="navbar">
+        <div class="logo">
+            <a href="{% url 'home' %}"><img src="{% static 'images/logo.png' %}" alt="ロゴ"></a>
+        </div>
+        <ul class="header_user_actions ml-auto">
+            <li>
+                {% if user.is_authenticated %}
+                    <p>{{ user.username }}さん</p>
+                {% else %}
+                    <a href="{% url 'accounts:login' %}">ログイン</a>
+                {% endif %}
+            </li>
+            <li><a href="#"><img src="{% static 'images/icon/mypage_icon.png' %}" alt="マイページ"></a></li>
+            <li><a href="#"><img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入りリスト"></a></li>
+            <li><a href="#"><img src="{% static 'images/icon/cart_icon.png' %}" alt="カート"></a></li>
+        </ul>
+    </nav>
+        
+    <nav class="navbar navbar-expand-md navbar-light"style="background-color: #F5DEB3">
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#mainNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNav">
+            <ul class="navbar-nav mx-auto">
+              　 <li class="nav-item"><a href="#" class="nav-link" style="color: #000000">お茶</a></li>
+              　 <li class="nav-item"><a href="#" class="nav-link" style="color: #000000">お菓子</a></li>
+              　 <li class="nav-item"><a href="#" class="nav-link" style="color: #000000">茶器</a></li>
+              　 <li class="nav-item"><a href="#" class="nav-link" style="color: #000000">ギフトセット</a></li>
+            </ul>
+
+            <form class="form-inline">
+                <label class="sr-only" for="kw">キーワード検索</label>
+                <input type="search" class="form-control form-control-sm mr-2" placeholder="キーワード検索" id="kw">
+                <button type="submit" class="btn btn-secondary btn-sm">検索</button>
+            </form>
+        </div>
+    </nav>
+</header>

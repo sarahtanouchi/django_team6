@@ -1,0 +1,65 @@
+body {
+	width: 100%;
+}
+
+/*ヘッダーフッター*/
+.upper_row {
+    display: flex;
+    /*justify-content: space-between;*/
+    align-items: center;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.logo img {
+    width: 150px;
+    height: 50px;
+}
+
+.header_user_actions{
+    display: flex;
+    align-items: center;
+    margin-bottom: 0px;
+    
+}
+
+.header_user_actions a{
+    margin-left: 10px;
+    color: #000000;
+}
+.header_user_actions img {
+    width: 20px;
+    height: 20px;
+}
+
+.copylight_container{
+	text-align: center;
+}
+
+
+/*トップページ*/
+.news{
+	margin: 100px;
+}
+
+.item_search{
+    margin-top: 50px;
+}
+
+.search_item {
+    height: 180px;
+    overflow: hidden; /* 画像が要素をはみ出すのを防ぐために追加 */
+    text-align: center; 
+	font-size: 14px;
+    font-weight: bold;
+
+}
+
+.search_item a{
+	color: #000000;	
+}
+
+.search_image {
+    height: 150px;
+    width: 150px;
+}

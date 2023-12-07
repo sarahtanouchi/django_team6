@@ -44,6 +44,7 @@ class Flavor(models.Model):
 class Area(models.Model):
     name = models.CharField("生産地名", max_length=200)
     description = models.CharField("詳細情報", max_length=1000, blank=True)
+    area_image = models.ImageField(blank=True, null=True, verbose_name="生産地画像")
     
     def __str__(self):
         return self.name
@@ -94,10 +95,14 @@ class Review(models.Model):
 class Cart(models.Model):
     item = models.ForeignKey("Item", on_delete=models.CASCADE)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    amount = models.PositiveIntegerField("購入数", )
+    amount = models.PositiveIntegerField("購入数", default=1)
+    ordered = models.BooleanField(default=False)
     
     class Meta:
         unique_together = ('item', 'user')
     
     def total_amount(self):
         return self.item.price * self.amount
+        
+    def __str__(self):
+        return f"{self.item.name}：{self.amount}"

@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
 from django.contrib import messages
@@ -179,12 +180,6 @@ class Create(LoginRequiredMixin, generic.CreateView):
     #     item.save()
     #     return redirect("items:admin")
  
-class Detail(LoginRequiredMixin, generic.TemplateView):
-    template_name = "items/detail.html"
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["title"] = "商品詳細"
-        return context
         
 class Update(LoginRequiredMixin, generic.UpdateView):
     model = Item
@@ -199,7 +194,58 @@ class Update(LoginRequiredMixin, generic.UpdateView):
 class Delete(LoginRequiredMixin, generic.DeleteView):
     model = Item
     success_url = reverse_lazy("items:admin")
+    
+class Item_list(generic.ListView):
+    template_name = "items/item_list.html"
+    model = Item
+    # ordering = "-create_date"
+ 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+class Item_detail(generic.DetailView):
+    model = Item
+    template_name = "items/item_detail.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "商品詳細"
+        return context
+
+@login_required        
+def add_item(request,pk):
+    item = get_object_or_404(Item, pk=pk)
+    cart_item, created = Cart.objects.get_or_create(
+        item=item,
+        user=request.user,
+        ordered=False
+    )
+    
+    cart_amount = int(request.POST["amount"])
+    
+    if created:
+        cart_item.amount = cart_amount
+    else:
+        cart_item.amount += cart_amount
+    cart_item.save()
+    
+    
+    # cart_records = Cart.objects.filter(user=request.user, ordered=False)
+    
+    # if cart_records.exists():
+    #     cart = cart[0]
+    #     if cart.items.filter(item_pk=item.pk).exists():
+    #         cart.quantity += 1
+    #         cart.save()
+    #     else:
+    #         cart.items.add(cart_item)
+    # else:
+    #     cart = Cart.objects.create(user=request.user, item=)
+    #     cart.items.add(cart_item)
         
+    return redirect("items:carts")
+            
+    
 class Carts(LoginRequiredMixin, generic.TemplateView):
     template_name = "items/carts.html"
     context_object_name = 'profile_user'
@@ -214,4 +260,6 @@ class Carts(LoginRequiredMixin, generic.TemplateView):
         context["total"] = total
         
         return context
+        
+    
     

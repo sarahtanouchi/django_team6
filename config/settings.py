@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     # 以下追記部分
     "accounts.apps.AccountsConfig", # 追記
     "items.apps.ItemsConfig", # 追記
+    "pages.apps.PagesConfig", # 追記
 ]
 
 MIDDLEWARE = [
