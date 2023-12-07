@@ -4,7 +4,7 @@
  
 {% block content %}
     {% include 'includes/logged_in_header.html' %}
-        <div class="container-fluid contents">
+        <div class="container contents">
             <div class="row">
                 <div class="col-5 offset-1 mb-5">
                     {% with item.item_images.all.0 as first_image %}
@@ -12,7 +12,7 @@
                     {% endwith %}
             	</div>
                 <div class="col-6 mb-5">
-                    <div class = "row">
+                    <div class="row">
                         <div class="d-flex flex-row bd-highlight mb-5">
                              {% for image in item.item_images.all %}
                 			     {%if forloop.first %}
@@ -25,30 +25,29 @@
                         </div>
                     </div>
                     <div class="row">
-                         <div>               
+                         <div class="col-12">               
                             <h2 class="font-weight-bold">{{ item.name }}</h2>
                             <p>{{ item.description }}</p>
                             <p class="text-right">税込{{ item.price }}円</p>
                             <p class="text-right">送料：無料</p>
                             <div class="row">
-                                <div class="col-sm">
-                                    <p class="text-center">個数</p>
-                                </div>
-                                <form method="post" action="{% url 'items:add_item' item.pk %}">
-                                    {% csrf_token %}
-                                    <div class="col-sm mr-auto ml-auto">
-                                        <div class="spinner-container">
-                                            <span class="spinner-sub disabled">-</span>
-                                            <input class="spinner" type="number" min="1" max="50" value="1" name="amount">
-                                            <span class="spinner-add">+</span>
+                                <div class="col-12 d-flex flex-row justify-content-end">
+                                    <p class="text-right mr-2">個数</p>
+                                        
+                                    <form method="post" action="{% url 'items:add_item' item.pk %}">
+                                        {% csrf_token %}
+                                        <div class="col-sm d-flex flex-row justify-content-end px-0">
+                                            <div class="spinner-container">
+                                                <span class="spinner-sub disabled">-</span>
+                                                <input class="spinner" type="number" min="1" max="50" value="1" name="amount">
+                                                <span class="spinner-add">+</span>
+                                            </div>
+                                            <button type="submit" class="btn btn-secondary ml-2" name="button">
+                                            カートに入れる
+                                            </button> 
                                         </div>
-                                    </div>
-                                    <button type="submit" class="btn btn-secondary" name="button">
-                                    <!--<a class="btn btn-secondary" href="{% url 'items:add_item' item.pk %}">-->
-                                    カートに入れる
-                                    <!--</a>-->
-                                    </button> 
-                                </form>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -71,11 +70,7 @@
                     <p>口コミ口コミ口コミ</p>
                 </div>
             </div>
-                    
-            
         </div>
         {% load static %}
         <script src="{% static 'js/spinner_script.js' %}"></script>
-            
-        
 {% endblock %}
