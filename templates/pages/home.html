@@ -1,4 +1,4 @@
-{% extends "layouts/default.html" %}
+{% extends "layouts/default_home.html" %}
 
 {% load static %}
 
@@ -7,10 +7,8 @@
 {% endblock %}
 
 {% block title %}{{ title }}{% endblock %}
- 
-{% block content %}
-
-<!--カルーセル -->
+{% block upper_content %} 
+ <!--カルーセル -->
 <div class="container-fluid">
     <div id="cl" class="carousel slide mt-3" data-ride="carousel">
         <div class="carousel-inner"> 
@@ -26,8 +24,9 @@
         </a>
     </div>
 </div>
-    <!--{% include 'includes/normal_header.html' %}-->
-    
+{% endblock %} 
+{% block lower_content %}
+
 <section class="text-center mt-3 news">
     <h5>NEWS 2023/12/3　新商品を入荷しました。</h5>
 </section>
@@ -110,7 +109,5 @@
     <!--<h4>好み診断</h4>-->
      
     <!--<h4>土佐茶とは</h4>-->
-      
-      
-    {% include 'includes/footer.html' %}
+
 {% endblock %}

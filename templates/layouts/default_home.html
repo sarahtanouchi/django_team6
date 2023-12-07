@@ -23,10 +23,13 @@
         {% endfor %}
     {% endif %}
     <div class="container-fluid">
-        {% include 'includes/minimum_header.html' %}
+        {% block upper_content %}{% endblock %}
+    </div>
+    <div class="container-fluid">
+        {% include 'includes/normal_header.html' %}
     </div>
     <div class="container">
-        {% block content %}{% endblock %}
+        {% block lower_content %}{% endblock %}
     </div>
     <div class="container-fluid">
         {% include 'includes/footer.html' %}

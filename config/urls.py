@@ -10,6 +10,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("accounts/", include("accounts.urls")),
     path("items/", include("items.urls")),
+    path("pages/", include("pages.urls")),
     path("", views.HomeView.as_view(), name="home"), #トップページ表示追加
 ]
 
