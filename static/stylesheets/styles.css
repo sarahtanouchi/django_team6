@@ -1,4 +1,7 @@
-<<<<<<< HEAD
+body {
+	font-family: "源ノ角ゴシック","ヒラギノ角ゴシック","MSゴシック",sans-serif;
+	width: 100%;
+}
 .header_nav {
   display: flex;
   list-style: none;
@@ -6,11 +9,6 @@
 }
 .header_nav {
   margin-right: 30px;
-=======
-body {
-	font-family: "源ノ角ゴシック","ヒラギノ角ゴシック","MSゴシック",sans-serif;
-	width: 100%;
->>>>>>> homepage
 }
 
 /* エラーメッセージ用のスタイル */
