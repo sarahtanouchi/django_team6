@@ -1,9 +1,8 @@
-{% extends "layouts/default.html" %}
+{% extends "layouts/default_minimum.html" %}
  
 {% block title %}{{ title }}{% endblock %}
  
 {% block content %}
-    {% include 'includes/logged_in_header.html' %}
 
     <a href="{% url 'items:create' %}">新規追加</a><br>
     <a href="{% url 'items:image_list' %}">画像一覧</a>
