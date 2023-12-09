@@ -3,7 +3,6 @@
 {% block title %}{{ title }}{% endblock %}
  
 {% block content %}
-    {% include 'includes/logged_in_header.html' %}
     <div class="container contents">
 		<h1>{{ title }}</h1>
 		<div class="row">
@@ -21,21 +20,31 @@
 				<h2>メニュー</h2>
 				<p>ここに各種メニューを追加してください。</p>
 			</div>
-			<div class="col-9">
+			<div class="col-3">　<!--12/5　col6→col3川名-->
 			  {% for item in item_list %}
 				  <div class="card item">
 					<div class="row item_row">
-						<div class="col-6 item_figure">
-						    {% if item.image %}
-                                <img class="img-fluid" src="{{ item.image.url }}">
-                            {% else %}
-                                {% load static %}
-                                <img class="item_image" src="{% static 'images/no_image.jpg' %}">
-                            {% endif %}
+						<!--<div class="col-6 item_figure">-->
+						<!--    {% if item.image %}-->
+      <!--                          <img class="img-fluid" src="{{ item.image.url }}">-->
+      <!--                      {% else %}-->
+      <!--                          {% load static %}-->
+      <!--                          <img class="item_image" src="{% static 'images/no_image.jpg' %}">-->
+      <!--                      {% endif %}-->
+						<!--</div>-->
+						<div class="col-6 item_figure"> 
+						    {% if item.item_images %}
+				    			{% for image in item.item_images.all %}
+                        			<img class="img-fluid" src="{{ image.image.url }}">
+                        		{% endfor %}
+                    		{% else %}
+                    			 {% load static %}
+                        		<img class="item_image" src="{% static 'images/no_image.jpg' %}">
+                    		{% endif %}
 						</div>
 						<div class="col-6 item_description">
 							<h2 class="item_title">
-								<a href="{% url 'items:detail' item.id %}">
+								<a href="{% url 'items:item_detail' item.id %}">
 									{{ item.name }}
 								</a>
 							</h2>
@@ -49,7 +58,5 @@
 			</div>
 		</div>
 	</div>
-	<footer class="text-center">
-		<p><small>&copy;CodeCamp All Rights Reserved.</small></p>
-	</footer>
+	    {% include 'includes/footer.html' %}
 {% endblock %}

@@ -1,9 +1,8 @@
-{% extends "layouts/default.html" %}
+{% extends "layouts/default_minimum.html" %}
  
 {% block title %}{{ title }}{% endblock %}
  
 {% block content %}
-    {% include 'includes/logged_in_header.html' %}
     <h1>{{ title }}</h1>
     <form action="" method="POST" enctype="multipart/form-data">
         {{ form.as_p }}
@@ -11,8 +10,15 @@
         <button class="button is-primary" type="submit">更新</button>
     </form>
     <h2>現在の画像</h2>
-    {% if item.image %}
-        <p><img src="{{ item.image.url }}"></p>
+    <!--{% if item.image %}-->
+    <!--    <p><img src="{{ item.image.url }}"></p>-->
+    <!--{% else %}-->
+    <!--    <p>画像はありません。</p>-->
+    <!--{% endif %}-->
+    {% if item.item_images %}
+	    {% for image in item.item_images.all %}
+            <img class="item_image img-fluid" src="{{ image.image.url }}">
+        {% endfor %}
     {% else %}
         <p>画像はありません。</p>
     {% endif %}

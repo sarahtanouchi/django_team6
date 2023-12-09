@@ -1,0 +1,27 @@
+{% extends "layouts/default_minimum.html" %}
+ 
+{% block title %}{{ title }}{% endblock %}
+ 
+{% block content %}
+    <h1>{{ title }}</h1>
+    
+{% if image_list %}
+	    <div class = "item_main">
+	    {% for image in image_list %}
+	        <div>
+                <img class="item_image img-fluid" src="{{ image.image.url }}">
+                <form method="POST" action="{% url 'items:delete_image' image.id %}">
+    				{% csrf_token %}
+    				<a href="{% url 'items:image_update' image.id %}">
+                      編集
+                    </a>
+                    <input type="submit" value="削除" >
+                </form>
+	        </div>
+        {% endfor %}
+	    </div>
+    {% else %}
+        <p>画像はありません。</p>
+    {% endif %}
+    
+{% endblock %}

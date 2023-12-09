@@ -1,11 +1,11 @@
-{% extends "layouts/default.html" %}
+{% extends "layouts/default_minimum.html" %}
  
 {% block title %}{{ title }}{% endblock %}
  
 {% block content %}
-    {% include 'includes/logged_in_header.html' %}
 
-    <a href="{% url 'items:create' %}">新規追加</a>
+    <a href="{% url 'items:create' %}">新規追加</a><br>
+    <a href="{% url 'items:image_list' %}">画像一覧</a>
 
 	<table class="item_table">
 		<thead>
@@ -21,7 +21,8 @@
 				<th>テイスト</th>
 				<th>生産地</th>
 				<th>画像</th>
-				<th>画像２</th>
+				<!--<th>画像２</th>-->
+				<!--<th>画像3</th>-->
 				<th>操作</th>
 			</tr>
 		</thead>
@@ -38,16 +39,26 @@
 				<td>{{ item.tea_type }}</td>
 				<td>{{ item.taste }}</td>
 				<td>{{ item.area }}</td>
+				<!--<td>-->
+				<!--    {% if item.image %}-->
+    <!--                    <img class="img-fluid" src="{{ item.image.url }}">-->
+    <!--                {% else %}-->
+    <!--                    <img src="images/no_image.png">-->
+    <!--                {% endif %}-->
+				<!--</td>-->
+				<!--<td>-->
+				<!--    {% if item.second_image %}-->
+    <!--                    <img class="img-fluid" src="{{ item.second_image.url }}">-->
+    <!--                {% else %}-->
+    <!--                    <img src="images/no_image.png">-->
+    <!--                {% endif %}-->
+				<!--</td>-->
 				<td>
-				    {% if item.image %}
-                        <img class="img-fluid" src="{{ item.image.url }}">
-                    {% else %}
-                        <img src="images/no_image.png">
-                    {% endif %}
-				</td>
-				<td>
-				    {% if item.second_image %}
-                        <img class="img-fluid" src="{{ item.second_image.url }}">
+				    {% if item.item_images %}
+				    	{% for image in item.item_images.all %}
+				    		<p>{{image.name}}</p>
+                        	<img class="item_image img-fluid" src="{{ image.image.url }}">
+                        {% endfor %}
                     {% else %}
                         <img src="images/no_image.png">
                     {% endif %}
