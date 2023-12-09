@@ -1,6 +1,9 @@
 body {
 	max-width: 100%;
 }
+a{
+	color: #000000;	
+}
 
 /*ヘッダーフッター*/
 header{
@@ -52,39 +55,65 @@ header{
     color: #000000;
 }
 
-
-
-.copylight_container{
-	text-align: center;
-}
 footer{
     margin-top: 50px;
 }
 
+.copylight_container{
+	text-align: center;
+}
+
 
 /*トップページ*/
-.news{
-	margin: 100px;
+.container{
+    margin-top: 100px;
+    margin-bottom: 50px;
 }
 
-.item_search{
-    margin-top: 50px;
+.news article{
+	margin-left: 50px;
 }
 
+.recommend_items{
+    /*margin: auto;*/
+}
+
+.recommend_item{
+    overflow: hidden;
+    align-items: center;
+    margin-left: 30px;
+}
 .search_item {
-    height: 180px;
     overflow: hidden; /* 画像が要素をはみ出すのを防ぐために追加 */
     text-align: center; 
 	font-size: 14px;
     font-weight: bold;
-
+    margin-left: 30px;
 }
-
 .search_item a{
+    display: block;
 	color: #000000;	
+}
+.recommend_item_image{
+    max-width: 100%;
+    height: auto;
+}
+.banner_image{
+    max-width: 100%;
+    height: auto;
 }
 
 .search_image {
-    height: 150px;
-    width: 150px;
+    max-width: 100%;
+    height: auto;
+}
+.video_container{
+    max-width: 900px;
+    margin: auto;
+    justify-content: center;
+}
+
+.tea_video{
+    max-width: 100%;
+    height: auto;
 }
