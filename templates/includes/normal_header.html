@@ -6,15 +6,15 @@
 
 <header>
     <nav class="navbar">
-        <div class="logo">
+        <h1 class="logo">
             <a href="{% url 'home' %}"><img src="{% static 'images/logo.png' %}" alt="ロゴ"></a>
-        </div>
-        <ul class="header_user_actions ml-auto">
+        </h1>
+        <ul class="header_user_actions">
             <li>
                 {% if user.is_authenticated %}
                     <p>{{ user.username }}さん</p>
                 {% else %}
-                    <a href="{% url 'accounts:login' %}">ログイン</a>
+                    <a href="{% url 'accounts:login' %}"><p>ログイン</p></a>
                 {% endif %}
             </li>
             <li><a href="#"><img src="{% static 'images/icon/mypage_icon.png' %}" alt="マイページ"></a></li>
@@ -23,16 +23,16 @@
         </ul>
     </nav>
         
-    <nav class="navbar navbar-expand-md"style="background-color: #F5DEB3">
+    <nav class="navbar navbar_box navbar-expand-md">
         <button class="navbar-toggler" data-toggle="collapse" data-target="#mainNav">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="mainNav">
             <ul class="navbar-nav mx-auto">
-              　 <li class="nav-item"><a href="#" class="nav-link" style="color: #000000">お茶</a></li>
-              　 <li class="nav-item"><a href="#" class="nav-link" style="color: #000000">お菓子</a></li>
-              　 <li class="nav-item"><a href="#" class="nav-link" style="color: #000000">茶器</a></li>
-              　 <li class="nav-item"><a href="#" class="nav-link" style="color: #000000">ギフトセット</a></li>
+              　 <li class="nav-item"><a href="#" class="nav-link">お茶</a></li>
+              　 <li class="nav-item"><a href="#" class="nav-link">お菓子</a></li>
+              　 <li class="nav-item"><a href="#" class="nav-link">茶器</a></li>
+              　 <li class="nav-item"><a href="#" class="nav-link">ギフトセット</a></li>
             </ul>
 
             <form class="form-inline">

@@ -6,15 +6,15 @@
 
 <header>
     <nav class="navbar">
-        <div class="logo">
+        <h1 class="logo">
             <a href="{% url 'home' %}"><img src="{% static 'images/logo.png' %}" alt="ロゴ"></a>
-        </div>
-        <ul class="header_user_actions ml-auto">
+        </h1>
+        <ul class="header_user_actions">
             <li>
                 {% if user.is_authenticated %}
                     <p>{{ user.username }}さん</p>
                 {% else %}
-                    <a href="{% url 'accounts:login' %}">ログイン</a>
+                    <a href="{% url 'accounts:login' %}"><p>ログイン</p></a>
                 {% endif %}
             </li>
             <li><a href="#"><img src="{% static 'images/icon/mypage_icon.png' %}" alt="マイページ"></a></li>

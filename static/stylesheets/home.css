@@ -23,7 +23,7 @@ header{
     display: flex;
     align-items: center;
     margin-bottom: 0px;
-    
+    margin-left: auto;
 }
 
 .header_user_actions a{
@@ -36,10 +36,23 @@ header{
     list-style: none;
 }
 
+.header_user_actions p{
+    margin-bottom: 0px;
+}
+
 .header_user_actions img {
     width: 20px;
     height: 20px;
 }
+
+.navbar_box{
+    background-color: #F5DEB3;
+}
+.nav-link{
+    color: #000000;
+}
+
+
 
 .copylight_container{
 	text-align: center;
