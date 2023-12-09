@@ -19,7 +19,7 @@ class SignUp(generic.CreateView):
         context = super().get_context_data(**kwargs)
  
         # 以下で、 辞書データ context に値を追加
-        context["title"] = "ユーザー登録"
+        context["title"] = "新規お客様情報登録"
  
         return context
         
