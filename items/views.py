@@ -251,7 +251,7 @@ class Carts(LoginRequiredMixin, generic.TemplateView):
     context_object_name = 'profile_user'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["title"] = "カート内の商品"
+        context["title"] = "カートに入っている商品"
         carts = self.request.user.cart_set.all()
         context["carts"] = carts
         total = 0
@@ -260,6 +260,43 @@ class Carts(LoginRequiredMixin, generic.TemplateView):
         context["total"] = total
         
         return context
+
+# @login_required            
+# def remove_cart_item(request, item_pk):
+#     item = get_object_or_404(Item, pk=item_pk)
+#     cart_item, created = Cart.objects.get_or_create(
+#         item=item,
+#         user=request.user,
+#         ordered=False
+#     )
+    
+#     if created == False:
+#         cart_item.delete()
         
+#     return redirect("items:carts")
+        
+class Delete_cart(LoginRequiredMixin, generic.DeleteView):
+    model = Cart
+    success_url = reverse_lazy("items:carts")
+    
+@login_required        
+def update_amount(request,pk):
+    item = get_object_or_404(Item, pk=pk)
+    cart_item, created = Cart.objects.get_or_create(
+        item=item,
+        user=request.user,
+        ordered=False
+    )
+    
+    cart_amount = int(request.POST["amount"])
+    
+    cart_item.amount = cart_amount
+
+    cart_item.save()
+    
+    return redirect("items:carts")
+    
+ 
+    
     
     

@@ -27,8 +27,9 @@
                          <div class="col-12">               
                             <h2 class="font-weight-bold">{{ item.name }}</h2>
                             <p>{{ item.description }}</p>
-                            <p class="text-right">税込{{ item.price }}円</p>
-                            <p class="text-right">送料：無料</p>
+                            <div class="text-right">税抜価格{{ item.price }}円</div>
+                            <div class="text-right">消費税○円</div>
+                            <p class="text-right">税込価格○○円</p>
                             <div class="row">
                                 <div class="col-12 d-flex flex-row justify-content-end">
                                     <p class="text-right mr-2">個数</p>

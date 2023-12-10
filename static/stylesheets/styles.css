@@ -111,8 +111,7 @@ body {
 }
 
 .contents {
-	padding-top: 30px;
-	font-family: "Noto Sans Japanese",sans-serif;
+	padding-top: 50px;
 }
 .search {
 	margin: 20px 0;
@@ -145,7 +144,7 @@ body {
 .item.card {
 	margin-bottom: 20px;
 	padding: 10px;
-	border: solid 5px #f0b400;
+	/*border: solid 5px #f0b400;*/
 
 }
 

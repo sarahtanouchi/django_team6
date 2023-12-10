@@ -22,10 +22,7 @@ urlpatterns = [
     path("delete/<int:pk>/", views.Delete.as_view(), name="delete"),
     path("item_detail/<int:pk>/", views.Item_detail.as_view(), name="item_detail"), # 詳細
     path("add_item/<int:pk>/", views.add_item, name="add_item"),
-    path("update_amount/<int:pk>/", views.update_amount, name="update_amount"),
     path("carts/", views.Carts.as_view(), name="carts"),
-    # path("remove_cart_item/<int:item_pk>/", views.remove_cart_item, name="remove_cart_item"),
-    path("delete_cart/<int:pk>/", views.Delete_cart.as_view(), name="delete_cart"),
-
+     path("delete_image/<int:pk>/", views.Delete_image.as_view(), name="delete_image"),
     
 ]
