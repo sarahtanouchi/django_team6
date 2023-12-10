@@ -20,8 +20,27 @@ class SignUp(generic.CreateView):
  
         # 以下で、 辞書データ context に値を追加
         context["title"] = "新規お客様情報登録"
- 
         return context
+        
+    def signup_view(request):
+        if request.method == 'POST':
+            form = SignupForm(request.POST)
+            if form.is_valid():
+                # フォームが有効な場合は、確認画面にリダイレクトする
+                request.session['signup_data'] = form.cleaned_data  # フォームの入力内容をセッションに保存
+                return redirect('confirmation')  # 確認画面へリダイレクト
+        else:
+            form = SignupForm()
+        return render(request, 'signup.html', {'form': form})
+
+    def confirmation_view(request):
+        signup_data = request.session.get('signup_data')  # セッションからフォームの入力内容を取得
+        if not signup_data:
+        # セッションにフォームの入力内容がない場合は新規登録画面にリダイレクトする
+            return redirect('signup')
+
+        # 確認画面でフォームの入力内容を表示
+        return render(request, 'confirmation.html', {'signup_data': signup_data})
         
 # ログイン
 class Login(LoginView):
