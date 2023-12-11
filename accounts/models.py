@@ -3,8 +3,13 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 
 class CustomUser(AbstractUser):
-    last_login = None
-
+    email = models.EmailField(verbose_name="メールアドレス", max_length=255, unique=True)
+    REQUIRED_FIELDS = ["username"]
+    USERNAME_FIELD = "email"
+    
+    def get_username(self):
+        return self.username
+        
 class User(models.Model):
     email = models.EmailField("メールアドレス")
     password = models.CharField("パスワード", max_length=20)
