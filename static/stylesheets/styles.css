@@ -111,8 +111,7 @@ body {
 }
 
 .contents {
-	padding-top: 30px;
-	font-family: "Noto Sans Japanese",sans-serif;
+	padding-top: 50px;
 }
 .search {
 	margin: 20px 0;
@@ -145,7 +144,7 @@ body {
 .item.card {
 	margin-bottom: 20px;
 	padding: 10px;
-	border: solid 5px #f0b400;
+	/*border: solid 5px #f0b400;*/
 
 }
 
@@ -164,7 +163,7 @@ body {
 .item_title a {
 	color: #f85f73;
 }
-/*各種ボタン*/
+
 .btn_lg{
 	height: 50px;
 	width: 200px;
@@ -175,22 +174,10 @@ body {
   cursor: pointer;
 }
 
-.btn_sm{
-	height: 40px;
-	width: auto;
-	align-items: center;
-	margin: 10px;
-  padding: 5px 5px;
-  font-size: 14px;
-  cursor: pointer;
-}
-
 .btn_white{
 	background-color: #fff;
   color: #000;
   border: 1px solid #000;
-}
-
 .spinner-container {
   display: flex;
   justify-content: center;

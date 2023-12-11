@@ -1,66 +1,83 @@
 {% extends "layouts/default.html" %}
  
 {% block title %}{{ title }}{% endblock %}
-
-{% block additional_css %}
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'stylesheets/styles.css' %}">
-{% endblock %}
  
 {% block content %}
-	<div class="container contents">
-		<h1>{{ title }}</h1>
+	<div class="contents">
+		<h1 class="h4">{{ title }}</h1>
 		<div class="row">
-			<div class="col-9">
+			<div class="col-12">
 			  {% for cart in carts %}
 				  <div class="card item">
 					<div class="row item_row">
-						<div class="col-6 item_figure">
-						    {% if cart.item.image %}
-                                <img class="img-fluid" src="{{ cart.item.image.url }}">
-                            {% else %}
-                                {% load static %}
-                                <img class="item_image" src="{% static 'images/no_image.jpg' %}">
-                            {% endif %}
+						<div class="col-4 item_figure">
+							{% with cart.item.item_images.all.0 as first_image %}
+                       			<img class="rounded img-fluid auto" src="{{ first_image.image.url }}">
+                    		{% endwith %}
+                            <form method="POST" action="{% url 'items:delete_cart' cart.pk %}">
+	    						{% csrf_token %}
+	    						<button type="submit">
+		    						 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+									 	<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
+									 </svg>
+									 <span>削除</span>
+	    						</button>
+	    						 <!--<input type="submit" value="削除" >-->
+                			</form>
 						</div>
-						<div class="col-6 item_description">
+						<div class="col-4 item_description">
 							<dl>
-                                <dt>商品名</dt>
-                                <dd>{{ cart.item.name }}</dd>
-                                <dt>価格</dt>
+                                <dt>{{ cart.item.name }}</dt>
+                                <dd>{{ cart.item.description }}</dd>
+                             </dl>
+                        </div>
+                        <div class="col-4 item_description">
+                    		<dl>
+                                <dt>価格(税抜)</dt>
                                 <dd>{{ cart.item.price }}円</dd>
                                 <dt>購入数</dt>
-                                <dd>{{ cart.amount }}個</dd>
                                 <dd>
-                                	{% comment %}
-                            		<form method="post" action="{% url 'items:update_cart' cart.id %}">
-					                    {% csrf_token %}
-					                    <input type="number" value="{{ cart.amount }}" name="amount">
-					                    <button type="submit">更新</button>
-					                </form>
-					                {% endcomment %}
+                   					<form method="post" action="{% url 'items:update_amount' cart.item.pk %}">
+                                    {% csrf_token %}
+	                                    <div class="col-sm d-flex flex-row px-0">
+	                                        <div class="spinner-container">
+	                                            <span class="spinner-sub disabled">-</span>
+	                                            <input class="spinner" type="number" min="1" max="50" value="{{ cart.amount }}" name="amount">
+	                                            <span class="spinner-add">+</span>
+	                                        </div>
+	                                        <button type="submit" class="btn btn-secondary ml-2" name="button">
+	                                        更新
+	                                        </button> 
+                                   		 </div>
+                                	</form>
 					            </dd>
-                                <dt>合計金額</dt>
+                                <dt>合計金額(税抜)</dt>
                                 <dd>{{ cart.total_amount }}円</dd>
                             </dl>
 						</div>
 					</div>
 				</div>
+				
 				{% empty %}
-                  <p>カート内に商品はありません。</p>
+                  <p class="text-center mt-5 mb-3">カート内に商品はありません</p>
 				{% endfor %}
 			</div>
-			<div class="col-3">
-				<h2>購入情報</h2>
-				<p>合計金額: {{ total }}円</p>
-				<form method="post" action="{% url 'items:carts' %}">
-                    {% csrf_token %}
-                    <button type="submit">購入する</button>
-                </form>
-			</div>
+			 
+				<div class="col-12 text-center">
+					{% if carts %}
+						<p class="text-right">小計(税抜): {{ total }}円</p>
+						<p class="text-right">合計(税込)</p>
+						<form class="text-center" method="post" action="{% url 'items:carts' %}">
+		                    {% csrf_token %}
+		                    <button type="submit" class="btn_lg btn_secondary mb-1">ご購入手続きへ</button>
+		                </form>
+					{% endif %}
+					<a class="text-center" href="{% url 'items:index' %}">
+		            	<button class="btn_lg btn_white mt-1">商品を探す</button>
+		        	</a>
+				</div>
 		</div>
 	</div>
-	<footer class="text-center">
-		<p><small>&copy;CodeCamp All Rights Reserved.</small></p>
-	</footer>
+	 {% load static %}
+        <script src="{% static 'js/spinner_script.js' %}"></script>
 {% endblock %}
