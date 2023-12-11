@@ -4,10 +4,25 @@ body {
 a{
 	color: #000000;	
 }
+h1 {
+  font-size: 1.5em; /* 1.5倍のフォントサイズ */
+}
+
+h2 {
+  font-size: 1.2em; /* 1.2倍のフォントサイズ */
+}
+
+h3 {
+  font-size: 1em; /* デフォルトのフォントサイズ */
+}
 
 /*ヘッダーフッター*/
 header{
     margin-bottom: 50px;
+}
+.container-fluid,
+.container{
+    padding: 0;
 }
 .upper_row {
     display: flex;
@@ -25,18 +40,19 @@ header{
 .header_user_actions{
     display: flex;
     align-items: center;
+    justify-content: space-between;
     margin-bottom: 0px;
     margin-left: auto;
 }
 
 .header_user_actions a{
     text-decoration: none;
-    margin-left: 10px;
     color: #000000;
 }
 
 .header_user_actions li{
     list-style: none;
+    margin-right: 10px; 
 }
 
 .header_user_actions p{
@@ -68,6 +84,12 @@ footer{
 .container{
     margin-top: 100px;
     margin-bottom: 50px;
+}
+
+.carousel-image {
+    display: block;
+    width: 100%;
+    height: 70%;
 }
 
 .news article{

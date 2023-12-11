@@ -10,11 +10,11 @@
 {% block upper_content %} 
  <!--カルーセル -->
 <div class="container-fluid">
-    <div id="cl" class="carousel slide mt-3" data-ride="carousel">
+    <div id="cl" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner"> 
-            <div class="carousel-item active"><img src="{% static 'images/top.png' %}" class="d-block w-100"></div>
-            <div class="carousel-item"><img src="{% static 'images/top2.jpg' %}" class="d-block w-100"></div>
-            <div class="carousel-item"><img src="{% static 'images/top3.jpeg' %}" class="d-block w-100"></div>
+            <div class="carousel-item active"><img src="{% static 'images/top.png' %}" class="carousel-image"></div>
+            <div class="carousel-item"><img src="{% static 'images/top2.jpg' %}" class="carousel-image"></div>
+            <div class="carousel-item"><img src="{% static 'images/top3.jpeg' %}" class="carousel-image"></div>
         </div>
         <a class="carousel-control-prev" href="#cl" data-slide="prev">
             <span class="carousel-control-prev-icon"></span>
@@ -28,10 +28,12 @@
 {% block lower_content %}
 <main>
     <section class="container news">
-        <h2>NEWS</h2>
+        <h1>NEWS</h1>
             <article>
                 <p>2023/12/3　お得なクーポンがご利用いただけます。
-                <a href="">⇒クーポン情報ぺージ</a></p>
+                <a href="">
+                    <button class="btn_md btn_white" type="button">クーポンページ</button>
+                </a></p>
             </article>
     </section>
 
