@@ -10,6 +10,8 @@ class CustomUser(AbstractUser):
     def get_username(self):
         return self.username
         
+    pass
+        
 class User(models.Model):
     email = models.EmailField("メールアドレス")
     password = models.CharField("パスワード", max_length=20)
