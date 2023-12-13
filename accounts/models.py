@@ -9,8 +9,7 @@ class CustomUser(AbstractUser):
     
     def get_username(self):
         return self.username
-        
-    pass
+
         
 class User(models.Model):
     email = models.EmailField("メールアドレス")
@@ -20,5 +19,3 @@ class User(models.Model):
     kana = models.CharField("フリガナ", max_length=50)
     postal_code_regex = RegexValidator(regex=r'^[0-9]+$', message = ("Postal Code must be entered in the format: '1234567'. Up to 7 digits allowed."))
     postal_code = models.CharField(validators=[postal_code_regex], max_length=7, verbose_name='郵便番号') 
-    
-    
