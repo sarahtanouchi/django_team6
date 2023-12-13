@@ -1,0 +1,31 @@
+{% extends "layouts/default.html" %}
+
+{% load static %}
+
+{% block additional_css %}
+<link rel="stylesheet" href="{% static 'stylesheets/home.css' %}">
+{% endblock %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    
+    <div class="container mypage_items">
+        <div class="row mt-3 justify-content-center">
+            <div class="mypage_item col-4">
+                <a href="#">お客様情報</a>
+            </div>
+            <div class="mypage_item col-4">
+                <a href="#">お気に入りリスト</a>
+            </div>
+            <div class="mypage_item col-4">
+                <a href="#">購入履歴</a>
+            </div>
+            <div class="mypage_item col-4">
+                <a href="#">レビュー投稿履歴</a>
+            </div>            
+        </div>
+    </div>
+
+{% endblock %}

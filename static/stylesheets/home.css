@@ -20,10 +20,7 @@ h3 {
 header{
     margin-bottom: 50px;
 }
-.container-fluid,
-.container{
-    padding: 0;
-}
+
 .upper_row {
     display: flex;
     /*justify-content: space-between;*/
@@ -79,11 +76,10 @@ footer{
 	text-align: center;
 }
 
-
 /*トップページ*/
-.container{
-    margin-top: 100px;
-    margin-bottom: 50px;
+.container
+.container-fluid{
+    padding: 0;
 }
 
 .carousel-image {
@@ -106,7 +102,7 @@ footer{
     margin-left: 30px;
 }
 .search_item {
-    overflow: hidden; /* 画像が要素をはみ出すのを防ぐために追加 */
+    overflow: hidden; /* 画像が要素をはみ出すのを防ぐ*/
     text-align: center; 
 	font-size: 14px;
     font-weight: bold;
@@ -138,4 +134,13 @@ footer{
 .tea_video{
     max-width: 100%;
     height: auto;
+}
+
+/*マイページ*/
+.mypage_item{
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #000;
+    text-align: center;
+    cursor: pointer;
 }

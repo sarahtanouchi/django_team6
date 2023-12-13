@@ -52,3 +52,12 @@ class Update(LoginRequiredMixin, generic.TemplateView):
         context = super().get_context_data(**kwargs)
         context["title"] = "プロフィール編集"
         return context
+
+# マイページ
+class Mypage(LoginRequiredMixin, generic.TemplateView):
+    template_name = "accounts/mypage.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "マイページ"
+        context["user_pk"] = self.request.user.pk  # ユーザー主キーを取得してコンテキストに追加
+        return context
