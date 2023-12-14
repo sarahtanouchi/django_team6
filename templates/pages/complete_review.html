@@ -2,19 +2,19 @@
 
 {% load static %}
 
+{% block additional_css %}
+<link rel="stylesheet" href="{% static 'stylesheets/style.css' %}">
+{% endblock %}
+
 {% block title %}{{ title }}{% endblock %}
  
 {% block content %}
 <main>
-    <h1>プライバシーポリシー</h1>
-    <p></p>
+    <p class="complete_message">レビューを投稿しました</p>
     <div class="d-flex justify-content-center">
         <a href="{% url 'home' %}">
             <button class="btn_lg btn_white" type="button">トップページへ</button>
         </a>
-    </div>
-      <div class="return_link d-flex justify-content-center">
-        <a href="">＜ 戻る</a>
     </div>
 </main>
 {% endblock %}

@@ -15,9 +15,13 @@ h3 {
   font-size: 1em; /* デフォルトのフォントサイズ */
 }
 
-.container-fluid,
+.container-fluid{
+    padding: 0;
+}
 .container{
     padding: 0;
+    margin-top: 20px;
+    margin-bottom: 20px
 }
 /*ボタン　大*/
 .btn_lg{
@@ -60,6 +64,18 @@ h3 {
 	background-color: #555555;
   color: #FFFFFF;
   border: 0;
+}
+
+.return_link a{
+  text-decoration: none;
+  font-size: 10px;
+}
+
+/*完了画面*/
+.complete_message{
+  display: flex;
+  align-items: center;
+  font-size: 1em;
 }
 
 /* エラーメッセージ用のスタイル */
