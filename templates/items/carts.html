@@ -67,7 +67,7 @@
 					{% if carts %}
 						<p class="text-right">小計(税抜): {{ total }}円</p>
 						<p class="text-right">合計(税込)</p>
-						<form class="text-center" method="post" action="{% url 'items:carts' %}">
+						<form class="text-center" method="post" action="{% url 'accounts:orders' %}">
 		                    {% csrf_token %}
 		                    <button type="submit" class="btn_lg btn_secondary mb-1">ご購入手続きへ</button>
 		                </form>

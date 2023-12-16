@@ -296,7 +296,4 @@ def update_amount(request,pk):
     
     return redirect("items:carts")
     
- 
-    
-    
     

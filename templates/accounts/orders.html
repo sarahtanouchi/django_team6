@@ -1,0 +1,141 @@
+{% extends "layouts/default.html" %}
+ 
+{% block title %}{{ title }}{% endblock %}
+ 
+{% block content %}
+    <div class="contents">
+		<h1 class="h4">{{ title }}</h1>
+		    <nav class="navbar navbar-expand-md navbar-light bg-light justify-content-between mt-5">
+		        <span class="navbar-text">ご注文内容</span>
+                <a class="btn btn-outline-secondary btn-sm" href="{% url 'items:carts' %}">カートに戻る</a>
+            </nav> 
+		<div class="row">
+			<div class="col-12">
+                {% for cart in carts %}
+                    <div class="card item">
+    					<div class="row item_row">
+    						<div class="col-3 item_figure">
+    							{% with cart.item.item_images.all.0 as first_image %}
+                           			<img class="rounded img-fluid auto" src="{{ first_image.image.url }}">
+                        		{% endwith %}
+    						</div>
+    						<div class="col-5 item_description">
+    							<dl>
+                                    <dt>{{ cart.item.name }}</dt>
+                                    <dd>{{ cart.item.description }}</dd>
+                                 </dl>
+                            </div>
+                            <div class="col-4 item_description">
+                        		<dl>
+                                    <dt>価格(税抜)</dt>
+                                    <dd>{{ cart.item.price }}円</dd>
+                                    <dt>購入数</dt>
+                                    <dd>{{ cart.amount }}</dd>
+                                    <dt>合計金額(税抜)</dt>
+                                    <dd>{{ cart.total_amount }}円</dd>
+                                </dl>
+    						</div>
+    					</div>
+    				</div>
+    			{% endfor %}
+    	    </div>
+    	</div>
+    	<div class="row">
+    		<div class="col-12">
+    		    <form>
+    			    <nav class="navbar navbar-expand-md navbar-light bg-light">
+    			        <span class="navbar-text">クーポン利用</span>
+    			    </nav>
+    			    <div class="form-group form-row mt-4">
+        			    <label class="col-md-2 col-form-label text-md-right" for="couponcode">クーポンコード</label>
+        			    <div class="col-md-3">
+        			         <input class="form-control" type="text" id="couponcode">
+        			    </div>
+        			</div>
+        			<nav class="navbar navbar-expand-md navbar-light bg-light">
+    			        <span class="navbar-text">お支払い　※クレジットカード一括払いのみとなります。</span>
+    			    </nav>
+    			    <div class="form-group form-row mt-4">
+        			    <label class="col-md-2 col-form-label text-md-right">クレジットカード番号</label>
+        			    <div class="col-md-3">
+        			        <input class="form-control" type="text" id="cardnumber">
+        			     </div>
+        			</div>
+        			<div class="form-group form-row">
+        			     <label class="col-md-2 col-form-label text-md-right">セキュリティコード</label>
+        			    <div class="col-md-3">
+        			        <input class="form-control" type="text" id="securitycode">
+        			     </div>
+        			</div>
+    			    <nav class="navbar navbar-expand-md navbar-light bg-light">
+    			        <span class="navbar-text">お客様情報</span>
+    			    </nav>
+        			    
+        			    
+    			    <nav class="navbar navbar-expand-md navbar-light bg-light">
+    			        <span class="navbar-text">お届け先</span>
+    			    </nav>
+    			        <div class="form-check ml-5 mt-4">
+                            <label class="form-check-label">
+                                <input class="form-check-input" name="destination" type="radio" value="user_address">
+                                ご登録住所
+                            </label>
+        			    </div>
+        			    <div class="form-check ml-5">
+                            <label class="form-check-label">
+                                <input class="form-check-input" name="destination" type="radio" value="other_address1">
+                                別のお届け先（請求書も同封）
+                            </label>
+        			    </div>
+        			    <div class="form-check ml-5">
+                            <label class="form-check-label">
+                                <input class="form-check-input" name="destination" type="radio" value="other_address2">
+                                ご贈答先（請求書は登録住所に別送）
+                            </label>
+        			    </div>
+        		
+    			    
+    			    <nav class="navbar navbar-expand-md navbar-light bg-light">
+    			        <span class="navbar-text">お届け日指定</span>
+    			    </nav>
+    			    <div class="form-group form-row">
+    			        <div class="form-check offset-md-3 pl-4">
+                            <label class="form-check-label">
+                                <input class="form-check-input" name="No" type="radio" value="">
+                                指定なし
+                            </label>
+        			    </div>
+        			    <div class="form-check offset-md-3 pl-4">
+                            <label class="form-check-label"><input class="form-check-input" name="Yes" type="radio" value="">指定あり</label>
+        			    </div>
+        			    <label class="col-md-3 col-form-label text-md-right"></label>
+        			    <div class="col-md-9">
+        			        {{ form.arrival_date }}
+        			     </div>
+        			 </div>
+    			    
+    			    <nav class="navbar navbar-expand-md navbar-light bg-light">
+    			        <span class="navbar-text">ギフト包装</span>
+    			    </nav>
+    			    <div>
+        			    <input type="radio" name="{{form.gift_wrapping.name}}" value="true" id="yes_gift_wrapping">
+        			    <label for="yes_gift_wrapping">要</label>
+    			    </div>
+    			    <div>
+        			    <input type="radio" name="{{form.gift_wrapping.name}}" value="false" id="no_gift_wrapping">
+        			    <label for="no_gift_wrapping">不要</label>
+    			    </div>
+    			    {% comment %}
+    			    {{ form.gift_wrapping }}
+    			    {% endcomment %}
+    			    
+    			    <nav class="navbar navbar-expand-md navbar-light bg-light">
+    			        <span class="navbar-text">その他ご要望</span>
+    			    </nav>
+    			    {{ form.request_comment }}
+                        
+                </form>
+        </div>
+    </div>
+    </div>
+{% endblock %}

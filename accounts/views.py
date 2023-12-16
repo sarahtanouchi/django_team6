@@ -4,8 +4,9 @@ from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-
-from .forms import SignupForm, LoginForm
+from .models import Order
+from items.models import Item
+from .forms import SignupForm, LoginForm, OrderCreateForm
  
 class SignUp(generic.CreateView):
     form_class = SignupForm # 利用するフォームクラスを設定
@@ -52,3 +53,27 @@ class Update(LoginRequiredMixin, generic.TemplateView):
         context = super().get_context_data(**kwargs)
         context["title"] = "プロフィール編集"
         return context
+
+class OrderCreate(LoginRequiredMixin, generic.CreateView):
+    model = Order
+    form_class = OrderCreateForm
+    template_name = "accounts/orders.html"
+    context_object_name = 'profile_user'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "ご注文ページ"
+        carts = self.request.user.cart_set.all()
+        context["carts"] = carts
+        # total = 0
+        # for order in orders:
+        #     total += order.total_amount()
+        # context["total"] = total
+        
+        return context
+        
+    # def form_valid(self, form):
+        
+        
+    
+    

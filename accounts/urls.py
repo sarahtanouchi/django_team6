@@ -9,4 +9,5 @@ urlpatterns = [
     path("logout/", views.Logout.as_view(), name="logout"), # ログアウト
     path("detail/<int:pk>/", views.Detail.as_view(), name="detail"), # ユーザー詳細
     path("update/<int:pk>/", views.Update.as_view(), name="update"), # 編集
+    path("orders/", views.OrderCreate.as_view(), name="orders"),
 ]
