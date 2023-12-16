@@ -47,18 +47,17 @@
     </div>
         
     <nav class="navbar navbar_box navbar-expand-md">
-        <button class="navbar-toggler" data-toggle="collapse" data-target="#mainNav">
+        <button class="navbar-toggler float-right" data-toggle="collapse" data-target="#headerNav">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="mainNav">
-            <ul class="navbar-nav mx-auto">
-              　 <li class="nav-item"><a href="" class="nav-link">お茶</a></li>
-              　 <li class="nav-item"><a href="" class="nav-link">お菓子</a></li>
-              　 <li class="nav-item"><a href="" class="nav-link">茶器</a></li>
-              　 <li class="nav-item"><a href="" class="nav-link">ギフトセット</a></li>
+        <div class="collapse navbar-collapse" id="headerNav">
+            <ul class="navbar-nav mx-auto header_nav">
+              　 <li class="header_item"><a href="" class="navbar_link">お茶</a></li>
+              　 <li class="header_item"><a href="" class="navbar_link">お菓子</a></li>
+              　 <li class="header_item"><a href="" class="navbar_link">茶器</a></li>
+              　 <li class="header_item"><a href="" class="navbar_link">ギフトセット</a></li>
             </ul>
-
-            <form class="form-inline"action="" method="get">
+            <form class="form-inline" action="" method="get">
                 <label class="sr-only" for="kw">キーワード検索</label>
                 <input type="search" class="form-control form-control-sm mr-2" placeholder="キーワード検索" id="kw">
                 <button type="submit" class="btn btn-secondary btn-sm">検索</button>
@@ -67,9 +66,12 @@
     </nav>
 
 <script>
+    // ログイン状態をJavaScriptに渡す
+    var isAuthenticated = {% if user.is_authenticated %}true{% else %}false{% endif %};
+
     function showLoginModal() {
         // ログインしていない場合はモーダルを表示
-        if (!{{ user.is_authenticated }}) {
+        if (!isAuthenticated) {
             $('#loginModal').modal('show');
             return false;  // リンクをクリックしてもページ遷移をしない
         }

@@ -2,15 +2,11 @@
 
 {% load static %}
 
-{% block additional_css %}
-<link rel="stylesheet" href="{% static 'stylesheets/style.css' %}">
-{% endblock %}
-
 {% block title %}{{ title }}{% endblock %}
  
 {% block content %}
 <main>
-    <p class="complete_message">注文が完了しました</p>
+    <p class="complete_message">ご登録情報を変更しました。</p>
     <div class="d-flex justify-content-center">
         <a href="{% url 'home' %}">
             <button class="btn_lg btn_white" type="button">トップページへ</button>

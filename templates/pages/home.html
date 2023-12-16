@@ -1,4 +1,5 @@
 {% extends "layouts/default_home.html" %}
+{% block title %}{{ title }}{% endblock %}
 
 {% load static %}
 
@@ -6,7 +7,6 @@
 <link rel="stylesheet" href="{% static 'stylesheets/home.css' %}">
 {% endblock %}
 
-{% block title %}{{ title }}{% endblock %}
 {% block upper_content %} 
  <!--カルーセル -->
 <div class="container-fluid">
@@ -28,7 +28,7 @@
 {% block lower_content %}
 <main>
     <section class="container news">
-        <h1>NEWS</h1>
+        <h2>NEWS</h2>
             <article>
                 <p>2023/12/3　お得なクーポンがご利用いただけます。
                 <a href="">
@@ -37,9 +37,9 @@
             </article>
     </section>
 
-    <section class="container recommend_items">
+    <section class="container">
         <h2>おすすめ商品</h2>
-        <div class="row mt-3 justify-content-center">
+        <div class="row mt-3 justify-content-center recommend_items">
             <div class="col-3 col-md-3 recommend_item">
                 <a href="#">
                     <img src="{% static 'images/bancha_00009.jpeg' %}" alt="煎茶" class="recommend_item_image">
@@ -59,79 +59,86 @@
         
     </section>
 
-    <section class="container item_search">
+    <section class="container">
         <h2>商品を探す</h2>
-        <div class="row mt-3">
-            <div class="col-12 col-lg-2 offset-lg-1 pt-3">お茶の種類から探す</div>
-            <div class="col-3 col-md-2 search_item">
-                <a href="#">
-                    <span>煎茶</span>
-                    <img src="{% static 'images/bancha_00009.jpeg' %}" alt="煎茶" class="search_image">
+        <div class="item_search_container">
+            <div class="row">
+                <div class="col-12 col-lg-2 offset-lg-1 search_item">
+                お茶の種類から探す
+                </div>
+                <div class="col-3 col-md-2 search_item">
+                    <a href="#">
+                        <span>煎茶</span>
+                        <img src="{% static 'images/bancha_00009.jpeg' %}" alt="煎茶" class="search_image">
+                    </a>
+                </div>
+                <div class="col-3 col-md-2 search_item">
+                    <a href="#">
+                        <span>玉露</span>
+                        <img src="{% static 'images/bancha_00009.jpeg' %}" alt="玉露" class="search_image">
+                    </a>
+                </div>
+                <div class="col-3 col-md-2 search_item">
+                    <a href="#">
+                         <span>ほうじ茶</span>
+                        <img src="{% static 'images/bancha_00009.jpeg' %}" alt="ほうじ茶" class="search_image">
+                    </a>
+                </div>
+            </div>
+            
+            <div class="row mt-3">
+                <div class="col-12 col-lg-2 offset-lg-1 pt-3 search_item">
+                    <P>利用シーンから探す</P>
+                </div>
+                <div class="col-3 col-md-2 search_item">
+                    <a href="#">
+                        <span>自宅用</span>
+                        <img src="{% static 'images/bancha_00009.jpeg' %}" alt="煎茶" class="search_image">
+                    </a>
+                </div>
+                <div class="col-3 col-md-2 search_item">
+                    <a href="#">
+                        <span>お土産</span>
+                        <img src="{% static 'images/bancha_00009.jpeg' %}" alt="玉露" class="search_image">
+                    </a>
+                </div>
+                <div class="col-3 col-md-2 search_item">
+                    <a href="#">
+                         <span>贈答用</span>
+                        <img src="{% static 'images/bancha_00009.jpeg' %}" alt="ほうじ茶" class="search_image">
+                    </a>
+                </div>
+            </div>
+            
+            <div class="row mt-3">
+                <div class="col-12 col-lg-2 offset-lg-1 pt-3 search_item">
+                    <p>価格帯から探す</p>
+                </div>
+                <div class="col-3 col-md-2 search_item">
+                    <a href="#">
+                        <span>1,000円以下</span>
+                        <img src="{% static 'images/bancha_00009.jpeg' %}" alt="煎茶" class="search_image">
+                    </a>
+                </div>
+                <div class="col-3 col-md-2 search_item">
+                    <a href="#">
+                        <span>1,000～5,000円</span>
+                        <img src="{% static 'images/bancha_00009.jpeg' %}" alt="玉露" class="search_image">
+                    </a>
+                </div>
+                <div class="col-3 col-md-2 search_item">
+                    <a href="#">
+                         <span>5,000円以上</span>
+                        <img src="{% static 'images/bancha_00009.jpeg' %}" alt="ほうじ茶" class="search_image">
+                    </a>
+                </div>
+            </div>
+        </div>    
+            <div class="d-flex justify-content-center">
+                <a href="{% url 'items:index' %}">
+                    <button class="btn_lg btn_white" type="button">商品一覧ページへ</button>
                 </a>
             </div>
-            <div class="col-3 col-md-2 search_item">
-                <a href="#">
-                    <span>玉露</span>
-                    <img src="{% static 'images/bancha_00009.jpeg' %}" alt="玉露" class="search_image">
-                </a>
-            </div>
-            <div class="col-3 col-md-2 search_item">
-                <a href="#">
-                     <span>ほうじ茶</span>
-                    <img src="{% static 'images/bancha_00009.jpeg' %}" alt="ほうじ茶" class="search_image">
-                </a>
-            </div>
-        </div>
-        
-        <div class="row mt-3">
-            <div class="col-12 col-lg-2 offset-lg-1 pt-3">利用シーンから探す</div>
-            <div class="col-3 col-md-2 search_item">
-                <a href="#">
-                    <span>自宅用</span>
-                    <img src="{% static 'images/bancha_00009.jpeg' %}" alt="煎茶" class="search_image">
-                </a>
-            </div>
-            <div class="col-3 col-md-2 search_item">
-                <a href="#">
-                    <span>お土産</span>
-                    <img src="{% static 'images/bancha_00009.jpeg' %}" alt="玉露" class="search_image">
-                </a>
-            </div>
-            <div class="col-3 col-md-2 search_item">
-                <a href="#">
-                     <span>贈答用</span>
-                    <img src="{% static 'images/bancha_00009.jpeg' %}" alt="ほうじ茶" class="search_image">
-                </a>
-            </div>
-        </div>
-        
-        <div class="row mt-3">
-            <div class="col-12 col-lg-2 offset-lg-1 pt-3">価格帯から探す</div>
-            <div class="col-3 col-md-2 search_item">
-                <a href="#">
-                    <span>1,000円以下</span>
-                    <img src="{% static 'images/bancha_00009.jpeg' %}" alt="煎茶" class="search_image">
-                </a>
-            </div>
-            <div class="col-3 col-md-2 search_item">
-                <a href="#">
-                    <span>1,000～5,000円</span>
-                    <img src="{% static 'images/bancha_00009.jpeg' %}" alt="玉露" class="search_image">
-                </a>
-            </div>
-            <div class="col-3 col-md-2 search_item">
-                <a href="#">
-                     <span>5,000円以上</span>
-                    <img src="{% static 'images/bancha_00009.jpeg' %}" alt="ほうじ茶" class="search_image">
-                </a>
-            </div>
-        </div>
-        
-        <div class="d-flex justify-content-center">
-            <a href="{% url 'items:index' %}">
-                <button class="btn_lg btn_white" type="button">商品一覧ページへ</button>
-            </a>
-        </div>
     </section>
     
     <section class="container banner">
@@ -151,11 +158,11 @@
         </div>
     </section>
     
-    <section class="contener ">
+    <section class="container">
     <h2>動画</h2>
         <div class="video_container">
             <video class="tea_video"  width="900" height="500" controls>
-                <source src="your-video.mp4" type="video/mp4">
+                <source src="#" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>

@@ -1,0 +1,29 @@
+{% extends "layouts/default.html" %}
+ 
+{% block title %}{{ title }}{% endblock %}
+
+{% block additional_css %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'stylesheets/mypage.css' %}">
+{% endblock %} 
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <ul>
+        {% for review in review_list %}
+            <li>
+                <a href="{% url 'review:detail' review.id %}">
+                    <!--{{ review.user.username }}: {{ review.body }}-->
+                    ({{ review.created_at }})
+                </a>
+                <!--{% if item.image %}-->
+                <!--    <p><img class="item_image" src="{{ item.image.url }}"></p>-->
+                <!--{% else %}-->
+                <!--    <p><img class="item_image" src="{% static 'images/no_image.png' %}"></p>-->
+                <!--{% endif %}-->
+            </li>
+        {% empty %}
+            <li>レビュー投稿履歴はありません。</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

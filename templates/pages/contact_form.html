@@ -1,0 +1,21 @@
+{% extends "layouts/default_minimum.html" %}
+
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+ 
+{% block content %}
+<main>
+    <h1>{{ title }}</h1>
+    
+    <form action="" method="POST">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <button class="btn_lg btn_gray" type="submit">送信</button>
+    </form>
+
+    <div class="return_link d-flex justify-content-center">
+        <a href="" onclick="window.history.back();return false;">＜ 戻る</a>
+    </div>
+</main>
+{% endblock %}
