@@ -3,7 +3,7 @@ from django.conf import settings
  
 from django.contrib.auth import get_user_model
  
-from accounts.models import User
+# from accounts.models import User
 
 class Item_type(models.Model):
     name = models.CharField("商品タイプ名", max_length=200)
@@ -84,7 +84,7 @@ class Item(models.Model):
     
 class Review(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     rate = models.PositiveIntegerField("評価")
     comment = models.CharField("コメント", max_length=200, blank=True)
     create_date = models.DateTimeField("投稿日", auto_now_add=True)
@@ -104,3 +104,4 @@ class Cart(models.Model):
         
     def __str__(self):
         return f"{self.item.name}：{self.amount}"
+        

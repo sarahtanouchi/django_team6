@@ -11,6 +11,8 @@ urlpatterns = [
     path("logout/", views.Logout.as_view(), name="logout"), # ログアウト
     path("detail/<int:pk>/", views.Detail.as_view(), name="detail"), # ユーザー詳細
     path("update/<int:pk>/", views.Update.as_view(), name="update"), # 編集
+    path("orders/", views.OrderCreate.as_view(), name="orders"),
+    path("order_confirmation/", views.OrderConfirmation.as_view(), name="order_confirmation"),
     path("password_reset/", auth_views.PasswordResetView.as_view(), name="password_reset"),
     path("mypage/<int:pk>/", views.Mypage.as_view(), name="mypage"), #マイページ
 ]
