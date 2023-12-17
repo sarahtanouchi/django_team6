@@ -27,11 +27,11 @@
                             </div>
                             <div class="col-4 item_description">
                         		<dl>
-                                    <dt>価格(税抜)</dt>
+                                    <dt>価格(税込)</dt>
                                     <dd>{{ cart.item.price }}円</dd>
                                     <dt>購入数</dt>
                                     <dd>{{ cart.amount }}</dd>
-                                    <dt>合計金額(税抜)</dt>
+                                    <dt>合計金額(税込)</dt>
                                     <dd>{{ cart.total_amount }}円</dd>
                                 </dl>
     						</div>
@@ -49,7 +49,7 @@
     			    <div class="form-group form-row mt-4">
         			    <label class="col-md-2 col-form-label text-md-right" for="couponcode">クーポンコード</label>
         			    <div class="col-md-3">
-        			         <input class="form-control" type="text" id="couponcode">
+        			         <input class="form-control" type="text" id="couponcode" name="couponcode">
         			    </div>
         			</div>
         			<nav class="navbar navbar-expand-md navbar-light bg-light">
@@ -83,18 +83,16 @@
         			    </div>
         			    <div class="form-check offset-1">
                             <label class="form-check-label">
-                                <input class="form-check-input" name="destination" type="radio" value="other_address1">
+                                <input class="form-check-input" name="destination" type="radio" value="with_invoice">
                                 別のお届け先（請求書も同封）
                             </label>
         			    </div>
         			    <div class="form-check offset-1 mb-4">
                             <label class="form-check-label">
-                                <input class="form-check-input" name="destination" type="radio" value="other_address2">
+                                <input class="form-check-input" name="destination" type="radio" value="without_invoice">
                                 ご贈答先（請求書は登録住所に別送）
                             </label>
         			    </div>
-        		
-    			    
     			    <nav class="navbar navbar-expand-md navbar-light bg-light">
     			        <span class="navbar-text">お届け日指定</span>
     			    </nav>
@@ -141,23 +139,18 @@
                             要
                         </label>
                     </div>
-    			    {% comment %}
-    			    {{ form.gift_wrapping }}
-    			    {% endcomment %}
-    			    
     			    <nav class="navbar navbar-expand-md navbar-light bg-light">
     			        <span class="navbar-text">その他ご要望</span>
     			    </nav>
     			    <div class="col-md-11 offset-1 mt-4 p-0">
     			    {{ form.request_comment }}
     			    </div>
-    			    <div class="col-md-12 text-center mb-4">
+    			    <div class="col-md-12 text-center mb-5">
     			    	<form class="text-center" method="post" action="{% url 'accounts:order_confirmation' %}">
 		                    {% csrf_token %}
 		                    <button type="submit" class="btn_lg btn_secondary mb-1">注文内容を確認</button>
 		                </form>
 		            </div>
-                        
                 </form>
         </div>
     </div>
