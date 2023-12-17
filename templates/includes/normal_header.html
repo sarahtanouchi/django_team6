@@ -18,8 +18,16 @@
                     <a href="{% url 'accounts:login' %}"><p>ログイン</p></a>
                 {% endif %}
             </li>
-            <li><a href="{% url 'accounts:mypage' pk=user.pk %}" onclick="return showLoginModal();">
-                <img src="{% static 'images/icon/mypage_icon.png' %}" alt="マイページ"></a>
+            <li>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'accounts:mypage' user.pk %}">
+                        <img src="{% static 'images/icon/mypage_icon.png' %}" alt="マイページ">
+                    </a>
+                {% else %}
+                    <a onclick="showLoginModal();">
+                        <img src="{% static 'images/icon/mypage_icon.png' %}" alt="マイページ">
+                    </a>                
+                {% endif %}
             </li>
             <li><a href=""><img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入りリスト"></a></li>
             <li><a href="{% url 'items:carts' %}"><img src="{% static 'images/icon/cart_icon.png' %}" alt="カート"></a></li>

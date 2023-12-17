@@ -59,5 +59,5 @@ class Mypage(LoginRequiredMixin, generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "マイページ"
-        context["user_pk"] = self.request.user.pk  # ユーザー主キーを取得してコンテキストに追加
+        # context["user_pk"] = self.request.user.pk  # ユーザー主キーを取得してコンテキストに追加
         return context
