@@ -43,12 +43,11 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <p>ログインしてください。</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
-                    <a href="{% url 'accounts:login' %}" class="btn btn-primary">ログイン</a>
+                <div class="modal-body" style="text-align: center;">
+                    <button class="btn btn_lg btn_white">
+                        <a href="{% url 'accounts:login' %}" >ログイン</a>
+                    </button>
+                    <button type="button" class="btn btn_lg btn_gray" data-dismiss="modal">閉じる</button>
                 </div>
             </div>
         </div>
