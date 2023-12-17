@@ -6,40 +6,85 @@
 
 <header>
     <nav class="navbar">
-        <div class="logo">
+        <h1 class="logo">
             <a href="{% url 'home' %}"><img src="{% static 'images/logo.png' %}" alt="ロゴ"></a>
-        </div>
-        <ul class="header_user_actions ml-auto">
+        </h1>
+        <ul class="header_user_actions">
             <li>
                 {% if user.is_authenticated %}
-                    <p>{{ user.username }}さん</p>
+                    <p>{{ request.user.username }}様</p>
+                    <a href="{% url 'accounts:logout' %}"><p>ログアウト</p></a>
                 {% else %}
-                    <a href="{% url 'accounts:login' %}">ログイン</a>
+                    <a href="{% url 'accounts:login' %}"><p>ログイン</p></a>
                 {% endif %}
             </li>
-            <li><a href="#"><img src="{% static 'images/icon/mypage_icon.png' %}" alt="マイページ"></a></li>
-            <li><a href="#"><img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入りリスト"></a></li>
-            <li><a href="#"><img src="{% static 'images/icon/cart_icon.png' %}" alt="カート"></a></li>
+            <li>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'accounts:mypage' user.pk %}">
+                        <img src="{% static 'images/icon/mypage_icon.png' %}" alt="マイページ">
+                    </a>
+                {% else %}
+                    <a onclick="showLoginModal();">
+                        <img src="{% static 'images/icon/mypage_icon.png' %}" alt="マイページ">
+                    </a>                
+                {% endif %}
+            </li>
+            <li><a href=""><img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入りリスト"></a></li>
+            <li><a href="{% url 'items:carts' %}"><img src="{% static 'images/icon/cart_icon.png' %}" alt="カート"></a></li>
         </ul>
     </nav>
+    <!--モーダル-->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">ログインしてください</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>ログインしてください。</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+                    <a href="{% url 'accounts:login' %}" class="btn btn-primary">ログイン</a>
+                </div>
+            </div>
+        </div>
+    </div>
         
-    <nav class="navbar navbar-expand-md navbar-light"style="background-color: #F5DEB3">
-        <button class="navbar-toggler" data-toggle="collapse" data-target="#mainNav">
+    <nav class="navbar navbar_box navbar-expand-md">
+        <button class="navbar-toggler float-right" data-toggle="collapse" data-target="#headerNav">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="mainNav">
-            <ul class="navbar-nav mx-auto">
-              　 <li class="nav-item"><a href="#" class="nav-link" style="color: #000000">お茶</a></li>
-              　 <li class="nav-item"><a href="#" class="nav-link" style="color: #000000">お菓子</a></li>
-              　 <li class="nav-item"><a href="#" class="nav-link" style="color: #000000">茶器</a></li>
-              　 <li class="nav-item"><a href="#" class="nav-link" style="color: #000000">ギフトセット</a></li>
+        <div class="collapse navbar-collapse" id="headerNav">
+            <ul class="navbar-nav mx-auto header_nav">
+              　 <li class="header_item"><a href="" class="navbar_link">お茶</a></li>
+              　 <li class="header_item"><a href="" class="navbar_link">お菓子</a></li>
+              　 <li class="header_item"><a href="" class="navbar_link">茶器</a></li>
+              　 <li class="header_item"><a href="" class="navbar_link">ギフトセット</a></li>
             </ul>
-
-            <form class="form-inline">
+            <form class="form-inline" action="" method="get">
                 <label class="sr-only" for="kw">キーワード検索</label>
                 <input type="search" class="form-control form-control-sm mr-2" placeholder="キーワード検索" id="kw">
                 <button type="submit" class="btn btn-secondary btn-sm">検索</button>
             </form>
         </div>
     </nav>
+
+<script>
+    // ログイン状態をJavaScriptに渡す
+    var isAuthenticated = {% if user.is_authenticated %}true{% else %}false{% endif %};
+
+    function showLoginModal() {
+        // ログインしていない場合はモーダルを表示
+        if (!isAuthenticated) {
+            $('#loginModal').modal('show');
+            return false;  // リンクをクリックしてもページ遷移をしない
+        }
+        return true;  // ログインしている場合は通常の動作を続行
+    }
+</script>
+
 </header>

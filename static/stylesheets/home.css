@@ -1,16 +1,49 @@
 body {
-	width: 100%;
+	max-width: 100%;
 }
 
-/*ヘッダーフッター*/
+a{
+    color: #000000;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+h1 {
+    font-size: 1.5em; /* 1.5倍のフォントサイズ */
+    margin: 30px;
+}
+
+h2 {
+    font-size: 1.2em; /* 1.2倍のフォントサイズ */
+    margin: 30px;
+}
+
+h3 {
+    font-size: 1em; /* デフォルトのフォントサイズ */
+    margin: 30px;
+}
+
+p{
+    font-size: 1em;
+}
+
+/*ヘッダー*/
+header{
+    margin-bottom: 50px;
+}
+
 .upper_row {
     display: flex;
-    /*justify-content: space-between;*/
     align-items: center;
     padding: 10px;
     margin-top: 10px;
 }
-
+.logo{
+    margin: 0px;
+}
 .logo img {
     width: 150px;
     height: 50px;
@@ -19,47 +52,179 @@ body {
 .header_user_actions{
     display: flex;
     align-items: center;
+    justify-content: space-between;
     margin-bottom: 0px;
-    
+    margin-left: auto;
 }
 
 .header_user_actions a{
-    margin-left: 10px;
+    text-decoration: none;
     color: #000000;
 }
+
+.header_user_actions li{
+    list-style: none;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+.header_user_actions p{
+    margin-bottom: 0px;
+    font-size: 1em;
+}
+
 .header_user_actions img {
     width: 20px;
     height: 20px;
 }
+.header_nav {
+    display: flex;
+    justify-content: space-around;
+    width: 60%;
+    list-style: none; 
+    padding: 10px 30px;
+    margin: 0 10px;
+}
+
+.header-item {
+    flex: 1; 
+    text-align: center; 
+    font-size: 12px;
+}
+
+/*ヘッダーフッター共通*/
+.navbar_box{
+    background-image: url('../images/header_footer_back.jpg');
+    background-size: cover;
+    background-position: center center;
+}
+
+/*フッター*/
+footer{
+    margin-top: 80px;
+    text-align: center;
+}
+.footer_container{
+    min-height: 100px;
+}
+
+.footer_nav {
+    display: flex;
+    justify-content: space-around;
+    width: 80%;
+    list-style: none; 
+    padding: 10px 30px;
+    margin: 0 10px;
+}
+
+.footer-item {
+    flex: 1; 
+    text-align: center; 
+    font-size: 12px;
+    margin: 10px 20px;
+    padding: 10px;
+}
+
+/* @media (max-width: 576px) {*/
+/*    .footer-nav {*/
+/*        flex-direction: column !important;*/
+/*        height: auto;*/
+/*    }*/
+/*    .footer-item {*/
+/*        margin: 10px 0;*/
+/*    }*/
+/* }*/
+
+/* @media (min-width: 577px) {*/
+/*    .footer-nav {*/
+/*        flex-direction: row !important;*/
+/*    }*/
+/*    .footer-item {*/
+/*        margin: 0 20px;*/
+/*    }*/
+/*}*/
 
 .copylight_container{
 	text-align: center;
+	font-size: 0.8em;
 }
-
 
 /*トップページ*/
-.news{
-	margin: 100px;
+.container{
+    margin-top: 30px;
+    margin-bottom: 50px;
+}
+.container-fluid{
+    padding: 0px;
 }
 
-.item_search{
-    margin-top: 50px;
+.carousel-inner {
+    overflow: hidden;
+}
+
+.carousel-image {
+    display: block;
+    width: 100%;
+    max-height: 90vh;
+}
+
+.news article{
+    display: flex;
+	margin-left: 50px;
+    align-items: center;
+    justify-content: center;
+}
+
+.recommend_items{
+    padding: 20px;
+}
+
+.recommend_item{
+    overflow: hidden;
+    align-items: center;
+    margin-left: 30px;
+}
+
+.item_search_container{
+    /*width: 90%;*/
+    /*background-image: url('../images/top_background.jpg');*/
+    padding: 30px;
 }
 
 .search_item {
-    height: 180px;
-    overflow: hidden; /* 画像が要素をはみ出すのを防ぐために追加 */
-    text-align: center; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 	font-size: 14px;
     font-weight: bold;
-
+    margin-right: 30px;
+    overflow: hidden; 
 }
-
 .search_item a{
+    display: block;
 	color: #000000;	
+}
+.recommend_item_image{
+    max-width: 100%;
+    height: auto;
+}
+.banner_image{
+    max-width: 100%;
+    height: auto;
 }
 
 .search_image {
-    height: 150px;
-    width: 150px;
+    max-width: 100%;
+    height: auto;
+}
+.video_container{
+    max-width: 900px;
+    margin: auto;
+    justify-content: center;
+}
+
+.tea_video{
+    max-width: 100%;
+    height: auto;
 }

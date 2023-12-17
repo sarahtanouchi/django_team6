@@ -1,0 +1,32 @@
+{% extends "layouts/default.html" %}
+ 
+{% block title %}{{ title }}{% endblock %}
+
+{% block additional_css %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'stylesheets/mypage.css' %}">
+{% endblock %} 
+
+{% block content %}
+<h1>{{ title }}</h1>
+    <dl>
+        <!--<dt>評価</dt>-->
+        <!--<dd>{{ review.body }}</dd>        -->
+        <dt>コメント</dt>
+        <dd>{{ review.body }}</dd>
+        <dt>投稿日時</dt>
+        <dd>{{ review.created_at }}</dd>
+        <dt>更新日時</dt>
+        <dd>{{ review.updated_at }}</dd>
+    </dl>
+
+    <p><a href="{% url 'reviews:update' review.id %}">編集</a></p>
+    
+    <p>
+        <form action="{% url 'reviews:delete' review.id %}" method="POST">
+            {% csrf_token %}
+            <button type="submit">削除</button>
+        </form>
+    </p>
+
+{% endblock %}

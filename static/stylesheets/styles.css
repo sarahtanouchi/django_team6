@@ -1,14 +1,103 @@
 body {
-	font-family: "源ノ角ゴシック","ヒラギノ角ゴシック","MSゴシック",sans-serif;
-	width: 100%;
+  font-family: "源ノ角ゴシック","ヒラギノ角ゴシック","MSゴシック",sans-serif;
+	max-width: 100%;
 }
-.header_nav {
+
+a{
+	color: #000000;
+	text-decoration: none;	
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+h1 {
+  font-size: 1.5em; /* 1.5倍のフォントサイズ */
+  margin: 30px;
+}
+
+h2 {
+  font-size: 1.2em; /* 1.2倍のフォントサイズ */
+  margin: 30px;
+}
+
+h3 {
+  font-size: 1em; /* デフォルトのフォントサイズ */
+  margin: 30px;
+}
+
+p{
+    font-size: 1em;
+}
+
+.container-fluid{
+    padding: 0;
+}
+.container{
+    padding: 0;
+    margin-top: 20px;
+    margin-bottom: 20px
+}
+/*ボタン　大*/
+.btn_lg{
+	height: 50px;
+	width: 200px;
+	align-items: center;
+	margin: 50px;
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+}
+/*ボタン　中*/
+.btn_md{
+	height: 30px;
+	width: 150px;
+	align-items: center;
+	margin: 20px;
+  /*padding: 5px 10px;*/
+  font-size: 14px;
+  cursor: pointer;
+}
+/*ボタン　小*/
+.btn_sm{
+	height: 24px;
+	width: 80px;
+	align-items: center;
+	margin: 10px;
+  /*padding: 5px 10px;*/
+  font-size: 10px;
+  cursor: pointer;
+}
+/*ボタン　ホワイト*/
+.btn_white{
+	background-color: #FFFFFF;
+  color: #000000;
+  border: 1px solid #000;
+}
+/*ボタン　グレー*/
+.btn_gray{
+	background-color: #555555;
+  color: #FFFFFF;
+  border: 0;
+}
+
+.return_link a{
+  text-decoration: none;
+  font-size: 12px;
+}
+
+/*完了画面*/
+.complete_message{
   display: flex;
-  list-style: none;
-  padding-left: 0;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  padding: 20px;
 }
-.header_nav {
-  margin-right: 30px;
+
+.complete_message p{
+  font-size: 1.5em;
 }
 
 /* エラーメッセージ用のスタイル */
@@ -140,12 +229,10 @@ body {
 	display: block;
 }
 
-
 .item.card {
 	margin-bottom: 20px;
 	padding: 10px;
-	border: solid 5px #f0b400;
-
+	/*border: solid 5px #f0b400;*/
 }
 
 .item_row {
@@ -164,20 +251,6 @@ body {
 	color: #f85f73;
 }
 
-.btn_lg{
-	height: 50px;
-	width: 200px;
-	align-items: center;
-	margin: 50px;
-  padding: 10px 20px;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.btn_white{
-	background-color: #fff;
-  color: #000;
-  border: 1px solid #000;
 .spinner-container {
   display: flex;
   justify-content: center;

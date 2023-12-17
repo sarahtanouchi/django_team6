@@ -19,7 +19,7 @@ class SignUp(generic.CreateView):
         context = super().get_context_data(**kwargs)
  
         # 以下で、 辞書データ context に値を追加
-        context["title"] = "ユーザー登録"
+        context["title"] = "新規お客様情報登録"
  
         return context
         
@@ -51,4 +51,13 @@ class Update(LoginRequiredMixin, generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "プロフィール編集"
+        return context
+
+# マイページ
+class Mypage(LoginRequiredMixin, generic.TemplateView):
+    template_name = "accounts/mypage.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "マイページ"
+        # context["user_pk"] = self.request.user.pk  # ユーザー主キーを取得してコンテキストに追加
         return context

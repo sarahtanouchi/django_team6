@@ -1,26 +1,25 @@
 {% load static %}
 
 {% block additional_css %}
-<link rel="stylesheet" href="{% static 'stylesheets/header_footer.css' %}">
+<link rel="stylesheet" href="{% static 'stylesheets/home.css' %}">
 {% endblock %}
 
-<header class="container-fulid">
-    <div class="upper_row">
-        <div class="logo">
-            <a href="#"><img src="{% static 'images/logo.png' %}" alt="ロゴ"></a>
-        </div>
-   
-        <ul class="header_user_actions ml-auto">
+<header>
+    <nav class="navbar">
+        <h1 class="logo">
+            <a href="{% url 'home' %}"><img src="{% static 'images/logo.png' %}" alt="ロゴ"></a>
+        </h1>
+        <ul class="header_user_actions">
             <li>
                 {% if user.is_authenticated %}
-                    <p>{{ user.username }}さん</p>
+                    <p>{{ request.user.username }}様</p>
                 {% else %}
-                    <a href="{% url 'accounts:login' %}">ログイン</a>
+                    <a href="{% url 'accounts:login' %}"><p>ログイン</p></a>
                 {% endif %}
             </li>
-            <li><a href="#"><img src="{% static 'images/icon/mypage_icon.png' %}" alt="マイページ"></a></li>
-            <li><a href="#"><img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入りリスト"></a></li>
-            <li><a href="#"><img src="{% static 'images/icon/cart_icon.png' %}" alt="カート"></a></li>
+            <li><a href=""><img src="{% static 'images/icon/mypage_icon.png' %}" alt="マイページ"></a></li>
+            <li><a href=""><img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入りリスト"></a></li>
+            <li><a href="{% url 'items:carts' %}"><img src="{% static 'images/icon/cart_icon.png' %}" alt="カート"></a></li>
         </ul>
-    </div>
+    </nav>
 </header>
