@@ -10,4 +10,5 @@ urlpatterns = [
     path("detail/<int:pk>/", views.Detail.as_view(), name="detail"), # ユーザー詳細
     path("update/<int:pk>/", views.Update.as_view(), name="update"), # 編集
     path("orders/", views.OrderCreate.as_view(), name="orders"),
+    path("order_confirmation/", views.OrderConfirmation.as_view(), name="order_confirmation"),
 ]

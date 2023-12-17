@@ -73,6 +73,9 @@ class OrderCreate(LoginRequiredMixin, generic.CreateView):
         return context
         
     # def form_valid(self, form):
+    
+class OrderConfirmation(LoginRequiredMixin, generic.TemplateView):
+    pass
         
         
     

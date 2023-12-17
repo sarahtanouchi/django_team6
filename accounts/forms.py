@@ -3,6 +3,7 @@ from django.contrib.auth.forms import (
     UserCreationForm,
     AuthenticationForm,
 )
+# from django.contrib.admin.widgets import AdminDateWidget
 from django.contrib.auth import get_user_model
 from .models import Order, Order_detail
  
@@ -18,6 +19,9 @@ class LoginForm(AuthenticationForm):
     pass
     # 継承のみ
     
+class DateInput(forms.DateInput):
+    input_type = 'date'
+    
 class OrderCreateForm(forms.ModelForm):
     class Meta:
         model = Order
@@ -25,4 +29,14 @@ class OrderCreateForm(forms.ModelForm):
         widgets = {
             # "coupon":forms.Textarea(attrs={'cols':20}),
             # 'destinations':forms.CheckboxSelectMultiple()
+            "arrival_date": DateInput(),
+            "request_comment": forms.Textarea(
+                attrs={
+                    "placeholder":"ご要望があればご入力ください",
+                    "cols": 100,
+                    "rows": 5,
+                }
+                
+            ), 
         }
+        
