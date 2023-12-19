@@ -13,7 +13,7 @@
         {% for review in review_list %}
             <li>
                 <a href="{% url 'review:detail' review.id %}">
-                    <!--{{ review.user.username }}: {{ review.body }}-->
+                    {{ review.user.username }}: {{ review.body }}
                     ({{ review.created_at }})
                 </a>
                 <!--{% if item.image %}-->

@@ -1,13 +1,14 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views import generic
+from django.views import generic, View
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.urls import reverse_lazy
+from django.db.models import Avg
 
-from .models import Item, Cart, Area, Item_type, Occasion, Tea_set_type, Tea_type, Taste, Flavor, Image
-from .forms import CartUpdateForm, ItemCreateForm, AreaCreateForm, ItemTypeCreateForm, OccasionCreateForm, TeaSetTypeCreateForm, TeaTypeCreateForm, TasteCreateForm, FlavorCreateForm, ImageCreateForm
+from .models import Item, Cart, Area, Item_type, Occasion, Tea_set_type, Tea_type, Taste, Flavor, Image, Review
+from .forms import CartUpdateForm, ItemCreateForm, AreaCreateForm, ItemTypeCreateForm, OccasionCreateForm, TeaSetTypeCreateForm, TeaTypeCreateForm, TasteCreateForm, FlavorCreateForm, ImageCreateForm, ReviewForm
 
 # class Index(LoginRequiredMixin, generic.ListView):
 class Index(generic.ListView):
@@ -295,5 +296,62 @@ def update_amount(request,pk):
     cart_item.save()
     
     return redirect("items:carts")
+   
+# レビュー 
+class ReviewCreate(LoginRequiredMixin, generic.CreateView):
+    model = Review
+    form_class = ReviewForm
+    template_name = 'items/review_create.html'
+    ordering = "-created_at"
+    success_url = reverse_lazy("item_detail")
+
+ 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "レビュー投稿"
+        return context
+        
+    def form_valid(self, form):
+        item_id = self.kwargs["pk"]
+        item = get_object_or_404(Item, pk=item_id)
+        review = form.save(commit=False)
+        review.user = self.request.user
+        review.item = item
+        review.save() 
+        
+        return super().form_valid(form)
+ 
+class ReviewHistory(LoginRequiredMixin, generic.ListView):
+    model = Review
+    template_name = "items/review_history.html"
     
-    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "レビュー投稿履歴"
+        return context
+ 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(user=self.request.user)
+        return queryset
+        
+class ReviewItem(View):
+    # template_name = ''
+
+    def get(self, request, item_id):
+        item = get_object_or_404(Item, pk=item_id)
+        user = request.user
+        rating = Rating.objects.get_or_create(user=user, item=item)[0]
+
+        return render(request, self.template_name, {'item': item, 'rating': rating})
+
+    def post(self, request, item_id):
+        item = get_object_or_404(Item, pk=item_id)
+        user = request.user
+
+        stars = int(request.POST.get('stars', 0))
+        rating, created = Rating.objects.get_or_create(user=user, item=item)
+        rating.stars = stars
+        rating.save()
+
+        return redirect('items:detail', pk=item_id)

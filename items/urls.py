@@ -26,6 +26,8 @@ urlpatterns = [
     path("carts/", views.Carts.as_view(), name="carts"),
     # path("remove_cart_item/<int:item_pk>/", views.remove_cart_item, name="remove_cart_item"),
     path("delete_cart/<int:pk>/", views.Delete_cart.as_view(), name="delete_cart"),
+    path("review_create/<int:pk>", views.ReviewCreate.as_view(), name="review_create"), #レビュー投稿
+    path("review_history/<int:pk>", views.ReviewHistory.as_view(), name="review_history"), #レビュー投稿履歴
 
     
 ]

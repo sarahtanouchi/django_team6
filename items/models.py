@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
  
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
  
 # from accounts.models import User
 
@@ -81,15 +82,6 @@ class Item(models.Model):
     # def used_image_ids(self):
     #     return [item_image.id for item_image in self.item_image.all()]
   
-    
-class Review(models.Model):
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    rate = models.PositiveIntegerField("評価")
-    comment = models.CharField("コメント", max_length=200, blank=True)
-    create_date = models.DateTimeField("投稿日", auto_now_add=True)
-    update_date = models.DateTimeField("更新日", auto_now=True, blank=True)
-    
 class Cart(models.Model):
     item = models.ForeignKey("Item", on_delete=models.CASCADE)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
@@ -104,4 +96,16 @@ class Cart(models.Model):
         
     def __str__(self):
         return f"{self.item.name}：{self.amount}"
-        
+
+# レビュー 
+class Review(models.Model):
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    stars = models.IntegerField("評価", default=0)
+    comment = models.TextField("コメント", max_length=200, blank=True)
+    create_date = models.DateTimeField("投稿日", auto_now_add=True)
+    update_date = models.DateTimeField("更新日", auto_now=True, blank=True)
+    
+    def __str__(self):
+        return f"{self.user.username} - {self.item.name} - {self.stars} stars"
+

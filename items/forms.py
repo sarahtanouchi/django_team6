@@ -1,5 +1,5 @@
 from django import forms
-from .models import Item, Area, Item_type, Occasion, Tea_set_type, Tea_type, Taste, Flavor, Image
+from .models import Item, Area, Item_type, Occasion, Tea_set_type, Tea_type, Taste, Flavor, Image, Review
 
 
 
@@ -95,3 +95,12 @@ class CartUpdateForm(forms.Form):
         required=True,
         widget=forms.NumberInput() 
     )
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = [
+            "item",
+            "stars",
+            "comment"
+        ]

@@ -1,0 +1,81 @@
+body {
+	max-width: 100%;
+}
+a{
+	color: #000000;
+	text-decoration: none;	
+}
+h1 {
+  font-size: 1.5em; /* 1.5倍のフォントサイズ */
+  margin: 30px;
+}
+
+h2 {
+  font-size: 1.2em; /* 1.2倍のフォントサイズ */
+  margin: 30px;
+}
+
+h3 {
+  font-size: 1em; /* デフォルトのフォントサイズ */
+  margin: 30px;
+}
+
+p{
+    font-size: 1em;
+}
+
+/*レビュー*/
+.item_detail_container{
+    display: flex;
+    margin: 30px;
+}
+
+input[type="radio"]{
+    display:none;
+}
+.review_container{
+    display:flex;
+    max-width: 100%;
+    align-items: center;
+    margin-left: 30px;
+}
+.star_radio_label_flex {
+    font-size:1.5rem;
+    display:flex;
+    /*flex-direction: row-reverse;*/
+}
+.star_radio_label{
+    cursor:pointer;
+}
+
+.star_radio_label_flex > label {
+    order: 1;
+}
+
+.true_star {
+    display:none;
+    color:orange;
+}
+.false_star {
+    color:gray;
+}
+
+/* チェックされたときの装飾*/
+input[type="radio"]:checked ~ .star_radio_label_flex > label > .true_star {
+    display: none;
+}
+
+input[type="radio"]:checked ~ .star_radio_label_flex > label > .false_star {
+    display: inline-block;
+}
+
+/* ホバー時の装飾 */
+.star_radio_label_flex > label:hover > .true_star {
+    display: none;
+}
+
+.star_radio_label_flex > label:hover > .false_star {
+    display: inline-block;
+}
+
+/*お気に入りリスト*/

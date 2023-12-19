@@ -41,7 +41,7 @@ p{
 }
 /*ボタン　大*/
 .btn_lg{
-	height: 50px;
+  height: 50px;
 	width: 200px;
 	align-items: center;
 	justify-content: center;
@@ -55,6 +55,7 @@ p{
 	height: 30px;
 	width: 150px;
 	align-items: center;
+	justify-content: center;
 	margin: 20px;
   /*padding: 5px 10px;*/
   font-size: 14px;
