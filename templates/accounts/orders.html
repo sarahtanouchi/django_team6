@@ -93,6 +93,41 @@
                                 ご贈答先（請求書は登録住所に別送）
                             </label>
         			    </div>
+        			    <div class="form-group form-row mt-4">
+        			        <label class="col-md-2 col-form-label text-md-right" for="destination_name">お名前</label>
+        			    <div class="col-md-3">
+        			        <input class="form-control" type="text" id="destination_name" name="destination_name">
+        			    </div>
+            			</div>
+            			<div class="form-group form-row">
+            			     <label class="col-md-2 col-form-label text-md-right" for="destination_kana">フリガナ</label>
+            			    <div class="col-md-3">
+            			     <input class="form-control" type="text" id="destination_kana", name="destination_kana">
+            			     </div>
+            			</div>
+            			<div class="form-group form-row mt-4">
+        			        <label class="col-md-2 col-form-label text-md-right" for="destination_postalcode">郵便番号</label>
+        			        <div class="col-md-2 d-flex">
+        			            <input class="form-control" type="text" id="destination_postalcode" name="destination_postalcode1" pattern="\d{3}" required> 
+        			            <input class="form-control ml-2" type="text" id="destination_postalcode2" name="destination_postalcode2" pattern="\d{4}" required>
+        			        </div>
+            			</div>
+            			<div class="form-group form-row">
+            			     <label class="col-md-2 col-form-label text-md-right" for="destination_address">住所</label>
+            			    <div class="col-md-3">
+            			     <input class="form-control" type="text" id="destination_address", name="destination_address">
+            			     </div>
+            			</div>
+            				<div class="form-group form-row mt-4">
+        			        <label class="col-md-2 col-form-label text-md-right" for="destination_tel">電話番号</label>
+        			        <div class="col-md-3 d-flex">
+        			            <input class="form-control" type="tel" id="destination_tel" name="destination_tel" required> 
+        			            <input class="form-control ml-2" type="tel" id="destination_tel2" name="destination_tel2" required>
+        			            <input class="form-control ml-2" type="tel" id="destination_tel3" name="destination_tel3" required>
+
+        			        </div>
+            			</div>
+        			
     			    <nav class="navbar navbar-expand-md navbar-light bg-light">
     			        <span class="navbar-text">お届け日指定</span>
     			    </nav>

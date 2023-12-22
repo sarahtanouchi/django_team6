@@ -15,6 +15,7 @@
             <span>パスワード</span>
             {{ form.password }}
         </div>
+        <input type="hidden" name="next" value="{{ next }}" />
         <button type="submit">ログイン</button>
         
     </form>
