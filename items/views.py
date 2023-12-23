@@ -9,17 +9,17 @@ from django.urls import reverse_lazy
 from .models import Item, Cart, Area, Item_type, Occasion, Tea_set_type, Tea_type, Taste, Flavor, Image
 from .forms import CartUpdateForm, ItemCreateForm, AreaCreateForm, ItemTypeCreateForm, OccasionCreateForm, TeaSetTypeCreateForm, TeaTypeCreateForm, TasteCreateForm, FlavorCreateForm, ImageCreateForm
 
-# class Index(LoginRequiredMixin, generic.ListView):
-class Index(generic.ListView):
-    template_name = "items/index.html"
-    # 追記
-    model = Item
-    ordering = "-create_date"
+
+# class Index(generic.ListView):
+#     template_name = "items/index.html"
+#     # 追記
+#     model = Item
+#     ordering = "-create_date"
  
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["title"] = "トップ"
-        return context
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context["title"] = "トップ"
+#         return context
         
 class Admin(LoginRequiredMixin, generic.TemplateView):
     template_name = "items/admin.html"
@@ -184,7 +184,7 @@ class Create(LoginRequiredMixin, generic.CreateView):
 class Update(LoginRequiredMixin, generic.UpdateView):
     model = Item
     form_class = ItemCreateForm
-    success_url = reverse_lazy("items:index")
+    success_url = reverse_lazy("items:admin")
     template_name = "items/update.html"
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -198,10 +198,45 @@ class Delete(LoginRequiredMixin, generic.DeleteView):
 class Item_list(generic.ListView):
     template_name = "items/item_list.html"
     model = Item
-    # ordering = "-create_date"
- 
+    ordering = "-create_date"
+    
+    def get_queryset(self):
+        item_type_filters = self.request.GET.getlist("item_type_filter")
+        tea_type_filters = self.request.GET.getlist("tea_type_filter", ["all"])
+        tea_set_type_filters = self.request.GET.getlist("tea_set_type_filter", ["all"])
+        price_filters = self.request.GET.getlist("price_filter", ["all"])
+        taste_filters = self.request.GET.getlist("taste_filter", ["all"])
+        occasion_filters = self.request.GET.getlist("occasion_filter", ["all"])
+        items = Item.objects.all()
+        if "all" not in tea_type_filters:
+            items = items.filter(tea_type__name__in=tea_type_filters)
+        if "all" not in tea_set_type_filters:
+            items = items.filter(tea_set_type__name__in=tea_type_filters)
+        if "snack" in item_type_filters:
+            items = items.filter(item_type__name= "お菓子")
+        if "gift" in item_type_filters:
+            items = items.filter(item_type__name= "ギフト")
+        if "less_than_1000" in price_filters:
+            items = items.filter(price__lte=1000)
+        if "less_than_5000" in price_filters:
+            items = items.filter(price__lte=5000)
+        if "more_than_5000" in price_filters:
+            items = items.filter(price__gte=5000)
+        if "all" not in taste_filters:
+            items = items.filter(taste__name__in=taste_filters)
+        if "all" not in occasion_filters:
+            items = items.filter(occasion__name__in=occasion_filters)
+        
+        return items
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["tea_types"] = Tea_type.objects.all()
+        context["tea_set_types"] = Tea_set_type.objects.all()
+        context["tastes"] = Taste.objects.all()
+        context["occasions"] = Occasion.objects.all()
+        # tea_type_filters = self.request.GET.getlist("tea_type_filter", ["all"])
+        # context['tea_type_filters'] = tea_type_filters
         return context
 
 class Item_detail(generic.DetailView):

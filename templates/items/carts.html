@@ -69,7 +69,7 @@
 						<p class="text-right">合計(税込)</p>
 						<form class="text-center" method="post" action="{% url 'accounts:orders' %}">
 		                    {% csrf_token %}
-		                    <button type="submit" class="btn_lg btn_secondary mb-1">ご購入手続きへ</button>
+		                    <button type="submit" class="btn_lg btn_gray mb-1">ご購入手続きへ</button>
 		                </form>
 					{% endif %}
 					<a class="text-center" href="{% url 'items:index' %}">

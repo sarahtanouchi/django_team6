@@ -1,0 +1,112 @@
+	<form method="get" action="" id="filter_items_form">
+			 {% csrf_token %}
+			<div class="row">
+				<div class="col-md-2 offset-1">
+					<div class="form-check font-weight-bold">
+				  		<label class="form-check-label" for="tea_type_all">
+				   			<input class="form-check-input" type="checkbox" id="tea_type_all" name="tea_type_filter" value="all">
+				   			お茶
+				  		</label>
+					</div>
+					{% for tea_type in tea_types %}	
+						<div class="form-check ml-4">
+					  		<label class="form-check-label" for="{{tea_type.name}}_{{tea_type.id}}">
+					   			<input class="form-check-input" type="checkbox" id="{{tea_type.name}}_{{tea_type.id}}" name="tea_type_filter" value="{{tea_type.name}}">
+					   			{{ tea_type.name }}
+					  		</label>
+						</div>
+					{% endfor %}
+				</div>
+				<div class="col-md-2">
+					<div class="form-check">
+				  		<label class="form-check-label font-weight-bold" for="tea_set_type_all">
+				   			<input class="form-check-input" type="checkbox" id="tea_set_type_all" name="tea_set_type_filter" value="all">
+				   			茶器
+				  		</label>
+					</div>
+					{% for tea_set_type in tea_set_types %}	
+						<div class="form-check ml-4">
+					  		<label class="form-check-label" for="{{tea_set_type.name}}_{{tea_set_type.id}}">
+					   			<input class="form-check-input" type="checkbox" id="{{tea_set_type.name}}_{{tea_set_type.id}}" name="tea_set_type_filter" value="{{tea_set_type.name}}">
+					   			{{ tea_set_type.name }}
+					  		</label>
+						</div>
+					{% endfor %}
+					<div class="form-check">
+				  		<label class="form-check-label font-weight-bold" for="snack">
+				   			<input class="form-check-input" type="checkbox" id="snack" name="item_type_filter" value="snack">
+				   			お菓子
+				  		</label>
+					</div>
+					<div class="form-check">
+    			  		<label class="form-check-label font-weight-bold" for="gift">
+    			   			<input class="form-check-input" type="checkbox" id="gift" name="item_type_filter" value="gift">
+    			   			ギフトセット
+    			  		</label>
+					</div>
+				</div>
+				<div class="col-md-2">
+					<div class="form-check">
+				  		<label class="form-check-label font-weight-bold" for="price_all">
+				   			<input class="form-check-input" type="checkbox" id="price_all" name="price_filter" value="all">
+				   			価格帯
+				  		</label>
+					</div>
+					<div class="form-check ml-4">
+    			  		<label class="form-check-label" for="less_than_1000">
+    			   			<input class="form-check-input" type="checkbox" id="less_than_1000" name="price_filter" value="less_than_1000">
+    			   			〜1,000円
+    			  		</label>
+    				</div>
+    				<div class="form-check ml-4">
+    			  		<label class="form-check-label" for="less_than_5000">
+    			   			<input class="form-check-input" type="checkbox" id="less_than_5000" name="price_filter" value="less_than_5000">
+    			   			〜5,000円
+    			  		</label>
+    				</div>
+    				<div class="form-check ml-4">
+    			  		<label class="form-check-label" for="more_than_5000">
+    			   			<input class="form-check-input" type="checkbox" id="more_than_5000" name="price_filter" value="more_than_5000">
+    			   			5,000円〜
+    			  		</label>
+    				</div>
+				</div>
+				<div class="col-md-2">
+					<div class="form-check">
+				  		<label class="form-check-label font-weight-bold" for="taste_all">
+				   			<input class="form-check-input" type="checkbox" id="taste_all" name="taste_filter" value="all">
+				   			味
+				  		</label>
+					</div>
+					{% for taste in tastes %}	
+						<div class="form-check ml-4">
+					  		<label class="form-check-label" for="{{taste.name}}_{{taste.id}}">
+					   			<input class="form-check-input" type="checkbox" id="{{taste.name}}_{{taste.id}}" name="taste_filter" value="{{taste.name}}">
+					   			{{ taste.name }}
+					  		</label>
+						</div>
+					{% endfor %}
+				</div>
+				<div class="col-md-2">
+					<div class="form-check">
+				  		<label class="form-check-label font-weight-bold" for="occasion_all">
+				   			<input class="form-check-input" type="checkbox" id="occasion_all" name="occasion_filter" value="all">
+				   			利用シーン
+				  		</label>
+					</div>
+					{% for occasion in occasions %}	
+						<div class="form-check ml-4">
+					  		<label class="form-check-label" for="{{occasion.name}}_{{occasion.id}}">
+					   			<input class="form-check-input" type="checkbox" id="{{occasion.name}}_{{occasion.id}}" name="occasion_filter" value="{{occasion.name}}">
+					   			{{ occasion.name }}
+					  		</label>
+						</div>
+					{% endfor %}
+				</div>
+		    </div>
+		    <div class="text-center mt-2">
+		    	<button class="btn_lg btn_white" type="submit">検索</button>
+		    </div>
+		</form>
+		{% load static %}
+		<script src="{% static 'js/filter_form.js' %}" type="text/javascript"></script>

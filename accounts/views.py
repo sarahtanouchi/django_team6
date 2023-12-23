@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import generic
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView, LogoutView
@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Order
 from items.models import Item
-from .forms import SignupForm, LoginForm, OrderCreateForm
+from .forms import SignupForm, LoginForm, OrderCreateForm, OrderConfirmationForm
  
 class SignUp(generic.CreateView):
     form_class = SignupForm # 利用するフォームクラスを設定
@@ -80,7 +80,27 @@ class OrderCreate(LoginRequiredMixin, generic.CreateView):
         
         return context
         
-    # def form_valid(self, form):
+    def form_valid(self, form):
+        order = form.save(commit=False)
+        print(self.request.POST)
+        # order.save()
+        return redirect("account:order_confirmation")
     
 class OrderConfirmation(LoginRequiredMixin, generic.TemplateView):
-    pass
+    template_name = "accounts/order_confirmation.html"
+    form_class = OrderConfirmationForm # 必要ないかも?
+    
+    def post(self, request, *args, **kwargs):
+        carts = self.request.user.cart_set.all()
+
+        form = None
+        if self.form_class is not None:
+            form = self.form_class(request.POST)
+            
+        print(request.POST) # print post data in terminal
+        
+        if request.POST:                
+            return render(request, self.template_name, {"form": form, "order_data": request.POST, "carts": carts})
+        else:
+            context = self.get_context_data(**kwargs)
+            return self.render_to_response(context)

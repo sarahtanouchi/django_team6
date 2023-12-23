@@ -34,7 +34,30 @@ class OrderCreateForm(forms.ModelForm):
                 attrs={
                     "placeholder":"ご要望があればご入力ください",
                     "cols": 100,
+                    "rows": 5
+                }
+                
+            ), 
+        }
+        
+class OrderConfirmationForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ("coupon","include_invoice","destination","arrival_date","gift_wrapping","request_comment",)
+        widgets = {
+            # "coupon":forms.Textarea(attrs={'cols':20}),
+            # 'destinations':forms.CheckboxSelectMultiple()
+            "arrival_date": DateInput(
+                attrs={
+                    "readonly": True,
+                    "disabled": True,
+                }),
+            "request_comment": forms.Textarea(
+                attrs={
+                    "placeholder":"ご要望があればご入力ください",
+                    "cols": 100,
                     "rows": 5,
+                    "readonly": True,
                 }
                 
             ), 

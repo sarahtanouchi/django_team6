@@ -57,7 +57,9 @@
 				    {% if item.item_images %}
 				    	{% for image in item.item_images.all %}
 				    		<p>{{image.name}}</p>
-                        	<img class="item_image img-fluid" src="{{ image.image.url }}">
+				    		<div id="gallery">
+	                        	<img class="img-fluid" src="{{ image.image.url }}">
+                        	</div>
                         {% endfor %}
                     {% else %}
                         <img src="images/no_image.png">
