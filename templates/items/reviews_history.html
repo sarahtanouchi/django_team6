@@ -10,7 +10,7 @@
 {% block content %}
     <h1>{{ title }}</h1>
     <ul>
-        {% for review in review_list %}
+        {% for review in user_reviews %}
             <li>
                 <a href="{% url 'review:detail' review.id %}">
                     {{ review.user.username }}: {{ review.body }}

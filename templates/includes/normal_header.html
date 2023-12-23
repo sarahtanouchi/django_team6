@@ -86,14 +86,14 @@
         </button>
         <div class="collapse navbar-collapse" id="headerNav">
             <ul class="navbar-nav mx-auto header_nav">
-              　 <li class="header_item"><a href="" class="navbar_link">お茶</a></li>
-              　 <li class="header_item"><a href="" class="navbar_link">お菓子</a></li>
-              　 <li class="header_item"><a href="" class="navbar_link">茶器</a></li>
-              　 <li class="header_item"><a href="" class="navbar_link">ギフトセット</a></li>
+              　 <li class="header_item"><a href="{% url 'items:index' %}?tea_type_filter=all" class="navbar_link">お茶</a></li>
+              　 <li class="header_item"><a href="{% url 'items:index' %}?item_type_filter=snack" class="navbar_link">お菓子</a></li>
+              　 <li class="header_item"><a href="{% url 'items:index' %}?tea_set_type_filter=all" class="navbar_link">茶器</a></li>
+              　 <li class="header_item"><a href="{% url 'items:index' %}?item_type_filter=gift" class="navbar_link">ギフトセット</a></li>
             </ul>
-            <form class="form-inline" action="" method="get">
+            <form class="form-inline" action="{% url 'items:index' %}" method="get">
                 <label class="sr-only" for="kw">キーワード検索</label>
-                <input type="search" class="form-control form-control-sm mr-2" placeholder="キーワード検索" id="kw">
+                <input type="search" class="form-control form-control-sm mr-2" placeholder="キーワードで商品検索" id="kw" name="keyword">
                 <button type="submit" class="btn btn-secondary btn-sm">検索</button>
             </form>
         </div>

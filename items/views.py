@@ -228,6 +228,15 @@ class Item_list(generic.ListView):
         if "all" not in occasion_filters:
             items = items.filter(occasion__name__in=occasion_filters)
         
+        # キーワード検索
+        keyword = self.request.GET.get('keyword', '')
+        if keyword:
+            items = Item.objects.filter(
+                Q(name__icontains=keyword) |
+                Q(description__icontains=keyword) |
+                Q(tags__name__icontains=keyword)
+            )
+            
         return items
     
     def get_context_data(self, **kwargs):
@@ -367,8 +376,7 @@ class ReviewHistory(LoginRequiredMixin, generic.ListView):
  
     def get_queryset(self):
         queryset = super().get_queryset()
-        queryset = queryset.filter(user=self.request.user)
-        return queryset
+        return queryset.filter(user=self.request.user)
         
 class ReviewItem(View):
     # template_name = ''

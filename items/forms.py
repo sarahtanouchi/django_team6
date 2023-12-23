@@ -99,8 +99,8 @@ class CartUpdateForm(forms.Form):
 class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
-        fields = [
-            "item",
-            "stars",
-            "comment"
-        ]
+        fields = ["item","stars","comment"]
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['stars'].widget = forms.TextInput(attrs={'type': 'range', 'step': '1', 'min': '1', 'max': '5'})

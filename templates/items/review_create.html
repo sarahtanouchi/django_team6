@@ -33,9 +33,11 @@
             </div>
         </div>
     </section>
-    
+    <!--"{% url 'items:item_detail' item.id %}" -->
     <form class="review-form" action="" method="POST">
         {% csrf_token %} 
+        
+        <!--{{ form.as_p }}-->
        
         <input id="star_radio_1" type="radio" name="star" value="1">
         <input id="star_radio_2" type="radio" name="star" value="2">
