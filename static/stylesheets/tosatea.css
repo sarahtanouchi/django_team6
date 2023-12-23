@@ -1,0 +1,49 @@
+body {
+	max-width: 100%;
+}
+
+a{
+    color: #000000;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+h1 {
+    font-size: 1.5em; /* 1.5倍のフォントサイズ */
+    margin: 30px;
+}
+
+h2 {
+    font-size: 1.2em; /* 1.2倍のフォントサイズ */
+    margin: 30px;
+}
+
+h3 {
+    font-size: 1em; /* デフォルトのフォントサイズ */
+    margin: 30px;
+}
+
+p{
+    font-size: 1em;
+}
+
+.container{
+    margin-top: 30px;
+    margin-bottom: 50px;
+}
+.container-fluid{
+    padding: 0px;
+}
+
+.carousel-inner {
+    overflow: hidden;
+}
+
+.carousel-image {
+    display: block;
+    width: 100%;
+    max-height: 90vh;
+}
