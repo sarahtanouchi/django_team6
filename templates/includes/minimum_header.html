@@ -10,12 +10,19 @@
             <a href="{% url 'home' %}"><img src="{% static 'images/logo.png' %}" alt="ロゴ"></a>
         </h1>
         <ul class="header_user_actions">
+             {% if request.user.is_superuser %}
+            <li>
+                <a href="{% url 'items:admin' %}">
+                    管理画面
+                </a>
+            </li>
+            {% endif %}
             <li>
                 {% if user.is_authenticated %}
                     <p>{{ request.user.username }}様</p>
                     <a href="{% url 'accounts:logout' %}"><p>ログアウト</p></a>
                 {% else %}
-                    <a href="{% url 'accounts:login' %}"><p>ログイン</p></a>
+                    <a href="{% url 'accounts:login' %}?next={{request.path}}"><p>ログイン</p></a>
                 {% endif %}
             </li>
             <li>

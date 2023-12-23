@@ -3,11 +3,12 @@
 {% block content %}
     <div class="container contents">
 		<h2>商品を絞り込む</h2>
-		
+	    {% include "includes/filter.html" %}
+	    
 		<h2>商品一覧</h2>
 		<div class="row">
 			{% for item in item_list %}
-				<div class="col-3">
+				<div class="col-3 mb-4">
 					 <div>
 					    {% if item.item_images %}
 			    			{% with item.item_images.all.0 as image %}
