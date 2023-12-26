@@ -347,8 +347,7 @@ class ReviewCreate(LoginRequiredMixin, generic.CreateView):
     form_class = ReviewForm
     template_name = 'items/review_create.html'
     ordering = "-created_at"
-    success_url = reverse_lazy("item_detail")
-
+    success_url = reverse_lazy("items:review_list")
  
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -378,23 +377,24 @@ class ReviewHistory(LoginRequiredMixin, generic.ListView):
         queryset = super().get_queryset()
         return queryset.filter(user=self.request.user)
         
-class ReviewItem(View):
-    # template_name = ''
+class ReviewList(View):
+    template_name = 'items/review_list.html'
 
     def get(self, request, item_id):
         item = get_object_or_404(Item, pk=item_id)
         user = request.user
-        rating = Rating.objects.get_or_create(user=user, item=item)[0]
+        reviews = Review.objects.filter(item=item)
+        average_rating = reviews.aggregate(Avg('stars'))['stars__avg']
 
-        return render(request, self.template_name, {'item': item, 'rating': rating})
+        return render(request, self.template_name, {'item': item, 'reviews': reviews, 'average_rating': average_rating})
 
     def post(self, request, item_id):
         item = get_object_or_404(Item, pk=item_id)
         user = request.user
 
         stars = int(request.POST.get('stars', 0))
-        rating, created = Rating.objects.get_or_create(user=user, item=item)
-        rating.stars = stars
-        rating.save()
+        review, created = Review.objects.get_or_create(user=user, item=item)
+        review.stars = stars
+        review.save()
 
-        return redirect('items:detail', pk=item_id)
+        return redirect('items:review_list', item_id=item_id)

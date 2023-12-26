@@ -3,6 +3,8 @@ from django.conf import settings
  
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
+
+from django.core.validators import MinValueValidator, MaxValueValidator
  
 # from accounts.models import User
 
@@ -99,13 +101,15 @@ class Cart(models.Model):
 
 # レビュー 
 class Review(models.Model):
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    item = models.ForeignKey("Item", on_delete=models.CASCADE)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    stars = models.IntegerField("評価", default=0)
+    stars = models.IntegerField("評価", default=0, validators=[MinValueValidator(1), MaxValueValidator(5)])
     comment = models.TextField("コメント", max_length=200, blank=True)
     create_date = models.DateTimeField("投稿日", auto_now_add=True)
     update_date = models.DateTimeField("更新日", auto_now=True, blank=True)
     
+    class Meta:
+        unique_together = ('item', 'user')
+    
     def __str__(self):
         return f"{self.user.username} - {self.item.name} - {self.stars} stars"
-
