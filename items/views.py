@@ -200,6 +200,7 @@ class Item_list(generic.ListView):
     template_name = "items/item_list.html"
     model = Item
     ordering = "-create_date"
+    paginate_by = 4
     
     def get_queryset(self):
         item_type_filters = self.request.GET.getlist("item_type_filter")
