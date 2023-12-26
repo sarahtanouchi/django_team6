@@ -3,11 +3,12 @@ from django.views import generic
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import get_user_model
 from django.utils.dateparse import parse_date
 
 
-from .models import Order, Coupon, Destination
-from items.models import Item
+from .models import Order, Coupon, Destination, Order_detail
+from items.models import Item, Cart
 from .forms import SignupForm, LoginForm, OrderCreateForm, OrderConfirmationForm
 
 # vv order confirm helper functions vv
@@ -54,7 +55,7 @@ def create_order(user, data):
          #new_order.destination = user.destination
     else:
         new_destination = create_destination(data)
-        # new_destination.save()
+        new_destination.save()
         new_order.destination = new_destination
         if destination_choice == "with_invoice":
             new_order.include_invoice = True
@@ -66,12 +67,23 @@ def create_order(user, data):
     if coupon_match is not None:
         new_order.coupon = coupon_match
         
-    # add request comment data to new_order
+    request_comment_data = data.get("request_comment")
+    new_order.request_comment = request_comment_data
     
     return new_order
         
-def create_order_details(carts, order):
-    return None
+def create_order_detail(carts, order):
+    
+    new_order_detail = Order_detail()
+    # new_order_detail.user = get_user_model()
+    new_order_detail.user = order.user
+    for cart in carts:
+        pass
+        new_order_detail.item = cart.item 
+        new_order_detail.amount = cart.amount
+        new_order_detail.price = cart.item.price
+    
+    return new_order_detail
 
 # ^^ order confirm helper functions ^^
 
@@ -172,19 +184,24 @@ class OrderConfirmation(LoginRequiredMixin, generic.CreateView):
     def save_order(self, request):
         new_order = create_order(self.request.user, request.POST)
         print()
-        print("Created order:")
+        print("作成されたオーダー:")
         print(new_order)
-        new_order.save() # uncomment when ready to try saving
-        # use carts to make order details data
+        new_order.save() 
+        
         carts = self.request.user.cart_set.all()
-        create_order_details(carts, new_order)
-        # delete the cart when order details are created and saved
-        # carts.delete() # uncomment when ready to try saving
-    
+        new_order_detail = create_order_detail(carts, new_order)
+        new_order.save()
+        
+        carts.delete()
+        
     def post(self, request, *args, **kwargs):
         if "confirmed" in request.POST:
             
             self.save_order(request)
-            return redirect("home")
+            return redirect("accounts:succeed_order")
         else:
             return self.show_confirm_form(request, *args, **kwargs)
+            
+class SucceedOrder(LoginRequiredMixin, generic.TemplateView):
+    template_name = "accounts/complete_order.html"
+
