@@ -20,13 +20,20 @@ from .forms import CartUpdateForm, ItemCreateForm, AreaCreateForm, ItemTypeCreat
 #         context = super().get_context_data(**kwargs)
 #         context["title"] = "トップ"
 #         return context
-        
+
 class Admin(LoginRequiredMixin, generic.TemplateView):
     template_name = "items/admin.html"
     def get_context_data(self, **kwargs):
-        items = Item.objects.all()
         context = super().get_context_data(**kwargs)
         context["title"] = "管理ページ"
+        return context
+
+class Item_management(LoginRequiredMixin, generic.TemplateView):
+    template_name = "items/item_management.html"
+    def get_context_data(self, **kwargs):
+        items = Item.objects.all()
+        context = super().get_context_data(**kwargs)
+        context["title"] = "商品管理ページ"
         context["items"] = items
         return context
         

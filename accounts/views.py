@@ -72,18 +72,15 @@ def create_order(user, data):
     
     return new_order
         
-def create_order_detail(carts, order):
+def create_order_details(carts, order):
     
-    new_order_detail = Order_detail()
-    # new_order_detail.user = get_user_model()
-    new_order_detail.user = order.user
     for cart in carts:
-        pass
-        new_order_detail.item = cart.item 
-        new_order_detail.amount = cart.amount
-        new_order_detail.price = cart.item.price
-    
-    return new_order_detail
+        new_order_details = Order_detail()
+        new_order_details.order = order
+        new_order_details.item = cart.item 
+        new_order_details.amount = cart.amount
+        new_order_details.purchase_price = cart.item.price
+        new_order_details.save()
 
 # ^^ order confirm helper functions ^^
 
@@ -189,9 +186,8 @@ class OrderConfirmation(LoginRequiredMixin, generic.CreateView):
         new_order.save() 
         
         carts = self.request.user.cart_set.all()
-        new_order_detail = create_order_detail(carts, new_order)
-        new_order.save()
-        
+        create_order_details(carts, new_order)
+
         carts.delete()
         
     def post(self, request, *args, **kwargs):
