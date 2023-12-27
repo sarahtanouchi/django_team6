@@ -6,6 +6,7 @@ app_name = "items"
 urlpatterns = [
     path("", views.Item_list.as_view(), name="index"), # 商品一覧画面
     path("admin/", views.Admin.as_view(), name="admin"), # 管理画面
+    path("item_management/", views.Item_management.as_view(), name="item_management"),
     path("create/", views.Create.as_view(), name="create"), # 新規作成
     path("create_item_type/", views.Create_item_type.as_view(), name="create_item_type"),
     path("create_occasion/", views.Create_occasion.as_view(), name="create_occasion"),
