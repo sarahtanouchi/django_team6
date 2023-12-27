@@ -353,41 +353,43 @@ def update_amount(request,pk):
 
 
 # 新着情報管理        
-class InfomationList(LoginRequiredMixin, generic.ListView):
-    model : Information
+class InformationList(LoginRequiredMixin, generic.ListView):
+    model = Information
     template_name = "items/information_list.html"
     ordering = "-create_date"
+    
+    def get_queryset(self):
+        return Information.objects.all()
     
     def get_context_data(self, **kwargs):
         information = Information.objects.all()
         context = super().get_context_data(**kwargs)
-        context["information"] = "information"
-        context["title"] = "新着情報管理"
+        context["title"] = "インフォメーション管理"
         return context
         
-class InfomationCreate(LoginRequiredMixin, generic.CreateView):
-    model : Information
+class InformationCreate(LoginRequiredMixin, generic.CreateView):
+    model = Information
     template_name = "items/information_create.html"
     form_class = InformationCreateForm
-    success_url = reverse_lazy("items:information")
+    success_url = reverse_lazy("items:information_list")
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["title"] = "新着情報の新規追加"
+        context["title"] = "インフォメーションの新規追加"
         return context
         
 class InformationUpdate(LoginRequiredMixin, generic.UpdateView):
-    model : Information
+    model = Information
     template_name = "items/information_update.html"
     form_class = InformationCreateForm
-    success_url = reverse_lazy("items:information")
+    success_url = reverse_lazy("items:information_list")
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["title"] = "新着情報の編集"
+        context["title"] = "インフォメーションの編集"
         return context
         
 class InformationDelete(LoginRequiredMixin, generic.DeleteView):
     model = Information
-    success_url = reverse_lazy("items:information")
+    success_url = reverse_lazy("items:information_list")
     
 # レビュー 
 class ReviewCreate(LoginRequiredMixin, generic.CreateView):
@@ -419,7 +421,7 @@ class ReviewHistory(LoginRequiredMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "レビュー投稿履歴"
-        reviews = self.request.user.review_setall()
+        reviews = self.request.user.review_set.all()
         context["reviews"] = reviews
         return context
  

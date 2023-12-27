@@ -25,17 +25,6 @@
                     <a href="{% url 'accounts:login' %}?next={{request.path}}"><p>ログイン</p></a>
                 {% endif %}
             </li>
-            <li>
-                {% if user.is_authenticated %}
-                    <a href="{% url 'accounts:mypage' user.pk %}">
-                        <img src="{% static 'images/icon/mypage_icon.png' %}" alt="マイページ">
-                    </a>
-                {% else %}
-                    <a onclick="showLoginModal();">
-                        <img src="{% static 'images/icon/mypage_icon.png' %}" alt="マイページ">
-                    </a>                
-                {% endif %}
-            </li>
         </ul>
     </nav>
     
@@ -69,7 +58,7 @@
                 $('#loginModal').modal('show');
                 return false;  // リンクをクリックしてもページ遷移をしない
             }
-            return true;  // ログインしている場合は通常の動作を続行
+            return true;
         }
     </script>
 </header>

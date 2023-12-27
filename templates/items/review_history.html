@@ -8,6 +8,7 @@
 {% endblock %} 
 
 {% block content %}
+<main>
     <h1>{{ title }}</h1>
     <ul>
         {% for review in user_reviews %}
@@ -26,4 +27,10 @@
             <li>レビュー投稿履歴はありません。</li>
         {% endfor %}
     </ul>
+    
+    
+    <div class="return_link d-flex justify-content-center">
+        <a href="" onclick="window.history.back();return false;">＜ 戻る</a>
+    </div>
+</main>    
 {% endblock %}

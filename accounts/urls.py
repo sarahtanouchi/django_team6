@@ -15,6 +15,6 @@ urlpatterns = [
     path("order_confirmation/", views.OrderConfirmation.as_view(), name="order_confirmation"),
     path("succeed_order/", views.SucceedOrder.as_view(), name="succeed_order"),
     path("password_reset/", auth_views.PasswordResetView.as_view(), name="password_reset"),
-    path("mypage/<int:pk>/", views.Mypage.as_view(), name="mypage"), #マイページ
-    # path("favorite/<int:pk>/", views.Favorite.as_view(), name="favorite"), # お気に入り
+    path("mypage/", views.Mypage.as_view(), name="mypage"), #マイページ
+    # path("favorite/", views.Favorite.as_view(), name="favorite"), # お気に入り
 ]
