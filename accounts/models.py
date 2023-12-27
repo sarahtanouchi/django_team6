@@ -39,7 +39,7 @@ class Coupon(models.Model):
 class Order(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     destination = models.ForeignKey(Destination, on_delete=models.CASCADE, null=True)
-    arrival_date = models.DateField("お届け日",blank=True)
+    arrival_date = models.DateField("お届け日",blank=True, null=True)
     gift_wrapping = models.BooleanField("ギフトラッピング", default=False)
     request_comment = models.CharField("要望", max_length=1000, blank=True)
     include_invoice = models.BooleanField("レシート同封", default=True)

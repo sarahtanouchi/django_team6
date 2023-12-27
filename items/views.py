@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.urls import reverse_lazy
 
-from .models import Item, Cart, Area, Item_type, Occasion, Tea_set_type, Tea_type, Taste, Flavor, Image
+from .models import Item, Cart, Area, Item_type, Occasion, Tea_set_type, Tea_type, Taste, Flavor, Image, Review
 from .forms import CartUpdateForm, ItemCreateForm, AreaCreateForm, ItemTypeCreateForm, OccasionCreateForm, TeaSetTypeCreateForm, TeaTypeCreateForm, TasteCreateForm, FlavorCreateForm, ImageCreateForm
 
 
@@ -20,13 +20,20 @@ from .forms import CartUpdateForm, ItemCreateForm, AreaCreateForm, ItemTypeCreat
 #         context = super().get_context_data(**kwargs)
 #         context["title"] = "トップ"
 #         return context
-        
+
 class Admin(LoginRequiredMixin, generic.TemplateView):
     template_name = "items/admin.html"
     def get_context_data(self, **kwargs):
-        items = Item.objects.all()
         context = super().get_context_data(**kwargs)
         context["title"] = "管理ページ"
+        return context
+
+class Item_management(LoginRequiredMixin, generic.TemplateView):
+    template_name = "items/item_management.html"
+    def get_context_data(self, **kwargs):
+        items = Item.objects.all()
+        context = super().get_context_data(**kwargs)
+        context["title"] = "商品管理ページ"
         context["items"] = items
         return context
         
@@ -246,6 +253,8 @@ class Item_detail(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "商品詳細"
+        # reviews = self.request.item.review_set.all()
+        # context["reviews"] = reviews
         return context
 
 @login_required        

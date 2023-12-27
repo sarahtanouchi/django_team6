@@ -177,8 +177,11 @@
                                         </label>
                     			    </div>
                 			    </label>
-            			            <div class="col-md-10 mt-1">
+            			            <div class="col-md-9 mt-1">
+            			               <input type="date" name="arrival_date" value="{{order_data.arrival_date}}" readonly>
+            			               {% comment %}
             			               {{ form.arrival_date }}
+            			               {% endcomment %}
             			            </div>
             			     </div>
         			    
@@ -212,7 +215,8 @@
         			    {{ form.request_comment }}
         			    </div>
         			    <div class="col-md-12 text-center mb-5">
-    		                    <button type="submit" class="btn_lg btn_gray mb-1" disabled>注文内容を確定</button>
+    		                    <button type="submit" class="btn_lg btn_gray mb-1">注文内容を確定</button>
+    		                    <input name="confirmed" value="true" hidden/>
     		            </div>
                 </form>
                 <div class="return_link d-flex justify-content-center">
