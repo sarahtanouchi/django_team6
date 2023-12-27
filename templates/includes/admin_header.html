@@ -36,41 +36,20 @@
                     </a>                
                 {% endif %}
             </li>
-            <li>
-                {% if user.is_authenticated %}
-                    <a href="{% url 'items:favorite_list' user.pk %}">
-                        <img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入りリスト">
-                    </a>
-                {% else %}
-                    <a onclick="showLoginModal();">
-                        <img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入りリスト">
-                    </a>                
-                {% endif %}
-            </li>
-            <li>
-                {% if user.is_authenticated %}
-                    <a href="{% url 'items:carts'%}">
-                        <img src="{% static 'images/icon/cart_icon.png' %}" alt="カート">
-                    </a>
-                {% else %}
-                    <a onclick="showLoginModal();">
-                        <img src="{% static 'images/icon/cart_icon.png' %}" alt="カート">
-                    </a>                
-                {% endif %}
-            </li>
         </ul>
     </nav>
+    
     <!--モーダル-->
     <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">ログインしてください</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body" style="text-align: center;">
-                    <h5 class="modal-title" id="loginModalLabel">ログインしてください</h5>
                     <button class="btn btn_lg btn_white">
                         <a href="{% url 'accounts:login' %}" >ログイン</a>
                     </button>
@@ -79,26 +58,7 @@
             </div>
         </div>
     </div>
-        
-    <nav class="navbar navbar_box navbar-expand-md">
-        <button class="navbar-toggler float-right" data-toggle="collapse" data-target="#headerNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="headerNav">
-            <ul class="navbar-nav mx-auto header_nav">
-              　 <li class="header_item"><a href="{% url 'items:index' %}?tea_type_filter=all" class="navbar_link">お茶</a></li>
-              　 <li class="header_item"><a href="{% url 'items:index' %}?item_type_filter=snack" class="navbar_link">お菓子</a></li>
-              　 <li class="header_item"><a href="{% url 'items:index' %}?tea_set_type_filter=all" class="navbar_link">茶器</a></li>
-              　 <li class="header_item"><a href="{% url 'items:index' %}?item_type_filter=gift" class="navbar_link">ギフトセット</a></li>
-            </ul>
-            <form class="form-inline" action="{% url 'items:index' %}" method="get">
-                <label class="sr-only" for="kw">キーワード検索</label>
-                <input type="search" class="form-control form-control-sm mr-2" placeholder="キーワードで商品検索" id="kw" name="keyword">
-                <button type="submit" class="btn btn-secondary btn-sm">検索</button>
-            </form>
-        </div>
-    </nav>
-
+    
     <script>
         // ログイン状態をJavaScriptに渡す
         var isAuthenticated = {% if user.is_authenticated %}true{% else %}false{% endif %};
@@ -112,5 +72,4 @@
             return true;  // ログインしている場合は通常の動作を続行
         }
     </script>
-
 </header>

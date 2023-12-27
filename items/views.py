@@ -7,8 +7,8 @@ from django.contrib import messages
 from django.urls import reverse_lazy
 from django.db.models import Avg
 
-from .models import Item, Cart, Area, Item_type, Occasion, Tea_set_type, Tea_type, Taste, Flavor, Image, Review
-from .forms import CartUpdateForm, ItemCreateForm, AreaCreateForm, ItemTypeCreateForm, OccasionCreateForm, TeaSetTypeCreateForm, TeaTypeCreateForm, TasteCreateForm, FlavorCreateForm, ImageCreateForm, ReviewForm
+from .models import Item, Cart, Area, Item_type, Occasion, Tea_set_type, Tea_type, Taste, Flavor, Image, Review, Favorite, Information
+from .forms import CartUpdateForm, ItemCreateForm, AreaCreateForm, ItemTypeCreateForm, OccasionCreateForm, TeaSetTypeCreateForm, TeaTypeCreateForm, TasteCreateForm, FlavorCreateForm, ImageCreateForm, ReviewForm, FavoriteAddForm, InformationCreateForm
 
 
 # class Index(generic.ListView):
@@ -229,15 +229,6 @@ class Item_list(generic.ListView):
         if "all" not in occasion_filters:
             items = items.filter(occasion__name__in=occasion_filters)
         
-        # キーワード検索
-        keyword = self.request.GET.get('keyword', '')
-        if keyword:
-            items = Item.objects.filter(
-                Q(name__icontains=keyword) |
-                Q(description__icontains=keyword) |
-                Q(tags__name__icontains=keyword)
-            )
-            
         return items
     
     def get_context_data(self, **kwargs):
@@ -256,6 +247,8 @@ class Item_detail(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "商品詳細"
+        reviews = self.request.item.review_setall()
+        context["reviews"] = reviews
         return context
 
 @login_required        
@@ -342,13 +335,60 @@ def update_amount(request,pk):
     
     return redirect("items:carts")
    
+        # # キーワード検索
+        # keyword = self.request.GET.get('keyword', '')
+        # if keyword:
+        #     items = Item.objects.filter(
+        #         Q(name__icontains=keyword) |
+        #         Q(description__icontains=keyword) |
+        #         Q(tags__name__icontains=keyword)
+        #     )
+
+
+# 新着情報管理        
+class InfomationList(LoginRequiredMixin, generic.ListView):
+    model : Information
+    template_name = "items/information_list.html"
+    ordering = "-create_date"
+    
+    def get_context_data(self, **kwargs):
+        information = Information.objects.all()
+        context = super().get_context_data(**kwargs)
+        context["information"] = "information"
+        context["title"] = "新着情報管理"
+        return context
+        
+class InfomationCreate(LoginRequiredMixin, generic.CreateView):
+    model : Information
+    template_name = "items/information_create.html"
+    form_class = InformationCreateForm
+    success_url = reverse_lazy("items:information")
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "新着情報の新規追加"
+        return context
+        
+class InformationUpdate(LoginRequiredMixin, generic.UpdateView):
+    model : Information
+    template_name = "items/information_update.html"
+    form_class = InformationCreateForm
+    success_url = reverse_lazy("items:information")
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "新着情報の編集"
+        return context
+        
+class InformationDelete(LoginRequiredMixin, generic.DeleteView):
+    model = Information
+    success_url = reverse_lazy("items:information")
+    
 # レビュー 
 class ReviewCreate(LoginRequiredMixin, generic.CreateView):
     model = Review
     form_class = ReviewForm
     template_name = 'items/review_create.html'
     ordering = "-created_at"
-    success_url = reverse_lazy("items:review_list")
+    success_url = reverse_lazy("items:item_detail")
  
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -372,30 +412,20 @@ class ReviewHistory(LoginRequiredMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "レビュー投稿履歴"
+        reviews = self.request.user.review_setall()
+        context["reviews"] = reviews
         return context
  
     def get_queryset(self):
         queryset = super().get_queryset()
         return queryset.filter(user=self.request.user)
+
+class FavoriteList(LoginRequiredMixin, generic.ListView):
+    model = Favorite
+    form_class = FavoriteAddForm
+    template_name = "items/favorite_list.html"
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
         
-class ReviewList(View):
-    template_name = 'items/review_list.html'
-
-    def get(self, request, item_id):
-        item = get_object_or_404(Item, pk=item_id)
-        user = request.user
-        reviews = Review.objects.filter(item=item)
-        average_rating = reviews.aggregate(Avg('stars'))['stars__avg']
-
-        return render(request, self.template_name, {'item': item, 'reviews': reviews, 'average_rating': average_rating})
-
-    def post(self, request, item_id):
-        item = get_object_or_404(Item, pk=item_id)
-        user = request.user
-
-        stars = int(request.POST.get('stars', 0))
-        review, created = Review.objects.get_or_create(user=user, item=item)
-        review.stars = stars
-        review.save()
-
-        return redirect('items:review_list', item_id=item_id)

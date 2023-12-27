@@ -1,0 +1,12 @@
+{% extends "layouts/default_admin.html" %}
+ 
+{% block title %}{{ title }}{% endblock %}
+ 
+{% block content %}
+    <h1>{{ title }}</h1>
+    <form action="" method="POST" enctype="multipart/form-data">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <button class="button is-primary" type="submit">登録</button>
+    </form>
+{% endblock %}

@@ -1,83 +1,33 @@
-{% extends "layouts/default_minimum.html" %}
- 
+{% extends "layouts/default_admin.html" %}
+
+{% load static %}
+
+{% block additional_css %}
+<link rel="stylesheet" href="{% static 'stylesheets/home.css' %}">
+{% endblock %}
+
 {% block title %}{{ title }}{% endblock %}
- 
+
 {% block content %}
-
-    <a href="{% url 'items:create' %}">新規追加</a><br>
-    <a href="{% url 'items:image_list' %}">画像一覧</a>
-
-	<table class="item_table">
-		<thead>
-			<tr>
-				<th>名前</th>
-				<th>価格</th>
-				<th>公開フラグ</th>
-				<th>在庫数</th>
-				<th>詳細情報</th>
-				<th>商品タイプ</th>
-				<th>利用場面</th>
-				<th>お茶タイプ</th>
-				<th>テイスト</th>
-				<th>生産地</th>
-				<th>画像</th>
-				<!--<th>画像２</th>-->
-				<!--<th>画像3</th>-->
-				<th>操作</th>
-			</tr>
-		</thead>
-		<tbody>
-		    {% for item in items %}
-			<tr>
-				<td>{{ item.name }}</td>
-				<td>{{ item.price }}</td>
-				<td>{{ item.status }}</td>
-				<td>{{ item.stock }}</td>
-				<td>{{ item.description }}</td>
-				<td>{{ item.item_type }}</td>
-				<td>{{ item.occasion }}</td>
-				<td>{{ item.tea_type }}</td>
-				<td>{{ item.taste }}</td>
-				<td>{{ item.area }}</td>
-				<!--<td>-->
-				<!--    {% if item.image %}-->
-    <!--                    <img class="img-fluid" src="{{ item.image.url }}">-->
-    <!--                {% else %}-->
-    <!--                    <img src="images/no_image.png">-->
-    <!--                {% endif %}-->
-				<!--</td>-->
-				<!--<td>-->
-				<!--    {% if item.second_image %}-->
-    <!--                    <img class="img-fluid" src="{{ item.second_image.url }}">-->
-    <!--                {% else %}-->
-    <!--                    <img src="images/no_image.png">-->
-    <!--                {% endif %}-->
-				<!--</td>-->
-				<td>
-				    {% if item.item_images %}
-				    	{% for image in item.item_images.all %}
-				    		<p>{{image.name}}</p>
-				    		<div id="gallery">
-	                        	<img class="img-fluid" src="{{ image.image.url }}">
-                        	</div>
-                        {% endfor %}
-                    {% else %}
-                        <img src="images/no_image.png">
-                    {% endif %}
-				</td>
-				<td>
-				    <a href="{% url 'items:update' item.id %}">
-                      編集
-                    </a>
-					<form method="POST" action="{% url 'items:delete' item.id %}">
-					    {% csrf_token %}
-                        <input type="submit" value="削除" >
-                    </form>
-				</td>
-			</tr>
-			{% empty %}
-                <p>商品はありません。</p>
-			{% endfor %}
-		</tbody>
-	</table>
+<main>
+    <h1>{{ title }}</h1>
+    
+    <div class="row container mypage_container">
+        <div class="mypage_item col-4">
+            <a href="#">商品管理</a>
+        </div>
+        <div class="mypage_item col-4">
+            <a href="#">画像管理</a>
+        </div>
+        <div class="mypage_item col-4">
+            <a href="#">クーポン管理</a>
+        </div>
+        <div class="mypage_item col-4">
+            <a href="">新着情報管理</a>
+        </div>            
+    </div>
+    <div class="return_link d-flex justify-content-center">
+        <a href="" onclick="window.history.back();return false;">＜ 戻る</a>
+    </div>
+</main>
 {% endblock %}
