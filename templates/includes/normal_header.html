@@ -86,10 +86,10 @@
         </button>
         <div class="collapse navbar-collapse" id="headerNav">
             <ul class="navbar-nav mx-auto header_nav">
-              　 <li class="header_item"><a href="{% url 'items:index' %}?tea_type_filter=all" class="navbar_link">お茶</a></li>
-              　 <li class="header_item"><a href="{% url 'items:index' %}?item_type_filter=snack" class="navbar_link">お菓子</a></li>
-              　 <li class="header_item"><a href="{% url 'items:index' %}?tea_set_type_filter=all" class="navbar_link">茶器</a></li>
-              　 <li class="header_item"><a href="{% url 'items:index' %}?item_type_filter=gift" class="navbar_link">ギフトセット</a></li>
+              　 <li class="header_item"><a href="{% url 'items:index' %}?item_type_filter=お茶" class="navbar_link">お茶</a></li>
+              　 <li class="header_item"><a href="{% url 'items:index' %}?item_type_filter=お菓子" class="navbar_link">お菓子</a></li>
+              　 <li class="header_item"><a href="{% url 'items:index' %}?item_type_filter=茶器" class="navbar_link">茶器</a></li>
+              　 <li class="header_item"><a href="{% url 'items:index' %}?item_type_filter=ギフト" class="navbar_link">ギフトセット</a></li>
             </ul>
             <form class="form-inline" action="{% url 'items:index' %}" method="get">
                 <label class="sr-only" for="kw">キーワード検索</label>

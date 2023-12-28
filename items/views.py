@@ -210,7 +210,7 @@ class Item_list(generic.ListView):
     paginate_by = 4
     
     def get_queryset(self):
-        item_type_filters = self.request.GET.getlist("item_type_filter")
+        item_type_filters = self.request.GET.getlist("item_type_filter", ["all"])
         tea_type_filters = self.request.GET.getlist("tea_type_filter", ["all"])
         tea_set_type_filters = self.request.GET.getlist("tea_set_type_filter", ["all"])
         price_filters = self.request.GET.getlist("price_filter", ["all"])
@@ -220,11 +220,9 @@ class Item_list(generic.ListView):
         if "all" not in tea_type_filters:
             items = items.filter(tea_type__name__in=tea_type_filters)
         if "all" not in tea_set_type_filters:
-            items = items.filter(tea_set_type__name__in=tea_type_filters)
-        if "snack" in item_type_filters:
-            items = items.filter(item_type__name= "お菓子")
-        if "gift" in item_type_filters:
-            items = items.filter(item_type__name= "ギフト")
+            items = items.filter(tea_set_type__name__in=tea_set_type_filters)
+        if "all" not in item_type_filters:
+            items = items.filter(item_type__name__in=item_type_filters)
         if "less_than_1000" in price_filters:
             items = items.filter(price__lte=1000)
         if "less_than_5000" in price_filters:
