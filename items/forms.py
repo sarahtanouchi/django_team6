@@ -1,5 +1,5 @@
 from django import forms
-from .models import Item, Area, Item_type, Occasion, Tea_set_type, Tea_type, Taste, Flavor, Image
+from .models import Item, Area, Item_type, Occasion, Tea_set_type, Tea_type, Taste, Flavor, Image, Review, Favorite, Information
 
 
 
@@ -95,3 +95,37 @@ class CartUpdateForm(forms.Form):
         required=True,
         widget=forms.NumberInput() 
     )
+
+class InformationCreateForm(forms.ModelForm):
+    class Meta:
+        model = Information
+        fields = [
+            "title",
+            "body",
+        ]
+
+
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = [
+            "item",
+            "rate",
+            "comment"
+        ]
+        widgets = {
+            "rate": forms.RadioSelect(choices=Review.CHOICES),
+        }
+        
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['star'].widget = forms.TextInput(attrs={'type': 'range', 'step': '1', 'min': '1', 'max': '5'})
+
+class FavoriteAddForm(forms.ModelForm):
+    class Meta:
+        model = Favorite
+        fields = [
+            "item",
+        ]
+        

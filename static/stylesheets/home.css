@@ -228,3 +228,19 @@ footer{
     max-width: 100%;
     height: auto;
 }
+
+/*マイページ*/
+.mypage_container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40vh;
+    /*margin: 50px 10px;*/
+}
+.mypage_item{
+    margin: 10px 20px;
+    padding: 30px;
+    border: 1px solid #000;
+    text-align: center;
+    cursor: pointer;
+}

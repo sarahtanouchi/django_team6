@@ -2,6 +2,9 @@ from django.db import models
 from django.conf import settings
  
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
+
+from django.core.validators import MinValueValidator, MaxValueValidator
  
 # from accounts.models import User
 
@@ -81,15 +84,6 @@ class Item(models.Model):
     # def used_image_ids(self):
     #     return [item_image.id for item_image in self.item_image.all()]
   
-    
-class Review(models.Model):
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    rate = models.PositiveIntegerField("評価")
-    comment = models.CharField("コメント", max_length=200, blank=True)
-    create_date = models.DateTimeField("投稿日", auto_now_add=True)
-    update_date = models.DateTimeField("更新日", auto_now=True, blank=True)
-    
 class Cart(models.Model):
     item = models.ForeignKey("Item", on_delete=models.CASCADE)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
@@ -104,4 +98,45 @@ class Cart(models.Model):
         
     def __str__(self):
         return f"{self.item.name}：{self.amount}"
+
+
+# 新着情報管理
+class Information(models.Model):
+    title = models.CharField("タイトル", max_length=30)
+    body = models.TextField("本文", max_length=50)
+    create_date = models.DateTimeField("登録日時", auto_now_add=True)
+
+# レビュー 
+class Review(models.Model):
+    CHOICES = [
+        (1, '1'),
+        (2, '2'),
+        (3, '3'),
+        (4, '4'),
+        (5, '5'),
+    ]
+    item = models.ForeignKey("Item", on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    rate = models.PositiveIntegerField("評価", default=0, validators=[MinValueValidator(1), MaxValueValidator(5)], choices=CHOICES)
+    comment = models.TextField("コメント", max_length=200, blank=True)
+    create_date = models.DateTimeField("投稿日", auto_now_add=True)
+    update_date = models.DateTimeField("更新日", auto_now=True, blank=True)
+    
+    class Meta:
+        unique_together = ('item', 'user')
+    
+    def __str__(self):
+        return f"{self.user.username} : {self.item.name} : {self.rate} rate"
+
+# お気に入り 
+class Favorite(models.Model):
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    item = models.ForeignKey("Item", on_delete=models.CASCADE)
+    
+    class Meta:
+        unique_together = ('item', 'user')
         
+    def __str__(self):
+        return f"{self.user.username} - {self.item.name}"
+    
+    

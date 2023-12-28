@@ -27,7 +27,7 @@
             </li>
             <li>
                 {% if user.is_authenticated %}
-                    <a href="{% url 'accounts:mypage' user.pk %}">
+                    <a href="{% url 'accounts:mypage' %}">
                         <img src="{% static 'images/icon/mypage_icon.png' %}" alt="マイページ">
                     </a>
                 {% else %}
@@ -36,8 +36,28 @@
                     </a>                
                 {% endif %}
             </li>
-            <li><a href=""><img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入りリスト"></a></li>
-            <li><a href="{% url 'items:carts' %}"><img src="{% static 'images/icon/cart_icon.png' %}" alt="カート"></a></li>
+            <li>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'items:favorite_list' %}">
+                        <img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入りリスト">
+                    </a>
+                {% else %}
+                    <a onclick="showLoginModal();">
+                        <img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入りリスト">
+                    </a>                
+                {% endif %}
+            </li>
+            <li>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'items:carts'%}">
+                        <img src="{% static 'images/icon/cart_icon.png' %}" alt="カート">
+                    </a>
+                {% else %}
+                    <a onclick="showLoginModal();">
+                        <img src="{% static 'images/icon/cart_icon.png' %}" alt="カート">
+                    </a>                
+                {% endif %}
+            </li>
         </ul>
     </nav>
     <!--モーダル-->
@@ -45,17 +65,16 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="loginModalLabel">ログインしてください</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <p>ログインしてください。</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
-                    <a href="{% url 'accounts:login' %}" class="btn btn-primary">ログイン</a>
+                <div class="modal-body" style="text-align: center;">
+                    <h5 class="modal-title" id="loginModalLabel">ログインしてください</h5>
+                    <button class="btn btn_lg btn_white">
+                        <a href="{% url 'accounts:login' %}" >ログイン</a>
+                    </button>
+                    <button type="button" class="btn btn_lg btn_gray" data-dismiss="modal">閉じる</button>
                 </div>
             </div>
         </div>
@@ -67,31 +86,31 @@
         </button>
         <div class="collapse navbar-collapse" id="headerNav">
             <ul class="navbar-nav mx-auto header_nav">
-              　 <li class="header_item"><a href="" class="navbar_link">お茶</a></li>
-              　 <li class="header_item"><a href="" class="navbar_link">お菓子</a></li>
-              　 <li class="header_item"><a href="" class="navbar_link">茶器</a></li>
-              　 <li class="header_item"><a href="" class="navbar_link">ギフトセット</a></li>
+              　 <li class="header_item"><a href="{% url 'items:index' %}?item_type_filter=お茶" class="navbar_link">お茶</a></li>
+              　 <li class="header_item"><a href="{% url 'items:index' %}?item_type_filter=お菓子" class="navbar_link">お菓子</a></li>
+              　 <li class="header_item"><a href="{% url 'items:index' %}?item_type_filter=茶器" class="navbar_link">茶器</a></li>
+              　 <li class="header_item"><a href="{% url 'items:index' %}?item_type_filter=ギフト" class="navbar_link">ギフトセット</a></li>
             </ul>
-            <form class="form-inline" action="" method="get">
+            <form class="form-inline" action="{% url 'items:index' %}" method="get">
                 <label class="sr-only" for="kw">キーワード検索</label>
-                <input type="search" class="form-control form-control-sm mr-2" placeholder="キーワード検索" id="kw">
+                <input type="search" class="form-control form-control-sm mr-2" placeholder="キーワードで商品検索" id="kw" name="keyword">
                 <button type="submit" class="btn btn-secondary btn-sm">検索</button>
             </form>
         </div>
     </nav>
 
-<script>
-    // ログイン状態をJavaScriptに渡す
-    var isAuthenticated = {% if user.is_authenticated %}true{% else %}false{% endif %};
-
-    function showLoginModal() {
-        // ログインしていない場合はモーダルを表示
-        if (!isAuthenticated) {
-            $('#loginModal').modal('show');
-            return false;  // リンクをクリックしてもページ遷移をしない
+    <script>
+        // ログイン状態をJavaScriptに渡す
+        var isAuthenticated = {% if user.is_authenticated %}true{% else %}false{% endif %};
+    
+        function showLoginModal() {
+            // ログインしていない場合はモーダルを表示
+            if (!isAuthenticated) {
+                $('#loginModal').modal('show');
+                return false;  // リンクをクリックしてもページ遷移をしない
+            }
+            return true;  // ログインしている場合は通常の動作を続行
         }
-        return true;  // ログインしている場合は通常の動作を続行
-    }
-</script>
+    </script>
 
 </header>

@@ -10,19 +10,7 @@
 {% block upper_content %} 
  <!--カルーセル -->
 <div class="container-fluid">
-    <div id="cl" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner"> 
-            <div class="carousel-item active"><img src="{% static 'images/top.png' %}" class="carousel-image"></div>
-            <div class="carousel-item"><img src="{% static 'images/top2.jpg' %}" class="carousel-image"></div>
-            <div class="carousel-item"><img src="{% static 'images/top3.jpeg' %}" class="carousel-image"></div>
-        </div>
-        <a class="carousel-control-prev" href="#cl" data-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-        </a>
-        <a class="carousel-control-next" href="#cl" data-slide="next">
-            <span class="carousel-control-next-icon"></span>
-        </a>
-    </div>
+     <img src="{% static 'images/top.png' %}" class="carousel-image">
 </div>
 {% endblock %} 
 {% block lower_content %}
@@ -42,23 +30,72 @@
         <div class="row mt-3 justify-content-center recommend_items">
             <div class="col-3 col-md-3 recommend_item">
                 <a href="#">
-                    <img src="{% static 'images/bancha_00009.jpeg' %}" alt="煎茶" class="recommend_item_image">
+                    <img src="{% static 'images/bancha_00009.jpeg' %}" alt="" class="recommend_item_image">
                 </a>
             </div>
             <div class="col-3 col-md-3 recommend_item">
                 <a href="#">
-                    <img src="{% static 'images/bancha_00009.jpeg' %}" alt="玉露" class="recommend_item_image">
+                    <img src="{% static 'images/bancha_00009.jpeg' %}" alt="" class="recommend_item_image">
                 </a>
             </div>
             <div class="col-3 col-md-3 recommend_item">
                 <a href="#">
-                    <img src="{% static 'images/bancha_00009.jpeg' %}" alt="ほうじ茶" class="recommend_item_image">
+                    <img src="{% static 'images/bancha_00009.jpeg' %}" alt="" class="recommend_item_image">
                 </a>
             </div>
         </div>
-        
+   <!--     <div class="row mt-3 justify-content-center recommend_items">   -->
+			<!--{% for item in item_list %}-->
+			<!--	<div class="col-3 mb-4">-->
+			<!--		 <div>-->
+			<!--		    {% if item.item_images %}-->
+			<!--    			{% with item.item_images.all.0 as image %}-->
+		 <!--   					<a href="{% url 'items:item_detail' item.id %}">-->
+			<!--    					<img class="item_image img-fluid rounded" src="{{ image.image.url }}">-->
+			<!--	    			</a>-->
+			<!--	    			<div class="row mx-auto">-->
+			<!--	    				<div class="col-6 ml-auto">-->
+			<!--		    				<div class="row">-->
+			<!--		    					<a href="{% url 'items:item_detail' item.id %}">-->
+			<!--			    					<span>{{ item.name }}</span>-->
+			<!--			    				</a>-->
+			<!--			    			</div>-->
+			<!--			    			<div class="row">-->
+			<!--			    				<span>{{ item.price }}円(税込)</span>-->
+			<!--			    			</div>-->
+			<!--	    				</div>-->
+			<!--		    			<div class="col-6 ml-auto">-->
+			<!--		    				<div class="row">-->
+			<!--    							<span class="border rounded bg-light">-->
+			<!--			    					{% if item.taste %}-->
+			<!--	    								{{ item.tea_type }}-->
+			<!--		    						{% else %}-->
+			<!--		    							{{ item.item_type }}-->
+			<!--		    						{% endif %}-->
+		 <!--   								</span>-->
+			<!--	    					</div>-->
+			<!--	    					<div class="row">-->
+			<!--	    						<span class="border rounded bg-light">-->
+			<!--			    					{% if item.taste %}-->
+			<!--	    								{{ item.taste }}-->
+			<!--		    						{% else %}-->
+			<!--		    							{{ item.occasion }}-->
+			<!--		    						{% endif %}-->
+		 <!--   								</span>-->
+			<!--	    					</div>-->
+			<!--	    				</div>-->
+		 <!--   					</div>-->
+   <!--                 		{% endwith %}-->
+   <!--             		{% else %}-->
+   <!--             			{% load static %}-->
+   <!--                 		<img class="item_image" src="{% static 'images/no_image.jpg' %}">-->
+   <!--                 	{% endif %}-->
+   <!--                 </div>-->
+   <!--             </div>-->
+   <!--         {% endfor %}-->
+   <!--     </div>-->
     </section>
-
+<!--フィルター修正予定-->
     <section class="container">
         <h2>商品を探す</h2>
         <div class="item_search_container">
@@ -66,70 +103,69 @@
                 <div class="col-12 col-lg-2 offset-lg-1 search_item">
                 お茶の種類から探す
                 </div>
-                <div class="col-3 col-md-2 search_item">
-                    <a href="#">
+                <div class="col-3 col-lg-2 search_item">
+                    <a href="{% url 'items:index' %}?tea_type_filter=煎茶">
                         <span>煎茶</span>
                         <img src="{% static 'images/bancha_00009.jpeg' %}" alt="煎茶" class="search_image">
                     </a>
                 </div>
-                <div class="col-3 col-md-2 search_item">
-                    <a href="#">
+                <div class="col-3 col-lg-2 search_item">
+                    <a href="{% url 'items:index' %}?tea_type_filter=玉露">
                         <span>玉露</span>
                         <img src="{% static 'images/bancha_00009.jpeg' %}" alt="玉露" class="search_image">
                     </a>
                 </div>
-                <div class="col-3 col-md-2 search_item">
-                    <a href="#">
+                <div class="col-3 col-lg-2 search_item">
+                    <a href="{% url 'items:index' %}?tea_type_filter=ほうじ茶">
                          <span>ほうじ茶</span>
                         <img src="{% static 'images/bancha_00009.jpeg' %}" alt="ほうじ茶" class="search_image">
                     </a>
                 </div>
             </div>
-            
+
             <div class="row mt-3">
                 <div class="col-12 col-lg-2 offset-lg-1 pt-3 search_item">
                     <P>利用シーンから探す</P>
                 </div>
-                <div class="col-3 col-md-2 search_item">
-                    <a href="#">
+                <div class="col-3 col-lg-2 search_item">
+                    <a href="{% url 'items:index' %}?occasion_filter=ご自宅用"> 
                         <span>自宅用</span>
-                        <img src="{% static 'images/bancha_00009.jpeg' %}" alt="煎茶" class="search_image">
+                        <img src="{% static 'images/bancha_00009.jpeg' %}" alt="自宅用" class="search_image">
                     </a>
                 </div>
-                <div class="col-3 col-md-2 search_item">
-                    <a href="#">
+                <div class="col-3 col-lg-2 search_item">
+                    <a href="{% url 'items:index' %}?occasion_filter=お土産">
                         <span>お土産</span>
-                        <img src="{% static 'images/bancha_00009.jpeg' %}" alt="玉露" class="search_image">
+                        <img src="{% static 'images/bancha_00009.jpeg' %}" alt="お土産" class="search_image">
                     </a>
                 </div>
-                <div class="col-3 col-md-2 search_item">
-                    <a href="#">
+                <div class="col-3 col-lg-2 search_item">
+                    <a href="{% url 'items:index' %}?occasion_filter=贈答用">
                          <span>贈答用</span>
-                        <img src="{% static 'images/bancha_00009.jpeg' %}" alt="ほうじ茶" class="search_image">
+                        <img src="{% static 'images/bancha_00009.jpeg' %}" alt="贈答用" class="search_image">
                     </a>
                 </div>
             </div>
-            
             <div class="row mt-3">
                 <div class="col-12 col-lg-2 offset-lg-1 pt-3 search_item">
                     <p>価格帯から探す</p>
                 </div>
-                <div class="col-3 col-md-2 search_item">
-                    <a href="#">
+                <div class="col-3 col-lg-2 search_item">
+                    <a href="{% url 'items:index' %}?price_filter=less_than_1000">
                         <span>1,000円以下</span>
-                        <img src="{% static 'images/bancha_00009.jpeg' %}" alt="煎茶" class="search_image">
+                        <img src="{% static 'images/bancha_00009.jpeg' %}" alt="1,000円以下" class="search_image">
                     </a>
                 </div>
-                <div class="col-3 col-md-2 search_item">
-                    <a href="#">
-                        <span>1,000～5,000円</span>
-                        <img src="{% static 'images/bancha_00009.jpeg' %}" alt="玉露" class="search_image">
+                <div class="col-3 col-lg-2 search_item">
+                    <a href="{% url 'items:index' %}?price_filter=less_than_5000">
+                        <span>5,000円以下</span>
+                        <img src="{% static 'images/bancha_00009.jpeg' %}" alt="1,000～5,000円" class="search_image">
                     </a>
                 </div>
-                <div class="col-3 col-md-2 search_item">
-                    <a href="#">
+                <div class="col-3 col-lg-2 search_item">
+                    <a href="{% url 'items:index' %}?price_filter=more_than_5000">
                          <span>5,000円以上</span>
-                        <img src="{% static 'images/bancha_00009.jpeg' %}" alt="ほうじ茶" class="search_image">
+                        <img src="{% static 'images/bancha_00009.jpeg' %}" alt="5,000円以上" class="search_image">
                     </a>
                 </div>
             </div>

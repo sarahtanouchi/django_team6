@@ -1,0 +1,45 @@
+{% extends "layouts/default_admin.html" %}
+{% load static %}
+
+{% block additional_css %}
+<link rel="stylesheet" href="{% static 'stylesheets/home.css' %}">
+{% endblock %}
+
+{% block title %}{{ title }}{% endblock %}
+ 
+{% block content %}
+    <h1>{{ title }}</h1>
+    <a href="{% url 'items:information_create' %}">
+       <button class="btn_md btn_white admin_create" type="button">新規追加</button>
+    </a>
+    
+    <table class="information_table">
+		<thead>
+			<tr>
+				<th>タイトル</th>
+				<th>本文</th>
+				<th>登録日</th>
+				<th>操作</th>
+		</thead>
+		<tbody>
+		    {% for information in informations %}
+			<tr>
+				<td>{{ information.title }}</td>
+				<td>{{ information.body }}</td>
+				<td>{{ information.create_date }}</td>
+			    <td>
+				    <a href="{% url 'items:information_update' information.id %}">
+                      編集
+                    </a>
+					<form method="POST" action="{% url 'items:information_delete' information.id %}">
+					    {% csrf_token %}
+                        <input type="submit" value="削除" >
+                    </form>
+				</td>
+			</tr>
+			{% empty %}
+                <p>新着情報はありません。</p>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}
