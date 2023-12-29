@@ -1,4 +1,5 @@
 {% extends "layouts/default.html" %}
+{% load humanize %}
  
 {% block title %}{{ title }}{% endblock %}
  
@@ -10,7 +11,7 @@
 			  {% for cart in carts %}
 				  <div class="card item">
 					<div class="row item_row">
-						<div class="col-4 item_figure">
+						<div class="col-3 item_figure">
 							{% with cart.item.item_images.all.0 as first_image %}
                        			<img class="rounded img-fluid auto" src="{{ first_image.image.url }}">
                     		{% endwith %}
@@ -25,7 +26,7 @@
 	    						 <!--<input type="submit" value="削除" >-->
                 			</form>
 						</div>
-						<div class="col-4 item_description">
+						<div class="col-5 item_description">
 							<dl>
                                 <dt>{{ cart.item.name }}</dt>
                                 <dd>{{ cart.item.description }}</dd>
@@ -33,8 +34,8 @@
                         </div>
                         <div class="col-4 item_description">
                     		<dl>
-                                <dt>価格(税込)</dt>
-                                <dd>{{ cart.item.price }}円</dd>
+                                <!--<dt>価格(税込)</dt>-->
+                                <!--<dd>{{ cart.item.price }}円</dd>-->
                                 <dt>購入数</dt>
                                 <dd>
                    					<form method="post" action="{% url 'items:update_amount' cart.item.pk %}">
@@ -51,8 +52,10 @@
                                    		 </div>
                                 	</form>
 					            </dd>
-                                <dt>合計金額(税抜)</dt>
-                                <dd>{{ cart.total_amount }}円</dd>
+                                <dt>税込価格</dt>
+                                <dd>{{ cart.item.price | intcomma }}円
+                                	<small>(内税{{ cart.item.tax_percent }}%)</small>
+                                </dd>
                             </dl>
 						</div>
 					</div>
@@ -65,8 +68,9 @@
 			 
 				<div class="col-12 text-center">
 					{% if carts %}
-						<p class="text-right">小計(税抜): {{ total }}円</p>
-						<p class="text-right">合計(税込)</p>
+						<big>
+							<p class="text-right font-weight-bold mt-5">小計(税込)： {{ total | intcomma }}円</p>
+						</big>
 						<form class="text-center" method="post" action="{% url 'accounts:orders' %}">
 		                    {% csrf_token %}
 		                    <button type="submit" class="btn_lg btn_gray mb-1">ご購入手続きへ</button>

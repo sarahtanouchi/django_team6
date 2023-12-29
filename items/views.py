@@ -254,6 +254,9 @@ class Item_detail(generic.DetailView):
         context["title"] = "商品詳細"
         # reviews = self.request.item.review_set.all()
         # context["reviews"] = reviews
+        item = context["item"]
+        tax = round(item.price*0.1/1.1) 
+        context["tax"]=tax
         return context
 
 @login_required        

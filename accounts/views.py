@@ -149,11 +149,34 @@ class OrderCreate(LoginRequiredMixin, generic.CreateView):
         context["title"] = "ご注文ページ"
         carts = self.request.user.cart_set.all()
         context["carts"] = carts
-        # total = 0
-        # for order in orders:
-        #     total += order.total_amount()
-        # context["total"] = total
+        subtotal8_with_tax = 0
+        subtotal10_with_tax = 0
+        for cart in carts:
+            if cart.item.tax_percent == 8:
+                subtotal8_with_tax += cart.total_amount()
+            elif cart.item.tax_percent == 10:
+                subtotal10_with_tax += cart.total_amount()
+                
+        context["subtotal8_with_tax"] = subtotal8_with_tax
+        context["subtotal10_with_tax"] = subtotal10_with_tax
         
+        tax8 = round(subtotal8_with_tax*0.1/1.1) 
+        tax10 = round(subtotal10_with_tax*0.1/1.1) 
+        
+        context["tax8"] = tax8
+        context["tax10"] = tax10
+        
+        subtotal8 = subtotal8_with_tax - tax8
+        subtotal10 = subtotal10_with_tax - tax10
+        
+        context["subtotal8"] = subtotal8
+        context["subtotal10"] = subtotal10
+        
+        total = 0
+        for cart in carts:
+            total += cart.total_amount()
+            
+        context["total"] = total
         return context
         
     def form_valid(self, form):
@@ -165,6 +188,41 @@ class OrderCreate(LoginRequiredMixin, generic.CreateView):
 class OrderConfirmation(LoginRequiredMixin, generic.CreateView):
     template_name = "accounts/order_confirmation.html"
     form_class = OrderConfirmationForm # 必要ないかも?
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "注文内容確認ページ"
+        carts = self.request.user.cart_set.all()
+        context["carts"] = carts
+        subtotal8_with_tax = 0
+        subtotal10_with_tax = 0
+        for cart in carts:
+            if cart.item.tax_percent == 8:
+                subtotal8_with_tax += cart.total_amount()
+            elif cart.item.tax_percent == 10:
+                subtotal10_with_tax += cart.total_amount()
+                
+        context["subtotal8_with_tax"] = subtotal8_with_tax
+        context["subtotal10_with_tax"] = subtotal10_with_tax
+        
+        tax8 = round(subtotal8_with_tax*0.1/1.1) 
+        tax10 = round(subtotal10_with_tax*0.1/1.1) 
+        
+        context["tax8"] = tax8
+        context["tax10"] = tax10
+        
+        subtotal8 = subtotal8_with_tax - tax8
+        subtotal10 = subtotal10_with_tax - tax10
+        
+        context["subtotal8"] = subtotal8
+        context["subtotal10"] = subtotal10
+        
+        total = 0
+        for cart in carts:
+            total += cart.total_amount()
+            
+        context["total"] = total
+        return context
     
     def show_confirm_form(self, request, *args, **kwargs):
         carts = self.request.user.cart_set.all()
