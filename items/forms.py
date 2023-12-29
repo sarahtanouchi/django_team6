@@ -104,8 +104,6 @@ class InformationCreateForm(forms.ModelForm):
             "body",
         ]
 
-
-
 class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review

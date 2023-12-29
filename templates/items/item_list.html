@@ -1,5 +1,5 @@
 {% extends "layouts/default.html" %}
-
+{% load static %}
 {% block content %}
     <div class="container contents">
 		<h2>商品を絞り込む</h2>
@@ -9,12 +9,59 @@
 		<div class="row">
 			{% for item in item_list %}
 				<div class="col-3 mb-4">
-					 <div>
+					<ul class="item_upper_icons">
+		                <!-- お気に入り追加 -->
+		                <li class="item_favorite_icon" >
+				            {% if user.is_authenticated %}
+				               <a onclick="addToFavorites('{{ item.id }}', this)">
+				                   <img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入りリスト">
+				                </a>
+							{% else %}
+				                <a onclick="showLoginModal();">
+				                    <img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入りリスト">
+				                </a>                
+				            {% endif %}
+				         </li>
+			             <!-- カート追加 -->
+			             <li class="item_cart_icon">
+				            {% if user.is_authenticated %}
+				                <a onclick="addToCart('{{ item.id }}', this)">
+				                    <img src="{% static 'images/icon/cart_icon.png' %}" alt="カート">
+				                </a>
+				             {% else %}
+				                <a onclick="showLoginModal();">
+				                     <img src="{% static 'images/icon/cart_icon.png' %}" alt="カート">
+				                 </a>                
+				             {% endif %}
+				          </li>
+		             </ul>
+		             <!--モーダル-->
+				    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+				        <div class="modal-dialog" role="document">
+				            <div class="modal-content">
+				                <div class="modal-header">
+				                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				                        <span aria-hidden="true">&times;</span>
+				                    </button>
+				                </div>
+				                <div class="modal-body" style="text-align: center;">
+				                    <h5 class="modal-title" id="loginModalLabel">ログインしてください</h5>
+				                    <button class="btn btn_lg btn_white">
+				                        <a href="{% url 'accounts:login' %}" >ログイン</a>
+				                    </button>
+				                    <button type="button" class="btn btn_lg btn_gray" data-dismiss="modal">閉じる</button>
+				                </div>
+				            </div>
+				        </div>
+				    </div>
+		             
+		             <div>   
 					    {% if item.item_images %}
 			    			{% with item.item_images.all.0 as image %}
 		    					<a href="{% url 'items:item_detail' item.id %}">
 			    					<img class="item_image img-fluid rounded" src="{{ image.image.url }}">
 				    			</a>
+	      
 				    			<div class="row mx-auto">
 				    				<div class="col-6 ml-auto">
 					    				<div class="row">
@@ -60,4 +107,42 @@
 		</div>
 		{% include "includes/pagination.html" %}
 	</div>
+	
+	<script>
+        var isAuthenticated = {% if user.is_authenticated %}true{% else %}false{% endif %};
+    
+        function showLoginModal() {
+            // ログインしていない場合はモーダルを表示
+            if (!isAuthenticated) {
+                $('#loginModal').modal('show');
+                return false;  // リンクをクリックしてもページ遷移をしない
+            }
+            return true;  // ログインしている場合は通常の動作を続行
+        }
+	
+	
+	    function addToFavorites(itemId, icon) {
+	        // ここでお気に入り追加のロジックを実行（Ajaxなどを使用）
+	        // 成功した場合、アイコンの色を変更
+	        simulateAsyncRequest().then(() => {
+	            icon.classList.toggle('favorited');
+	        });
+	    }
+	
+	    function addToCart(itemId, icon) {
+	        // ここでカート追加のロジックを実行（Ajaxなどを使用）
+	        // 成功した場合、アイコンの色を変更
+	        simulateAsyncRequest().then(() => {
+	            icon.classList.toggle('added-to-cart');
+	        });
+	    }
+	
+	    // 非同期リクエストを模倣する関数
+	    function simulateAsyncRequest() {
+	        return new Promise(resolve => {
+	            // 仮の非同期処理（実際にはAjaxなどを使用する）
+	            setTimeout(resolve, 1000);
+	        });
+	    }
+</script>
 {% endblock %}

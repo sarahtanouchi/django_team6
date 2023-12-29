@@ -63,6 +63,7 @@ class Item(models.Model):
     name = models.CharField("商品名", max_length=200)
     price = models.PositiveIntegerField("価格")
     status = models.BooleanField("公開フラグ", default=True)
+    recommended = models.BooleanField("おすすめ", default=False)
     stock = models.PositiveIntegerField("在庫数")
     description = models.CharField("商品詳細", max_length=1000)
     item_type = models.ForeignKey(Item_type, on_delete=models.CASCADE, null=True, verbose_name="商品タイプ")
@@ -105,6 +106,9 @@ class Information(models.Model):
     title = models.CharField("タイトル", max_length=30)
     body = models.TextField("本文", max_length=50)
     create_date = models.DateTimeField("登録日時", auto_now_add=True)
+    
+    def __str__(self):
+        return self.body[:20]
 
 # レビュー 
 class Review(models.Model):

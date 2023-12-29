@@ -244,6 +244,9 @@ class Item_list(generic.ListView):
         context["occasions"] = Occasion.objects.all()
         # tea_type_filters = self.request.GET.getlist("tea_type_filter", ["all"])
         # context['tea_type_filters'] = tea_type_filters
+        recommended_items = Item.objects.filter(recommended=True)
+        context["recommended_items"] = recommended_items
+        
         return context
 
 class Item_detail(generic.DetailView):
@@ -351,7 +354,7 @@ def update_amount(request,pk):
 
 
 # 新着情報管理        
-class InformationList(LoginRequiredMixin, generic.ListView):
+class Information_list(LoginRequiredMixin, generic.ListView):
     model = Information
     template_name = "items/information_list.html"
     ordering = "-create_date"
@@ -365,32 +368,44 @@ class InformationList(LoginRequiredMixin, generic.ListView):
         context["title"] = "インフォメーション管理"
         return context
         
-class InformationCreate(LoginRequiredMixin, generic.CreateView):
+class Information_create(LoginRequiredMixin, generic.CreateView):
     model = Information
     template_name = "items/information_create.html"
     form_class = InformationCreateForm
     success_url = reverse_lazy("items:information_list")
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "インフォメーションの新規追加"
         return context
         
-class InformationUpdate(LoginRequiredMixin, generic.UpdateView):
+    # def form_valid(self, form):
+    #     information = form.save(commit=False)
+    #     information.save()
+    #     return redirect("items:information_list")
+        
+class Information_update(LoginRequiredMixin, generic.UpdateView):
     model = Information
     template_name = "items/information_update.html"
     form_class = InformationCreateForm
     success_url = reverse_lazy("items:information_list")
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "インフォメーションの編集"
         return context
         
-class InformationDelete(LoginRequiredMixin, generic.DeleteView):
+    # def form_valid(self, form):
+    #     information = form.save(commit=False)
+    #     information.save()
+    #     return redirect("items:information_list")
+        
+class Information_delete(LoginRequiredMixin, generic.DeleteView):
     model = Information
     success_url = reverse_lazy("items:information_list")
     
 # レビュー 
-class ReviewCreate(LoginRequiredMixin, generic.CreateView):
+class Review_create(LoginRequiredMixin, generic.CreateView):
     model = Review
     form_class = ReviewForm
     template_name = 'items/review_create.html'
@@ -412,7 +427,7 @@ class ReviewCreate(LoginRequiredMixin, generic.CreateView):
         
         return super().form_valid(form)
  
-class ReviewHistory(LoginRequiredMixin, generic.ListView):
+class Review_history(LoginRequiredMixin, generic.ListView):
     model = Review
     template_name = "items/review_history.html"
     
@@ -427,7 +442,7 @@ class ReviewHistory(LoginRequiredMixin, generic.ListView):
         queryset = super().get_queryset()
         return queryset.filter(user=self.request.user)
 
-class FavoriteList(LoginRequiredMixin, generic.ListView):
+class Favorite_list(LoginRequiredMixin, generic.ListView):
     model = Favorite
     form_class = FavoriteAddForm
     template_name = "items/favorite_list.html"
@@ -435,4 +450,46 @@ class FavoriteList(LoginRequiredMixin, generic.ListView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+        
+        
+class Recommend_item_list(generic.ListView):
+    template_name = "pages/home.html"
+    model = Item
+    ordering = "-create_date"
+    
+    def get_queryset(self):
+        item_type_filters = self.request.GET.getlist("item_type_filter", ["all"])
+        tea_type_filters = self.request.GET.getlist("tea_type_filter", ["all"])
+        tea_set_type_filters = self.request.GET.getlist("tea_set_type_filter", ["all"])
+        price_filters = self.request.GET.getlist("price_filter", ["all"])
+        taste_filters = self.request.GET.getlist("taste_filter", ["all"])
+        occasion_filters = self.request.GET.getlist("occasion_filter", ["all"])
+        items = Item.objects.all()
+        if "all" not in tea_type_filters:
+            items = items.filter(tea_type__name__in=tea_type_filters)
+        if "all" not in tea_set_type_filters:
+            items = items.filter(tea_set_type__name__in=tea_set_type_filters)
+        if "all" not in item_type_filters:
+            items = items.filter(item_type__name__in=item_type_filters)
+        if "less_than_1000" in price_filters:
+            items = items.filter(price__lte=1000)
+        if "less_than_5000" in price_filters:
+            items = items.filter(price__lte=5000)
+        if "more_than_5000" in price_filters:
+            items = items.filter(price__gte=5000)
+        if "all" not in taste_filters:
+            items = items.filter(taste__name__in=taste_filters)
+        if "all" not in occasion_filters:
+            items = items.filter(occasion__name__in=occasion_filters)
+        
+        return items
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["tea_types"] = Tea_type.objects.all()
+        context["tea_set_types"] = Tea_set_type.objects.all()
+        context["tastes"] = Taste.objects.all()
+        context["occasions"] = Occasion.objects.all()
+
+        return context
         

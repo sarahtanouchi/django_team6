@@ -90,6 +90,24 @@ p{
   font-size: 12px;
 }
 
+/*アイテム上部アイコン*/
+.item_upper_icons{
+  display: flex;
+  margin-bottom: 0px;
+  /*margin-left: auto;*/
+  padding: 0px;
+}
+
+.item_upper_icons li{
+    list-style: none;
+    margin-right: 8px;
+}
+
+.item_upper_icons img{
+    width: 18px;
+    height: 18px;
+}
+  
 /*完了画面*/
 .complete_message{
   display: flex;
@@ -190,6 +208,24 @@ p{
    height: 120px;
    margin-top: 5px;
    margin-right: 20px;
+}
+
+/*インフォメーション管理*/
+.admin_create_btn{
+    display: flex;
+    margin-right: 0px;
+}
+
+.information_table {
+  width: 100%;
+	border-collapse: collapse;
+	text-align: center;
+	margin-top: 20px;
+}
+
+.information_table th, .information_table td {
+	border: solid 1px black;
+	padding: 5px;
 }
 
 .navbar-light .navbar-brand.logo {
