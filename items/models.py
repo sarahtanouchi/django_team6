@@ -63,7 +63,7 @@ class Item(models.Model):
     name = models.CharField("商品名", max_length=200)
     price = models.PositiveIntegerField("価格")
     status = models.BooleanField("公開フラグ", default=True)
-    recommended = models.BooleanField("おすすめ", default=False)
+    recommended = models.BooleanField("おすすめ", default=None, null=True)
     stock = models.PositiveIntegerField("在庫数")
     description = models.CharField("商品詳細", max_length=1000)
     item_type = models.ForeignKey(Item_type, on_delete=models.CASCADE, null=True, verbose_name="商品タイプ")
