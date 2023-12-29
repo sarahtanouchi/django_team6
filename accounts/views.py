@@ -138,7 +138,7 @@ class Mypage(LoginRequiredMixin, generic.TemplateView):
         # context["user_pk"] = self.request.user.pk  # ユーザー主キーを取得してコンテキストに追加
         return context
 
-class OrderCreate(LoginRequiredMixin, generic.CreateView):
+class Order_create(LoginRequiredMixin, generic.CreateView):
     model = Order
     form_class = OrderCreateForm
     template_name = "accounts/orders.html"
@@ -185,56 +185,53 @@ class OrderCreate(LoginRequiredMixin, generic.CreateView):
         # order.save()
         return redirect("account:order_confirmation")
     
-class OrderConfirmation(LoginRequiredMixin, generic.CreateView):
+class Order_confirmation(LoginRequiredMixin, generic.CreateView):
     template_name = "accounts/order_confirmation.html"
     form_class = OrderConfirmationForm # 必要ないかも?
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["title"] = "注文内容確認ページ"
-        carts = self.request.user.cart_set.all()
-        context["carts"] = carts
-        subtotal8_with_tax = 0
-        subtotal10_with_tax = 0
-        for cart in carts:
-            if cart.item.tax_percent == 8:
-                subtotal8_with_tax += cart.total_amount()
-            elif cart.item.tax_percent == 10:
-                subtotal10_with_tax += cart.total_amount()
-                
-        context["subtotal8_with_tax"] = subtotal8_with_tax
-        context["subtotal10_with_tax"] = subtotal10_with_tax
-        
-        tax8 = round(subtotal8_with_tax*0.1/1.1) 
-        tax10 = round(subtotal10_with_tax*0.1/1.1) 
-        
-        context["tax8"] = tax8
-        context["tax10"] = tax10
-        
-        subtotal8 = subtotal8_with_tax - tax8
-        subtotal10 = subtotal10_with_tax - tax10
-        
-        context["subtotal8"] = subtotal8
-        context["subtotal10"] = subtotal10
-        
-        total = 0
-        for cart in carts:
-            total += cart.total_amount()
-            
-        context["total"] = total
-        return context
     
     def show_confirm_form(self, request, *args, **kwargs):
         carts = self.request.user.cart_set.all()
         form = None
         if self.form_class is not None:
             form = self.form_class(request.POST)
+            
+        subtotal8_with_tax = 0
+        subtotal10_with_tax = 0
+        for cart in carts:
+            if cart.item.tax_percent == 8:
+                subtotal8_with_tax += cart.total_amount()
+            elif cart.item.tax_percent == 10:
+                subtotal10_with_tax += cart.total_amount()  
+                
+        tax8 = round(subtotal8_with_tax*0.1/1.1) 
+        tax10 = round(subtotal10_with_tax*0.1/1.1) 
         
-        if request.POST:                
-            return render(request, self.template_name, {"form": form, "order_data": request.POST, "carts": carts})
+        subtotal8 = subtotal8_with_tax - tax8
+        subtotal10 = subtotal10_with_tax - tax10
+        
+        total = 0
+        for cart in carts:
+            total += cart.total_amount()
+            
+        context = {}
+        if request.POST:
+            context["order_data"] = request.POST
+            context["form"] = form
+            # return render(request, self.template_name, {"form": form, "order_data": request.POST, "carts": carts})
         else:
             context = self.get_context_data(**kwargs)
-            return self.render_to_response(context)
+        
+        context["title"] = "注文内容確認ページ" 
+        context["carts"] = carts
+        context["subtotal8_with_tax"] = subtotal8_with_tax
+        context["subtotal10_with_tax"] = subtotal10_with_tax
+        context["tax8"] = tax8
+        context["tax10"] = tax10
+        context["subtotal8"] = subtotal8
+        context["subtotal10"] = subtotal10
+        context["total"] = total
+        
+        return self.render_to_response(context)
         
     def save_order(self, request):
         new_order = create_order(self.request.user, request.POST)
@@ -256,6 +253,6 @@ class OrderConfirmation(LoginRequiredMixin, generic.CreateView):
         else:
             return self.show_confirm_form(request, *args, **kwargs)
             
-class SucceedOrder(LoginRequiredMixin, generic.TemplateView):
+class Succeed_order(LoginRequiredMixin, generic.TemplateView):
     template_name = "accounts/complete_order.html"
 
