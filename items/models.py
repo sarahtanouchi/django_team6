@@ -60,11 +60,18 @@ class Image(models.Model):
         return self.name
     
 class Item(models.Model):
+    
+    TAX_PERCENTAGE = (
+        (8,8),
+        (10,10),
+    )
     name = models.CharField("商品名", max_length=200)
     price = models.PositiveIntegerField("価格")
     status = models.BooleanField("公開フラグ", default=True)
     stock = models.PositiveIntegerField("在庫数")
+    recommended = models.BooleanField("おすすめ", default=None, null=True)
     description = models.CharField("商品詳細", max_length=1000)
+    tax_percent = models.PositiveIntegerField("消費税", default=8, choices=TAX_PERCENTAGE, null=True)
     item_type = models.ForeignKey(Item_type, on_delete=models.CASCADE, null=True, verbose_name="商品タイプ")
     occasion = models.ForeignKey(Occasion, on_delete=models.CASCADE, null=True, verbose_name="利用シーン")
     tea_set_type = models.ForeignKey(Tea_set_type, on_delete=models.CASCADE, blank=True, null=True, verbose_name="茶器タイプ")
