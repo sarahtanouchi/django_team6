@@ -60,5 +60,6 @@ class CompleteForm(AuthenticationForm):
 
 class LoginForm(AuthenticationForm):
     pass
-    # 継承のみ
+
+
     

@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 from django.views import generic
 from django.urls import reverse_lazy
-from django.contrib.auth.views import LoginView, LogoutView, TemplateView
+from django.contrib.auth.views import LoginView, LogoutView, TemplateView,
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .forms import SignupForm, LoginForm, InputForm, CompleteForm
+from .forms import SignupForm, LoginForm, InputForm, CompleteForm, 
 
 class Input(generic.CreateView):
     form_class = InputForm
@@ -52,6 +52,11 @@ class Logout(LogoutView):
         context = super().get_context_data(**kwargs)
         context["title"] = "ログアウトしました"
         return context
+        
+# パスワード再設定手続き
+# class PasswordRsprocedure(Templateview):
+    # template_name = "accounts/password_reprocedure.html"
+    
  
 # ユーザープロフィール
 class Detail(LoginRequiredMixin, generic.TemplateView):
