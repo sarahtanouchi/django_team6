@@ -4,8 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
 from django.contrib import messages
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.db.models import Avg
+from django.http import JsonResponse
 
 from .models import Item, Cart, Area, Item_type, Occasion, Tea_set_type, Tea_type, Taste, Flavor, Image, Review, Favorite, Information
 from .forms import CartUpdateForm, ItemCreateForm, AreaCreateForm, ItemTypeCreateForm, OccasionCreateForm, TeaSetTypeCreateForm, TeaTypeCreateForm, TasteCreateForm, FlavorCreateForm, ImageCreateForm, ReviewForm, FavoriteAddForm, InformationCreateForm
@@ -255,8 +256,9 @@ class Item_detail(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "商品詳細"
-        # reviews = self.request.item.review_set.all()
-        # context["reviews"] = reviews
+        reviews = self.object.review_set.all()
+        context["reviews"] = reviews      
+        
         return context
 
 @login_required        
@@ -343,15 +345,6 @@ def update_amount(request,pk):
     
     return redirect("items:carts")
    
-        # # キーワード検索
-        # keyword = self.request.GET.get('keyword', '')
-        # if keyword:
-        #     items = Item.objects.filter(
-        #         Q(name__icontains=keyword) |
-        #         Q(description__icontains=keyword) |
-        #         Q(tags__name__icontains=keyword)
-        #     )
-
 
 # 新着情報管理        
 class Information_list(LoginRequiredMixin, generic.ListView):
@@ -403,6 +396,12 @@ class Information_update(LoginRequiredMixin, generic.UpdateView):
 class Information_delete(LoginRequiredMixin, generic.DeleteView):
     model = Information
     success_url = reverse_lazy("items:information_list")
+
+
+
+
+
+
     
 # レビュー 
 class Review_create(LoginRequiredMixin, generic.CreateView):
@@ -410,15 +409,21 @@ class Review_create(LoginRequiredMixin, generic.CreateView):
     form_class = ReviewForm
     template_name = 'items/review_create.html'
     ordering = "-created_at"
-    success_url = reverse_lazy("items:item_detail")
- 
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "レビュー投稿"
+        item_id = self.kwargs["pk"]
+        item = get_object_or_404(Item, pk=item_id)
+        context["item"] = item
+        # context["form"] = ReviewForm(item=item)
+        
         return context
         
     def form_valid(self, form):
         item_id = self.kwargs["pk"]
+        # item_pk = form.cleaned_data['item'].pk
+        success_url = reverse("items:item_detail", kwargs={'pk': item_pk})
         item = get_object_or_404(Item, pk=item_id)
         review = form.save(commit=False)
         review.user = self.request.user
@@ -426,14 +431,41 @@ class Review_create(LoginRequiredMixin, generic.CreateView):
         review.save() 
         
         return super().form_valid(form)
- 
+
+#　商品ごとのレビュー        
+class Review_list(generic.ListView):
+    model = Review
+    template_name = "items/item_detail.html"
+    context_object_name = 'reviews'
+    
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        item_id = self.kwargs.get('pk')
+        return queryset.filter(item__id=item_id)
+        
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "レビュー"
+        
+      # 商品ごとのrate平均
+        item_id = self.kwargs.get('pk')
+        average_rate = Review.objects.filter(item__id=item_id).aggregate(Avg('rate'))['rate__avg']
+        context["average_rate"] = average_rate
+
+        return context
+        
+# ユーザーのレビュー投稿履歴
 class Review_history(LoginRequiredMixin, generic.ListView):
     model = Review
     template_name = "items/review_history.html"
+    ordering = "-created_at"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "レビュー投稿履歴"
+        # item_id = self.kwargs["pk"]
+        # item = get_object_or_404(Item, pk=item_id)
+        # context["item"] = item
         reviews = self.request.user.review_set.all()
         context["reviews"] = reviews
         return context
@@ -442,54 +474,47 @@ class Review_history(LoginRequiredMixin, generic.ListView):
         queryset = super().get_queryset()
         return queryset.filter(user=self.request.user)
 
+# お気に入り
 class Favorite_list(LoginRequiredMixin, generic.ListView):
+    model = Favorite
+    template_name = "items/favorite_list.html"
+
+    context_object_name = 'profile_user'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "お気に入り商品"
+        favorite_list = self.request.user.favorite_set.all()
+        context["favorite_list"] = favorite_list
+ 
+        return context
+        
+class Favorite_add(LoginRequiredMixin, generic.CreateView):
     model = Favorite
     form_class = FavoriteAddForm
     template_name = "items/favorite_list.html"
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
         
-        
-class Recommend_item_list(generic.ListView):
-    template_name = "pages/home.html"
-    model = Item
-    ordering = "-create_date"
+    def Ajax_ch_servings(self, request, pk):
+        num = request.GET.get('servings')
+        favorite = get_object_or_404(Menu, pk=pk)
     
-    def get_queryset(self):
-        item_type_filters = self.request.GET.getlist("item_type_filter", ["all"])
-        tea_type_filters = self.request.GET.getlist("tea_type_filter", ["all"])
-        tea_set_type_filters = self.request.GET.getlist("tea_set_type_filter", ["all"])
-        price_filters = self.request.GET.getlist("price_filter", ["all"])
-        taste_filters = self.request.GET.getlist("taste_filter", ["all"])
-        occasion_filters = self.request.GET.getlist("occasion_filter", ["all"])
-        items = Item.objects.all()
-        if "all" not in tea_type_filters:
-            items = items.filter(tea_type__name__in=tea_type_filters)
-        if "all" not in tea_set_type_filters:
-            items = items.filter(tea_set_type__name__in=tea_set_type_filters)
-        if "all" not in item_type_filters:
-            items = items.filter(item_type__name__in=item_type_filters)
-        if "less_than_1000" in price_filters:
-            items = items.filter(price__lte=1000)
-        if "less_than_5000" in price_filters:
-            items = items.filter(price__lte=5000)
-        if "more_than_5000" in price_filters:
-            items = items.filter(price__gte=5000)
-        if "all" not in taste_filters:
-            items = items.filter(taste__name__in=taste_filters)
-        if "all" not in occasion_filters:
-            items = items.filter(occasion__name__in=occasion_filters)
-        
-        return items
+#         # favorite_list = [
+#         #     favorite.name.name + str(float(ingredient.amount) * float(num)) + ingredient.name.unit.name
+#         #     for favorite in favorite_list.related_ingredient.all()
+#         # ]
     
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["tea_types"] = Tea_type.objects.all()
-        context["tea_set_types"] = Tea_set_type.objects.all()
-        context["tastes"] = Taste.objects.all()
-        context["occasions"] = Occasion.objects.all()
+#         # dict = {
+#         #     'favorite_list': favorite_list,
+#         # }
+#         return JsonResponse(dict)
 
-        return context
-        
+class Favorite_delete(LoginRequiredMixin, generic.DeleteView):
+    model = Favorite
+   
+# キーワード検索
+# keyword = self.request.GET.get('keyword', '')
+# if keyword:
+#     items = Item.objects.filter(
+#         Q(name__icontains=keyword) |
+#         Q(description__icontains=keyword) |
+#         Q(tags__name__icontains=keyword)
+#     )

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "accounts.apps.AccountsConfig", # 追記
     "items.apps.ItemsConfig", # 追記
     "pages.apps.PagesConfig", # 追記
+    "django.contrib.humanize",
 ]
 
 MIDDLEWARE = [

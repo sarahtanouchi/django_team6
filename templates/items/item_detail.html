@@ -1,4 +1,5 @@
 {% extends "layouts/default.html" %}
+{% load static %}
 {% load humanize %}
  
 {% block title %}{{ title }}{% endblock %}
@@ -25,7 +26,27 @@
                         </div>
                     </div>
                     <div class="row">
-                         <div class="col-12">               
+                         <div class="col-12">
+                            {% if user.is_authenticated %}
+                                <form id="FavoriteForm" method="post" action="{% url 'items:favorite_add' item.pk %}">
+                                    {% csrf_token %}
+                                    <div class="item_upper_icons d-flex justify-content-end">
+            				            <a onclick="submitFavoriteForm('{{ item.id }}')">
+            				                <img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入りリスト">
+            				            </a>
+            				         </div>
+                                </form>       
+                                <script>
+                                    function submitFavoriteForm(itemId) {
+                                        document.getElementById('favoriteForm').submit();
+                                    }
+                                </script>        				                
+        					{% else %}
+        				            <a onclick="showLoginModal();">
+        				                <img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入りリスト">
+        				            </a>                
+    				        {% endif %}
+
                             <h2 class="font-weight-bold">{{ item.name }}</h2>
                             <p>{{ item.description }}</p>
                             <div class="text-right">税込価格：{{ item.price | intcomma }}円</div>
@@ -55,19 +76,72 @@
             </div>
             <div class="row">
                 <div class="col-5 offset-1 mt-5 mb-5">
-                    <h3>産地情報等</h3>
+                    <h2>産地情報等</h2>
                     <p>{{item.area.description}}</p>
                 </div>
                 <div class="col-6 mt-5 mb-5">
                     <img class="rounded img-fluid auto" src="{{ item.area.area_image.url }}">
                 </div>
             </div>
+            
             <div class="row">
-                <div class="col-5 offset-1 mt-5">
-                    <h3>レビュー</h3>
+                <div class="col-5 offset-1 mt-5 item_detail_review_container">
+                    <h2>レビュー</h2>
+                    <div class="ml-5">
+                        {% if average_rate%}
+                            <p>平均: {{ average_rate }}</p>
+
+                        {% endif %}
+                    </div>
                 </div>
                 <div class="col-6 mt-5">
-                    <p>口コミ口コミ口コミ</p>
+                    {% if reviews %}
+                    <ul>
+                        {% for review in reviews %}
+                            <li class="item_detail_review">
+                                <strong>{{ review.user.username }}</strong> さん
+                                <p>評価:
+                                    {% if review.rate == 5 %}
+                                        <span class="fas fa-star"></span>
+                                        <span class="fas fa-star"></span>
+                                        <span class="fas fa-star"></span>
+                                        <span class="fas fa-star"></span>
+                                        <span class="fas fa-star"></span>
+                                    {% elif review.rate == 4 %}
+                                        <span class="fas fa-star"></span>
+                                        <span class="fas fa-star"></span>
+                                        <span class="fas fa-star"></span>
+                                        <span class="fas fa-star"></span>
+                                        <span class="far fa-star"></span>
+                                    {% elif review.rate == 3 %}
+                                        <span class="fas fa-star"></span>
+                                        <span class="fas fa-star"></span>
+                                        <span class="fas fa-star"></span>
+                                        <span class="far fa-star"></span>
+                                        <span class="far fa-star"></span>
+                                    {% elif review.rate == 2 %}
+                                        <span class="fas fa-star"></span>
+                                        <span class="fas fa-star"></span>
+                                        <span class="far fa-star"></span>
+                                        <span class="far fa-star"></span>
+                                        <span class="far fa-star"></span>
+                                    {% elif review.rate == 1 %}
+                                        <span class="fas fa-star"></span>
+                                        <span class="far fa-star"></span>
+                                        <span class="far fa-star"></span>
+                                        <span class="far fa-star"></span>
+                                        <span class="far fa-star"></span>
+                                    {% endif %}
+                                </p>
+                                <p>コメント: {{ review.comment }}</p>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                        <div class="text-center">
+                            <p>まだレビューはありません。</p>
+                        </div>    
+                    {% endif %}
                 </div>
             </div>
         </div>

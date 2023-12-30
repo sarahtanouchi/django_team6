@@ -30,6 +30,9 @@ h3 {
 p{
     font-size: 1em;
 }
+ul li{
+  list-style: none;
+}
 
 .container-fluid{
     padding: 0;
@@ -90,11 +93,10 @@ p{
   font-size: 12px;
 }
 
-/*アイテム上部アイコン*/
+/*一覧表示商品の上部アイコン*/
 .item_upper_icons{
   display: flex;
   margin-bottom: 0px;
-  /*margin-left: auto;*/
   padding: 0px;
 }
 
@@ -106,6 +108,8 @@ p{
 .item_upper_icons img{
     width: 18px;
     height: 18px;
+    margin-right: 0px;
+    cursor: pointer;
 }
   
 /*完了画面*/
@@ -332,4 +336,10 @@ p{
 .disabled {
   opacity: 0.3;
   cursor: inherit;
+}
+
+/*商品詳細レビュー*/
+.item_detail_review{
+  background-color: #EEEEEE;
+  
 }

@@ -126,7 +126,7 @@ class Review(models.Model):
         (5, '5'),
     ]
     item = models.ForeignKey("Item", on_delete=models.CASCADE)
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name="投稿者")
     rate = models.PositiveIntegerField("評価", default=0, validators=[MinValueValidator(1), MaxValueValidator(5)], choices=CHOICES)
     comment = models.TextField("コメント", max_length=200, blank=True)
     create_date = models.DateTimeField("投稿日", auto_now_add=True)

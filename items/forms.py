@@ -108,18 +108,16 @@ class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = [
-            "item",
             "rate",
             "comment"
         ]
         widgets = {
             "rate": forms.RadioSelect(choices=Review.CHOICES),
         }
-        
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     self.fields['star'].widget = forms.TextInput(attrs={'type': 'range', 'step': '1', 'min': '1', 'max': '5'})
-
+    def __init__(self, *args, **kwargs):
+        item = kwargs.pop('item', None)
+        super().__init__(*args, **kwargs)
+  
 class FavoriteAddForm(forms.ModelForm):
     class Meta:
         model = Favorite
