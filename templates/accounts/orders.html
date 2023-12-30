@@ -1,4 +1,5 @@
 {% extends "layouts/default.html" %}
+{% load humanize %}
  
 {% block title %}{{ title }}{% endblock %}
  
@@ -10,37 +11,69 @@
                 <a class="btn btn-outline-secondary btn-sm" href="{% url 'items:carts' %}">カートに戻る</a>
             </nav> 
 		<div class="row">
-    			<div class="col-12">
+    			<div class="col-md-12">
                     {% for cart in carts %}
                         <div class="card item">
         					<div class="row item_row">
-        						<div class="col-3 item_figure">
+        						<div class="col-md-3 item_figure">
         							{% with cart.item.item_images.all.0 as first_image %}
                                			<img class="rounded img-fluid auto" src="{{ first_image.image.url }}">
                             		{% endwith %}
         						</div>
-        						<div class="col-5 item_description">
+        						<div class="col-md-4 offset-1 item_description">
         							<dl>
                                         <dt>{{ cart.item.name }}</dt>
                                         <dd>{{ cart.item.description }}</dd>
                                      </dl>
                                 </div>
-                                <div class="col-4 item_description">
+                                <div class="col-md-3 offset-1 item_description">
                             		<dl>
-                                        <dt>価格(税込)</dt>
-                                        <dd>{{ cart.item.price }}円</dd>
+                                        <!--<dt>価格(税込)</dt>-->
+                                        <!--<dd>{{ cart.item.price }}円</dd>-->
                                         <dt>購入数</dt>
                                         <dd>{{ cart.amount }}</dd>
-                                        <dt>合計金額(税込)</dt>
-                                        <dd>{{ cart.total_amount }}円</dd>
+                                        <dt>税込価格</dt>
+                                        <dd>{{ cart.item.price | intcomma }}円
+                                            <small>(内税{{ cart.item.tax_percent | intcomma }}%)</small>
+                                        </dd>
                                     </dl>
         						</div>
         					</div>
         				</div>
         			{% endfor %}
+					<div class="row mb-4">
+					    <div class="col-md-9">
+					        <p class="text-right font-weight-bold">消費税８%対象商品</p>
+					    </div>
+					    <div class="col-md-3">
+					        <div class="">税抜小計：{{ subtotal8 | intcomma }}円</div>
+					        <div>
+					            <small>消費税８%：{{ tax8 | intcomma }}円</small>
+					       </div>
+					       <div class="font-weight-bold">税込小計：{{ subtotal8_with_tax | intcomma }}円</div>
+					    </div>
+					</div>
+					<div class="row">
+					    <div class="col-md-9">
+					        <p class="text-right font-weight-bold">消費税10%対象商品</p>
+					    </div>
+					    <div class="col-md-3">
+					        <div>税抜小計：{{ subtotal10 | intcomma }}円</div>
+					        <div>
+					            <small>消費税10%：{{ tax10 | intcomma }}円</small>
+					       </div>
+					       <div class="font-weight-bold mb-4">税込小計：{{ subtotal10_with_tax | intcomma }}円</div>
+					       <div>
+					       <small>送料：無料</small>
+					       </div>
+					       <div class="font-weight-bold">
+					           <big>税込合計：{{ total | intcomma }}円</big>
+					       </div>
+					    </div>
+					</div>
         	    </div>
         	</div>
-        	<div class="row">
+        	<div class="row mt-4">
         		<div class="col-12">
         		   	<form method="post" action="{% url 'accounts:order_confirmation' %}">
     		          {% csrf_token %}

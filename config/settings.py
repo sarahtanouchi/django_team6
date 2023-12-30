@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     "django.contrib.humanize",
 ]
 
+NUMBER_GROUPING = 3
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
