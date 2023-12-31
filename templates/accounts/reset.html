@@ -1,0 +1,26 @@
+{% extends "layouts/default_minimum.html" %}
+ 
+{% block title %}{{ title }}{% endblock %}
+ 
+{% block content %}
+    <h1>{{ title }}</h1>
+    <form action="" method="POST">
+        <!-- 各入力欄に紐付かないエラー -->
+        {{ form.non_field_errors }}
+ 
+        {% for field in form.visible_fields %}
+            {% if field.name != 'username' %} <!-- ユーザー名フィールドを除外 -->
+                <p>
+                    <label for="{{ field.id_for_label }}">{{ field.label_tag }}</label>
+                    <!-- 入力欄 -->
+                    {{ field }}
+                    <!-- 各入力欄に紐付くエラー -->
+                    {{ field.errors }}
+                </p>
+            {% endif %}
+        {% endfor %}
+        {% csrf_token %}
+        <button type="submit">パスワードを再設定する</button>
+        <button type="submit">戻る</button>
+    </form>
+{% endblock %}

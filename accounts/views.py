@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 from django.views import generic
 from django.urls import reverse_lazy
-from django.contrib.auth.views import LoginView, LogoutView, TemplateView,
+from django.contrib.auth.views import LoginView, LogoutView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .forms import SignupForm, LoginForm, InputForm, CompleteForm, 
+from .forms import SignupForm, LoginForm, InputForm, CompleteForm, ResetForm 
 
 class Input(generic.CreateView):
     form_class = InputForm
@@ -54,10 +54,30 @@ class Logout(LogoutView):
         return context
         
 # パスワード再設定手続き
-# class PasswordRsprocedure(Templateview):
-    # template_name = "accounts/password_reprocedure.html"
+class Resetting(TemplateView):
+    template_name = "accounts/resetting.html"
     
- 
+    
+# パスワード再設定
+class Reset(generic.CreateView):
+    form_class = ResetForm
+    template_name = "accounts/reset.html"
+    
+    def get_success_url(self):
+        # items:index のURL を逆引きして利用
+        return reverse_lazy("account:login") 
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # 以下で、 辞書データ context に値を追加
+        context["title"] = "パスワード再設定"
+        return context
+        
+# パスワード再設定完了
+class Recomplete(TemplateView):
+    """パスワード再設定完了ページ"""
+    template_name = 'accounts/recomplete.html'
+    
 # ユーザープロフィール
 class Detail(LoginRequiredMixin, generic.TemplateView):
     template_name = "accounts/detail.html"

@@ -32,7 +32,7 @@ class InputForm(UserCreationForm):
         fields = ("username",  "full_name", "furigana", "postal_code", "prefecture", "city", "street_address", "building_name", "telephone_number", "gender", "date_of_birth", "privacy_policy_agreement")
 
 class SignupForm(UserCreationForm):
-    """ユーザー登録確認用フォーム"""
+    """ユーザー登録用フォーム"""
     GENDER_CHOICES = (
         ('female', '女性'),
         ('male', '男性'),
@@ -61,5 +61,10 @@ class CompleteForm(AuthenticationForm):
 class LoginForm(AuthenticationForm):
     pass
 
-
+class ResetForm(UserCreationForm):
+    
+    class Meta:
+        model = User
+        fields = ("username",)
+    
     
