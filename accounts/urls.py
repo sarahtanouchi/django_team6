@@ -17,4 +17,5 @@ urlpatterns = [
     path("password_reset/", auth_views.PasswordResetView.as_view(), name="password_reset"),
     path("mypage/", views.Mypage.as_view(), name="mypage"), #マイページ
     # path("favorite/", views.Favorite.as_view(), name="favorite"), # お気に入り
+    path("order_history/", views.Order_history.as_view(), name="order_history"), #注文履歴
 ]

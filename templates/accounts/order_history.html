@@ -1,0 +1,52 @@
+{% extends "layouts/default.html" %}
+{% load humanize %}
+ 
+{% block title %}{{ title }}{% endblock %}
+ 
+{% block content %}
+    <div class="container">
+		<h1 class="h4">{{ title }}</h1>
+		<div class="row">
+			<div class="col-md-12">
+                {% for order_info in order_history %}
+        		    <nav class="navbar navbar-expand-md navbar-light bg-light justify-content-between mt-4">
+        		        <span class="navbar-text">{{ order_info.order.purchase_date }} ご注文分</span>
+        		        {% if order_info.order.coupon %}
+        		            <span class="navbar-text">利用クーポン：{{ order_info.order.coupon.code }}</span>
+        		        {% endif %}
+        		        <span class="navbar-text">合計金額：{{ total | intcomma }}円</span>
+        		        <span class="navbar-text">ステータス：{{ order_info.order.get_status_display }}</span>
+                        <a class="btn btn-outline-secondary btn-sm" href="{% url 'home' %}">注文をキャンセル</a>
+                    </nav> 
+                    {% for order_detail in order_info.order_details %}
+                        <div class="card item">
+        					<div class="row item_row">
+        						<div class="col-md-3 item_figure">
+        							{% with order_detail.item.item_images.all.0 as first_image %}
+                               			<img class="rounded img-fluid auto" src="{{ first_image.image.url }}">
+                            		{% endwith %}
+        						</div>
+        						<div class="col-md-4 offset-1 item_description">
+                                    <div>商品名：{{ order_detail.item.name }}</div>
+                                    <div>個数：{{ order_detail.amount }}</div>
+                                    <div>
+                                        ご購入価格：{{ order_detail.purchase_price | intcomma }}円
+                                        <small>(内税{{ order_detail.item.tax_percent | intcomma }}%)</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 offset-1 item_description">
+                            	    <a class="btn btn-secondary btn-sm" href="{% url 'home' %}">レビューを投稿</a>
+        						</div>
+        					</div>
+        				</div>
+        			{% endfor %}
+    			{% empty %}
+                  <p class="text-center mt-5 mb-3">ご購入履歴はありません</p>
+    			{% endfor %}
+    		</div>
+        </div>
+        <div class="return_link d-flex justify-content-center">
+           	<button class="btn" onclick="window.history.back();return false;">＜ 戻る</button>
+        </div>
+    </div>
+{% endblock %}

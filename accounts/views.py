@@ -255,4 +255,43 @@ class Order_confirmation(LoginRequiredMixin, generic.CreateView):
             
 class Succeed_order(LoginRequiredMixin, generic.TemplateView):
     template_name = "accounts/complete_order.html"
-
+    
+class Order_history(LoginRequiredMixin, generic.ListView):
+    model=Order
+    template_name = "accounts/order_history.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "ご購入履歴"
+        orders = self.request.user.order_set.all()
+        
+        orders_with_details = []
+        total = 0
+        for order in orders:
+            order_details = order.order_detail_set.all()
+            for order_detail in order_details:
+                subtotal = order_detail.purchase_price*order_detail.amount
+                total += subtotal
+        
+            order_information = {
+                "order": order,
+                "order_details":order_details
+            }
+            
+            orders_with_details.append(order_information)
+            
+        # context["orders"] = orders
+        # order_details = Order_detail.objects.all()
+        # order_details = self.order.order_detail_set.all()
+        context["order_history"] = orders_with_details
+        context["total"] = total
+        
+        return context
+        
+    # def get_queryset(self):
+    #     queryset = super().get_queryset()
+    #     queryset = queryset.filter(order=self.request.user)
+    #     return queryset
+        
+        
+    
