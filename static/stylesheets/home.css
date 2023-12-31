@@ -173,7 +173,7 @@ footer{
 .top_information article{
     /*display: flex;*/
 	margin-left: 30px;
-	background-color: #EEEEEE;
+	text-decoration: underline;
 	padding: 20px;
 }
 
@@ -183,13 +183,21 @@ footer{
 }
 
 .recommend_items{
-    padding: 20px;
+    padding: 10px;
 }
-
-.recommend_item{
-    overflow: hidden;
-    align-items: center;
-    margin-left: 30px;
+.recommend_item_image{
+    max-width: 100%;
+    height: auto;
+}
+.item_tag{
+    background-color: #008000;
+    color: white;
+    font-size: 12px;
+    padding: 2px;
+    margin-left: 3px;
+}
+.item_tag_row{
+    /*margin-right: 0px;*/
 }
 
 .item_search_container{
@@ -212,10 +220,7 @@ footer{
     display: block;
 	color: #000000;	
 }
-.recommend_item_image{
-    max-width: 100%;
-    height: auto;
-}
+
 .banner_image{
     max-width: 100%;
     height: auto;

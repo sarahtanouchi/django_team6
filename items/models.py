@@ -137,12 +137,12 @@ class Review(models.Model):
         unique_together = ('item', 'user')
     
     def __str__(self):
-        return f"{self.user.username} : {self.item.name} : {self.rate} rate"
+        return f"{self.item.name} : {self.user.username} : {self.rate} rate"
 
 # お気に入り 
 class Favorite(models.Model):
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     item = models.ForeignKey("Item", on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     
     class Meta:
         unique_together = ('item', 'user')

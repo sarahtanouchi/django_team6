@@ -12,24 +12,25 @@
 			{% for item in item_list %}
 				<div class="col-3 mb-4">
 					<ul class="item_upper_icons">
+						
 		                <!-- お気に入り追加 -->
 		                <li class="item_favorite_icon" >
 				            {% if user.is_authenticated %}
-				            	<form id="FavoriteForm" method="post" action="{% url 'items:favorite_add' item.pk %}">
+				            	<form id="FavoriteForm" method="post" action="{% url 'items:favorite_add' item.id %}">
 				                	<a onclick="submitFavoriteForm('{{ item.id }}')">
-				                    	<img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入りリスト">
+				                    	<img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入り">
 				                	</a>
 				             	</form> 
 							{% else %}
 				                <a onclick="showLoginModal();">
-				                    <img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入りリスト">
+				                    <img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入り">
 				                </a>                
 				            {% endif %}
 				         </li>
 			             <!-- カート追加 -->
 			             <li class="item_cart_icon">
 				             {% if user.is_authenticated %}
-					             <form id="CartForm" method="post" action="{% url 'items:add_item' item.pk %}">
+					             <form id="CartForm" method="post" action="{% url 'items:add_item' item.id %}">
 					                <a onclick="submitCartForm('{{ item.id }}')">
 					                    <img src="{% static 'images/icon/cart_icon.png' %}" alt="カート">
 					                </a>
@@ -113,6 +114,7 @@
 		{% include "includes/pagination.html" %}
 	</div>
 	
+
 	<script>
         var isAuthenticated = {% if user.is_authenticated %}true{% else %}false{% endif %};
     
@@ -127,7 +129,7 @@
 	
 	
 	    function addToFavorites(itemId, icon) {
-	        // ここでお気に入り追加のロジックを実行（Ajaxなどを使用）
+	        // お気に入り追加のロジックを実行（Ajaxなどを使用）
 	        // 成功した場合、アイコンの色を変更
 	        simulateAsyncRequest().then(() => {
 	            icon.classList.toggle('favorited');
@@ -135,7 +137,7 @@
 	    }
 	
 	    function addToCart(itemId, icon) {
-	        // ここでカート追加のロジックを実行（Ajaxなどを使用）
+	        // カート追加のロジックを実行（Ajaxなどを使用）
 	        // 成功した場合、アイコンの色を変更
 	        simulateAsyncRequest().then(() => {
 	            icon.classList.toggle('added-to-cart');

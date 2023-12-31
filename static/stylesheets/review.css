@@ -54,7 +54,7 @@ input[type="radio"]{
 
 .true_star {
     display:none;
-    color:orange;
+    color: black;
 }
 .false_star {
     color:gray;
@@ -77,5 +77,11 @@ input[type="radio"]:checked ~ .star_radio_label_flex > label > .false_star {
 .star_radio_label_flex > label:hover > .false_star {
     display: inline-block;
 }
+
+/*レビュー投稿履歴*/
+.review_item_row{
+    display: flex;
+}
+
 
 /*お気に入りリスト*/

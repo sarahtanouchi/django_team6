@@ -30,9 +30,9 @@
                             {% if user.is_authenticated %}
                                 <form id="FavoriteForm" method="post" action="{% url 'items:favorite_add' item.pk %}">
                                     {% csrf_token %}
-                                    <div class="item_upper_icons d-flex justify-content-end">
+                                    <div class="d-flex justify-content-end item_upper_icons">
             				            <a onclick="submitFavoriteForm('{{ item.id }}')">
-            				                <img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入りリスト">
+            				                <img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入り">
             				            </a>
             				         </div>
                                 </form>       
@@ -42,9 +42,11 @@
                                     }
                                 </script>        				                
         					{% else %}
+        					    <div class="d-flex justify-content-end item_upper_icons">
         				            <a onclick="showLoginModal();">
-        				                <img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入りリスト">
-        				            </a>                
+        				                <img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入り">
+        				            </a>
+        				        </div>
     				        {% endif %}
 
                             <h2 class="font-weight-bold">{{ item.name }}</h2>

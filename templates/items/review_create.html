@@ -44,11 +44,11 @@
             <input id="star_radio_5" type="radio" name="rate" value="5">
     
             <div class="star_radio_label_flex">
-                <label class="star_radio_label" for="star_radio_5"><div class="true_star"><i class="fas fa-star"></i></div><div class="false_star"><i class="far fa-star"></i></div></label>
-                <label class="star_radio_label" for="star_radio_4"><div class="true_star"><i class="fas fa-star"></i></div><div class="false_star"><i class="far fa-star"></i></div></label>
-                <label class="star_radio_label" for="star_radio_3"><div class="true_star"><i class="fas fa-star"></i></div><div class="false_star"><i class="far fa-star"></i></div></label>
-                <label class="star_radio_label" for="star_radio_2"><div class="true_star"><i class="fas fa-star"></i></div><div class="false_star"><i class="far fa-star"></i></div></label>
                 <label class="star_radio_label" for="star_radio_1"><div class="true_star"><i class="fas fa-star"></i></div><div class="false_star"><i class="far fa-star"></i></div></label>
+                <label class="star_radio_label" for="star_radio_2"><div class="true_star"><i class="fas fa-star"></i></div><div class="false_star"><i class="far fa-star"></i></div></label>
+                <label class="star_radio_label" for="star_radio_3"><div class="true_star"><i class="fas fa-star"></i></div><div class="false_star"><i class="far fa-star"></i></div></label>
+                <label class="star_radio_label" for="star_radio_4"><div class="true_star"><i class="fas fa-star"></i></div><div class="false_star"><i class="far fa-star"></i></div></label>
+                <label class="star_radio_label" for="star_radio_5"><div class="true_star"><i class="fas fa-star"></i></div><div class="false_star"><i class="far fa-star"></i></div></label>
             </div>
         </div>        
  
@@ -69,9 +69,27 @@
 <script src="https://cdn.jsdelivr.net/npm/rateyo@2.3.2/lib/cjs/jquery.rateyo.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
+    // rating
+    document.addEventListener('DOMContentLoaded', function () {
+        var stars = document.querySelectorAll('.star_radio_label_flex label');
+
+        stars.forEach(function (star) {
+            star.addEventListener('click', function () {
+                var rating = parseInt(star.getAttribute('for').split('_')[2]);
+                updateStars(rating);
+            });
+        });
+
+        function updateStars(rating) {
+            stars.forEach(function (star) {
+                var starRating = parseInt(star.getAttribute('for').split('_')[2]);
+                star.classList.toggle('selected', starRating <= rating);
+            });
+        }
+    });
+
     $(document).ready(function () {
         let selectedStar = null;
-
         // ホバー時の処理
         $(".star_radio_label_flex > label").hover(
             function () {
