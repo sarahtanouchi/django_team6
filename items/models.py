@@ -68,6 +68,7 @@ class Item(models.Model):
     name = models.CharField("商品名", max_length=200)
     price = models.PositiveIntegerField("価格")
     status = models.BooleanField("公開フラグ", default=True)
+    recommended = models.BooleanField("おすすめ", default=None, null=True)
     stock = models.PositiveIntegerField("在庫数")
     recommended = models.BooleanField("おすすめ", default=None, null=True)
     description = models.CharField("商品詳細", max_length=1000)
@@ -112,6 +113,9 @@ class Information(models.Model):
     title = models.CharField("タイトル", max_length=30)
     body = models.TextField("本文", max_length=50)
     create_date = models.DateTimeField("登録日時", auto_now_add=True)
+    
+    def __str__(self):
+        return self.body[:20]
 
 # レビュー 
 class Review(models.Model):
@@ -123,7 +127,7 @@ class Review(models.Model):
         (5, '5'),
     ]
     item = models.ForeignKey("Item", on_delete=models.CASCADE)
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name="投稿者")
     rate = models.PositiveIntegerField("評価", default=0, validators=[MinValueValidator(1), MaxValueValidator(5)], choices=CHOICES)
     comment = models.TextField("コメント", max_length=200, blank=True)
     create_date = models.DateTimeField("投稿日", auto_now_add=True)
@@ -133,12 +137,12 @@ class Review(models.Model):
         unique_together = ('item', 'user')
     
     def __str__(self):
-        return f"{self.user.username} : {self.item.name} : {self.rate} rate"
+        return f"{self.item.name} : {self.user.username} : {self.rate} rate"
 
 # お気に入り 
 class Favorite(models.Model):
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     item = models.ForeignKey("Item", on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     
     class Meta:
         unique_together = ('item', 'user')

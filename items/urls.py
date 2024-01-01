@@ -27,12 +27,15 @@ urlpatterns = [
     path("carts/", views.Carts.as_view(), name="carts"),
     # path("remove_cart_item/<int:item_pk>/", views.remove_cart_item, name="remove_cart_item"),
     path("delete_cart/<int:pk>/", views.Delete_cart.as_view(), name="delete_cart"),
-    path("information_list/", views.InformationList.as_view(), name="information_list"), # 新着情報管理
-    path("information_create/", views.InformationCreate.as_view(), name="information_create"), # 新着情報新規作成
-    path("information_update/<int:pk>/", views.InformationUpdate.as_view(), name="information_update"), # 新着情報編集
-    path("information_delete/<int:pk>/", views.InformationDelete.as_view(), name="information_delete"), #新着情報削除
-    path("review_create/<int:pk>/", views.ReviewCreate.as_view(), name="review_create"), #レビュー投稿
-    path("review_history/", views.ReviewHistory.as_view(), name="review_history"), #ユーザーレビュー投稿履歴
-    path("favorite_list/", views.FavoriteList.as_view(), name="favorite_list"), # お気に入り
-    
+    path("information_list/", views.Information_list.as_view(), name="information_list"), # 新着情報管理
+    path("information_create/", views.Information_create.as_view(), name="information_create"), # 新着情報新規作成
+    path("information_update/<int:pk>/", views.Information_update.as_view(), name="information_update"), # 新着情報編集
+    path("information_delete/<int:pk>/", views.Information_delete.as_view(), name="information_delete"), #新着情報削除
+    path("review_create/<int:pk>/", views.Review_create.as_view(), name="review_create"), #レビュー投稿
+    path("review_history/", views.Review_history.as_view(), name="review_history"), #ユーザーレビュー投稿履歴
+    path("review_list/", views.Review_list.as_view(), name="review_list"), #各商品レビュー
+    path("review_delete/<int:pk>/", views.Review_delete.as_view(), name="review_delete"), #レビュー投稿
+    path("favorite_list/", views.Favorite_list.as_view(), name="favorite_list"), # お気に入りリスト
+    path("favorite_add/<int:pk>/", views.Favorite_add.as_view(), name="favorite_add"), # お気に入り追加
+    path("favorite_delete/<int:pk>/", views.Favorite_delete.as_view(), name="favorite_delete"), # お気に入り削除
 ]

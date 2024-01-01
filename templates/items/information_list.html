@@ -8,10 +8,13 @@
 {% block title %}{{ title }}{% endblock %}
  
 {% block content %}
+<div class="container">
     <h1>{{ title }}</h1>
-    <a href="{% url 'items:information_create' %}">
-       <button class="btn_md btn_white admin_create" type="button">新規追加</button>
-    </a>
+    <div class-"admin_create_btn">
+	    <a href="{% url 'items:information_create' %}">
+	       <button class="btn_md btn_white" type="button">新規追加</button>
+	    </a>
+    </div>
     
     <table class="information_table">
 		<thead>
@@ -22,7 +25,7 @@
 				<th>操作</th>
 		</thead>
 		<tbody>
-		    {% for information in informations %}
+		    {% for information in information_list %}
 			<tr>
 				<td>{{ information.title }}</td>
 				<td>{{ information.body }}</td>
@@ -38,8 +41,9 @@
 				</td>
 			</tr>
 			{% empty %}
-                <p>新着情報はありません。</p>
+                <p>お知らせはありません。</p>
 			{% endfor %}
 		</tbody>
 	</table>
+</div>
 {% endblock %}

@@ -1,9 +1,10 @@
 {% extends "layouts/default.html" %}
- 
+{% load static %}
+{% load humanize %}
+
 {% block title %}{{ title }}{% endblock %}
 
 {% block additional_css %}
-    {% load static %}
     <link rel="stylesheet" href="{% static 'stylesheets/review.css' %}">
 {% endblock %} 
 
@@ -13,48 +14,44 @@
     
     <section class="row item_detail_container">
         <div class="col-4　d-flex">
-            {% if item.item_images %}
-                <img class="item_image img-fluid rounded" src="{{ image.image.url }}">
-            {% else %}
-                <img class="item_image" src="{% static 'images/no_image.jpg' %}">
-            {% endif %}
+            {% with item.item_images.all.0 as first_image %}
+                <img class="item_image rounded img-fluid" src="{{ first_image.image.url }}">
+            {% endwith %}
         </div>
         <div class="col-8">
             <div class="d-flex">
                 <span>商品名：{{ item.name }}</span>
             </div>
             <div class="d-flex">
-                <span>税込価格：{{ item.price }}円（内税{{ item.price }}%）</span>
+                <span>税込価格：{{ item.price | intcomma  }}円（内税{{ item.tax_percent }}%：{{ item.tax | intcomma }}円)）</span>
             </div>
             <div class="d-flex">
-                <a href="">
+                <a href="{% url 'items:item_detail' item.id %}">
                     <button class="btn_md btn_white" type="button">商品詳細</button>
                 </a>
             </div>
         </div>
     </section>
 
-    <form class="review-form" action="" method="POST">
+    <form class="review-form" method="POST" action="" enctype="multipart/form-data">
         {% csrf_token %} 
-        
-        <!--{{ form.as_p }}-->
-       
-        <input id="star_radio_1" type="radio" name="star" value="1">
-        <input id="star_radio_2" type="radio" name="star" value="2">
-        <input id="star_radio_3" type="radio" name="star" value="3">
-        <input id="star_radio_4" type="radio" name="star" value="4">
-        <input id="star_radio_5" type="radio" name="star" value="5">
-
         <div class="row review_container">
             <p>評　価　：　</p>
+            <input id="star_radio_1" type="radio" name="rate" value="1">
+            <input id="star_radio_2" type="radio" name="rate" value="2">
+            <input id="star_radio_3" type="radio" name="rate" value="3">
+            <input id="star_radio_4" type="radio" name="rate" value="4">
+            <input id="star_radio_5" type="radio" name="rate" value="5">
+    
             <div class="star_radio_label_flex">
-                <label class="star_radio_label" for="star_radio_5"><div class="true_star" ><i class="fas fa-star"></i></div><div class="false_star"><i class="far fa-star"></i></div></label>
-                <label class="star_radio_label" for="star_radio_4"><div class="true_star" ><i class="fas fa-star"></i></div><div class="false_star"><i class="far fa-star"></i></div></label>
-                <label class="star_radio_label" for="star_radio_3"><div class="true_star" ><i class="fas fa-star"></i></div><div class="false_star"><i class="far fa-star"></i></div></label>
-                <label class="star_radio_label" for="star_radio_2"><div class="true_star" ><i class="fas fa-star"></i></div><div class="false_star"><i class="far fa-star"></i></div></label>
-                <label class="star_radio_label" for="star_radio_1"><div class="true_star" ><i class="fas fa-star"></i></div><div class="false_star"><i class="far fa-star"></i></div></label>
+                <label class="star_radio_label" for="star_radio_1"><div class="true_star"><i class="fas fa-star"></i></div><div class="false_star"><i class="far fa-star"></i></div></label>
+                <label class="star_radio_label" for="star_radio_2"><div class="true_star"><i class="fas fa-star"></i></div><div class="false_star"><i class="far fa-star"></i></div></label>
+                <label class="star_radio_label" for="star_radio_3"><div class="true_star"><i class="fas fa-star"></i></div><div class="false_star"><i class="far fa-star"></i></div></label>
+                <label class="star_radio_label" for="star_radio_4"><div class="true_star"><i class="fas fa-star"></i></div><div class="false_star"><i class="far fa-star"></i></div></label>
+                <label class="star_radio_label" for="star_radio_5"><div class="true_star"><i class="fas fa-star"></i></div><div class="false_star"><i class="far fa-star"></i></div></label>
             </div>
-        </div>
+        </div>        
+ 
         <div class="row review_container">
             <p>コメント：　</p>
             <textarea class="review_comment" name="comment" rows="4" cols="50"></textarea>
@@ -72,9 +69,27 @@
 <script src="https://cdn.jsdelivr.net/npm/rateyo@2.3.2/lib/cjs/jquery.rateyo.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
+    // rating
+    document.addEventListener('DOMContentLoaded', function () {
+        var stars = document.querySelectorAll('.star_radio_label_flex label');
+
+        stars.forEach(function (star) {
+            star.addEventListener('click', function () {
+                var rating = parseInt(star.getAttribute('for').split('_')[2]);
+                updateStars(rating);
+            });
+        });
+
+        function updateStars(rating) {
+            stars.forEach(function (star) {
+                var starRating = parseInt(star.getAttribute('for').split('_')[2]);
+                star.classList.toggle('selected', starRating <= rating);
+            });
+        }
+    });
+
     $(document).ready(function () {
         let selectedStar = null;
-
         // ホバー時の処理
         $(".star_radio_label_flex > label").hover(
             function () {

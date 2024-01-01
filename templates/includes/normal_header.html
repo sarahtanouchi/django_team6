@@ -91,9 +91,11 @@
               　 <li class="header_item"><a href="{% url 'items:index' %}?item_type_filter=茶器" class="navbar_link">茶器</a></li>
               　 <li class="header_item"><a href="{% url 'items:index' %}?item_type_filter=ギフト" class="navbar_link">ギフトセット</a></li>
             </ul>
+
             <form class="form-inline" action="{% url 'items:index' %}" method="get">
-                <label class="sr-only" for="kw">キーワード検索</label>
-                <input type="search" class="form-control form-control-sm mr-2" placeholder="キーワードで商品検索" id="kw" name="keyword">
+                <div class="form-group">
+                    {{ item_search_form.as_p }}
+                </div>
                 <button type="submit" class="btn btn-secondary btn-sm">検索</button>
             </form>
         </div>
