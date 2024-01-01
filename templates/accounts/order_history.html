@@ -14,7 +14,7 @@
         		        {% if order_info.order.coupon %}
         		            <span class="navbar-text">利用クーポン：{{ order_info.order.coupon.code }}</span>
         		        {% endif %}
-        		        <span class="navbar-text">合計金額：{{ total | intcomma }}円</span>
+        		        <span class="navbar-text">合計金額：{{ order_info.total | intcomma }}円</span>
         		        <span class="navbar-text">ステータス：{{ order_info.order.get_status_display }}</span>
                         <a class="btn btn-outline-secondary btn-sm" href="{% url 'home' %}">注文をキャンセル</a>
                     </nav> 

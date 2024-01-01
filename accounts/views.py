@@ -266,16 +266,16 @@ class Order_history(LoginRequiredMixin, generic.ListView):
         orders = self.request.user.order_set.all()
         
         orders_with_details = []
-        total = 0
         for order in orders:
+            total = 0
             order_details = order.order_detail_set.all()
             for order_detail in order_details:
-                subtotal = order_detail.purchase_price*order_detail.amount
-                total += subtotal
+                total += order_detail.purchase_price*order_detail.amount
         
             order_information = {
                 "order": order,
-                "order_details":order_details
+                "order_details": order_details,
+                "total": total
             }
             
             orders_with_details.append(order_information)
@@ -284,7 +284,6 @@ class Order_history(LoginRequiredMixin, generic.ListView):
         # order_details = Order_detail.objects.all()
         # order_details = self.order.order_detail_set.all()
         context["order_history"] = orders_with_details
-        context["total"] = total
         
         return context
         
