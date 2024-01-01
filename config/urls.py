@@ -11,7 +11,7 @@ urlpatterns = [
     path("accounts/", include("accounts.urls")),
     path("items/", include("items.urls")),
     path("pages/", include("pages.urls")),
-    path("", views.HomeView.as_view(), name="home"), #トップページ表示追加
+    path("", views.HomeView.as_view(), name="home"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

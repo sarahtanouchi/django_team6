@@ -1,34 +1,85 @@
 {% extends "layouts/default.html" %}
+{% load static %}
+{% load humanize %}
  
 {% block title %}{{ title }}{% endblock %}
 
 {% block additional_css %}
-    {% load static %}
     <link rel="stylesheet" href="{% static 'stylesheets/review.css' %}">
 {% endblock %} 
 
 {% block content %}
-<main>
+<main class="contents">
     <h1>{{ title }}</h1>
-    <ul>
-        {% for review in user_reviews %}
-            <li>
-                <a href="{% url 'review:detail' review.id %}">
-                    {{ review.user.username }}: {{ review.body }}
-                    ({{ review.created_at }})
-                </a>
-                <!--{% if item.image %}-->
-                <!--    <p><img class="item_image" src="{{ item.image.url }}"></p>-->
-                <!--{% else %}-->
-                <!--    <p><img class="item_image" src="{% static 'images/no_image.png' %}"></p>-->
-                <!--{% endif %}-->
-            </li>
+    <div class="row">
+        <div class="col-12">
+        {% for review in reviews %}
+            <div class="card item">
+                <div class="row item_row">
+                    {% with review.item.item_images.all.0 as first_image %}
+                    <figure class="col-3 item_figure">
+               			<img class="rounded img-fluid auto" src="{{ first_image.image.url }}">
+            	        <figcaption>
+    	    				<div class="review_item_name">
+    	    					<a href="">
+    		    					<span>{{ review.item.name }}</span>
+    		    				</a>
+    		    				<span>　{{ review.item.price | intcomma }}円(税込)</span>
+    		    			</div>
+    	    			</figcaption>
+	    			</figure>
+    	    		{% endwith %}
+                    <ul class="col-9">   
+                        <li class="item_review">
+                            <p>評価:
+                                {% if review.rate == 5 %}
+                                    <span class="fas fa-star"></span>
+                                    <span class="fas fa-star"></span>
+                                    <span class="fas fa-star"></span>
+                                    <span class="fas fa-star"></span>
+                                    <span class="fas fa-star"></span>
+                                {% elif review.rate == 4 %}
+                                    <span class="fas fa-star"></span>
+                                    <span class="fas fa-star"></span>
+                                    <span class="fas fa-star"></span>
+                                    <span class="fas fa-star"></span>
+                                    <span class="far fa-star"></span>
+                                {% elif review.rate == 3 %}
+                                    <span class="fas fa-star"></span>
+                                    <span class="fas fa-star"></span>
+                                    <span class="fas fa-star"></span>
+                                    <span class="far fa-star"></span>
+                                    <span class="far fa-star"></span>
+                                {% elif review.rate == 2 %}
+                                    <span class="fas fa-star"></span>
+                                    <span class="fas fa-star"></span>
+                                    <span class="far fa-star"></span>
+                                    <span class="far fa-star"></span>
+                                    <span class="far fa-star"></span>
+                                {% elif review.rate == 1 %}
+                                    <span class="fas fa-star"></span>
+                                    <span class="far fa-star"></span>
+                                    <span class="far fa-star"></span>
+                                    <span class="far fa-star"></span>
+                                    <span class="far fa-star"></span>
+                                {% endif %}
+                            </p>
+                            <p>コメント: {{ review.comment }}</p>
+                            <p>投稿日時：{{ review.create_date }}</p>
+                        </li>
+                    </ul>
+                </div>
+            	<form method="POST" action="{% url 'items:review_delete' review.id %}" class="ml-auto">
+				    {% csrf_token %}
+                    <input type="submit" value="投稿を削除" >
+                </form>
+            </div>
         {% empty %}
-            <li>レビュー投稿履歴はありません。</li>
+            <p class="text-center mt-5 mb-3">レビュー投稿はありません</p>
         {% endfor %}
-    </ul>
-    
-    
+        </div>
+    </div>
+  
     <div class="return_link d-flex justify-content-center">
         <a href="" onclick="window.history.back();return false;">＜ 戻る</a>
     </div>
