@@ -4,9 +4,9 @@
 {% block title %}{{ title }}{% endblock %}
  
 {% block content %}
-    <div class="contents">
+    <div class="container">
 		<h1 class="h4">{{ title }}</h1>
-		    <nav class="navbar navbar-expand-md navbar-light bg-light justify-content-between mt-5">
+		    <nav class="navbar navbar-expand-md navbar-light bg-light justify-content-between mt-4">
 		        <span class="navbar-text">ご注文内容</span>
                 <a class="btn btn-outline-secondary btn-sm" href="{% url 'items:carts' %}">カートに戻る</a>
             </nav> 
@@ -41,18 +41,18 @@
         					</div>
         				</div>
         			{% endfor %}
-    				<div class="row mb-4">
-					    <div class="col-md-9">
-					        <p class="text-right font-weight-bold">消費税８%対象商品</p>
-					    </div>
-					    <div class="col-md-3">
-					       <div class="">税抜小計：{{ subtotal8 | intcomma }}円</div>
-					       <div>
-					           <small>消費税８%：{{ tax8 | intcomma }}円</small>
-					       </div>
-					       <div class="font-weight-bold">税込小計：{{ subtotal8_with_tax | intcomma }}円</div>
-					    </div>
-					</div>
+        				<div class="row mb-4">
+    					    <div class="col-md-9">
+    					        <p class="text-right font-weight-bold">消費税８%対象商品</p>
+    					    </div>
+    					    <div class="col-md-3">
+    					       <div class="">税抜小計：{{ subtotal8 | intcomma }}円</div>
+    					       <div>
+    					           <small>消費税８%：{{ tax8 | intcomma }}円</small>
+    					       </div>
+    					       <div class="font-weight-bold">税込小計：{{ subtotal8_with_tax | intcomma }}円</div>
+    					    </div>
+    					</div>
 					<div class="row">
 					    <div class="col-md-9">
 					        <p class="text-right font-weight-bold">消費税10%対象商品</p>
@@ -64,7 +64,7 @@
 					       </div>
 					       <div class="font-weight-bold mb-4">税込小計：{{ subtotal10_with_tax | intcomma }}円</div>
 					       <div>
-					       <small>送料：無料</small>
+    					       <small>送料：無料</small>
 					       </div>
 					       <div class="font-weight-bold">
 					           <big>税込合計：{{ total | intcomma }}円</big>

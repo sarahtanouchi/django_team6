@@ -37,13 +37,19 @@ class Coupon(models.Model):
 
 
 class Order(models.Model):
+    ORDER_STATUS = (
+        ("accepted","注文受付"),
+        ("delivered","配達済み"),
+        ("canceled","キャンセル済み"),
+    )
+    
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     destination = models.ForeignKey(Destination, on_delete=models.CASCADE, null=True)
     arrival_date = models.DateField("お届け日",blank=True, null=True)
     gift_wrapping = models.BooleanField("ギフトラッピング", default=False)
     request_comment = models.CharField("要望", max_length=1000, blank=True)
     include_invoice = models.BooleanField("レシート同封", default=True)
-    status = models.CharField("注文ステータス", max_length=200, blank=True)
+    status = models.CharField("注文ステータス", max_length=200, choices=ORDER_STATUS, default="accepted", null=True)
     coupon = models.ForeignKey(Coupon, on_delete=models.CASCADE, blank=True, null=True)
     purchase_date = models.DateTimeField("購入日", auto_now_add=True)
     update_date = models.DateTimeField("更新日", auto_now=True)
