@@ -2,6 +2,10 @@
 {% load static %}
 {% load humanize %}
 
+{% block additional_css %}
+<link rel="stylesheet" href="{% static 'stylesheets/home.css' %}">
+{% endblock %}
+
 {% block content %}
     <div class="container">
 		<h2>商品を絞り込む</h2>
@@ -65,41 +69,35 @@
 		             <div>   
 						{% if item.item_images %}
 			    			{% with item.item_images.all.0 as image %}
+			    			<figure>
 		    					<a href="{% url 'items:item_detail' item.id %}">
 			    					<img class="item_image img-fluid rounded" src="{{ image.image.url }}">
 				    			</a>
-				    			<div class="row mx-auto">
-				    				<div class="col-6 ml-auto">
-					    				<div class="row">
-					    					<a href="{% url 'items:item_detail' item.id %}">
-						    					<span>{{ item.name }}</span>
-						    				</a>
-						    			</div>
-						    			<div class="row">
-						    				<span>{{ item.price | intcomma }}円(税込)</span>
-						    			</div>
+				    			<div class="item_tag_row">
+				    				<span class="item_tag">
+				    					{% if item.taste %}
+			    							{{ item.tea_type }}
+				    					{% else %}
+				    						{{ item.item_type }}
+				    					{% endif %}
+				    				</span>
+				    				<span class="item_tag">
+				    					{% if item.taste %}
+		    								{{ item.taste }}
+			    						{% else %}
+			    							{{ item.occasion }}
+			    						{% endif %}	
+				    				</span>
+				    			</div>
+				    			<figcaption>
+				    				<div class="recommend_item_name">
+				    					<a href="{% url 'items:item_detail' item.id %}">
+                                            <small>{{ item.name }}</small>
+                                        </a>
+                                        <small>{{ item.price | intcomma }}円(税込)</small>
 				    				</div>
-					    			<div class="col-6 ml-auto">
-					    				<div class="row">
-			    							<span class="border rounded bg-light">
-						    					{% if item.taste %}
-				    								{{ item.tea_type }}
-					    						{% else %}
-					    							{{ item.item_type }}
-					    						{% endif %}
-		    								</span>
-				    					</div>
-				    					<div class="row">
-				    						<span class="border rounded bg-light">
-						    					{% if item.taste %}
-				    								{{ item.taste }}
-					    						{% else %}
-					    							{{ item.occasion }}
-					    						{% endif %}
-		    								</span>
-				    					</div>
-				    				</div>
-		    					</div>
+				    			</figcaption>
+				    		</figure>
                     		{% endwith %}
                 		{% else %}
                 			{% load static %}

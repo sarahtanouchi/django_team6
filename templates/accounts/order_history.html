@@ -1,4 +1,5 @@
 {% extends "layouts/default.html" %}
+{% load static %}
 {% load humanize %}
  
 {% block title %}{{ title }}{% endblock %}
@@ -27,15 +28,48 @@
                             		{% endwith %}
         						</div>
         						<div class="col-md-4 offset-1 item_description">
-                                    <div>商品名：{{ order_detail.item.name }}</div>
-                                    <div>個数：{{ order_detail.amount }}</div>
+                                    <div class="font-weight-bold mb-2">商品名：{{ order_detail.item.name }}</div>
+                                    <div class="mb-2">個数：{{ order_detail.amount }}</div>
                                     <div>
                                         ご購入価格：{{ order_detail.purchase_price | intcomma }}円
                                         <small>(内税{{ order_detail.item.tax_percent | intcomma }}%)</small>
                                     </div>
                                 </div>
-                                <div class="col-md-3 offset-1 item_description">
-                            	    <a class="btn btn-secondary btn-sm" href="{% url 'home' %}">レビューを投稿</a>
+                                <div class="col-md-3 offset-1">
+                                    <ul class="item_upper_icons">
+						
+                		                <!-- お気に入り追加 -->
+                		                <li class="item_favorite_icon" >
+                				            {% if user.is_authenticated %}
+                				            	<form id="FavoriteForm" method="post" action="">
+                				                	<a onclick="submitFavoriteForm('{{ item.id }}')">
+                				                    	<img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入り">
+                				                	</a>
+                				             	</form> 
+                							{% else %}
+                				                <a onclick="showLoginModal();">
+                				                    <img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入り">
+                				                </a>                
+                				            {% endif %}
+                				         </li>
+                			             <!-- カート追加 -->
+                			             <li class="item_cart_icon">
+                				             {% if user.is_authenticated %}
+                					             <form id="CartForm" method="post" action="">
+                					                <a onclick="submitCartForm('{{ item.pk }}')">
+                					                    <img src="{% static 'images/icon/cart_icon.png' %}" alt="カート">
+                					                </a>
+                					             </form>  
+                				             {% else %}
+                				                <a onclick="showLoginModal();">
+                				                    <img src="{% static 'images/icon/cart_icon.png' %}" alt="カート">
+                				                 </a>                
+                				             {% endif %}
+                				          </li>
+                		             </ul>
+                		             <div class="mt-3">
+                                	     <a class="btn btn-secondary btn-sm" href="{% url 'items:review_create' order_detail.item.pk %}">レビューを投稿</a>
+                                	 </div>
         						</div>
         					</div>
         				</div>
