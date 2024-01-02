@@ -24,7 +24,46 @@
         </a>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+$(document).ready(function(){
+    $('#cl').carousel({
+        interval: 3000 
+    });
+});
+</script>
 {% endblock %} 
 {% block lower_content %}
+<h1>土佐茶の紹介</h1>
+<p>
+高知県のお茶産業は古くから山間地の暮らしを支え、仁淀川水系や四万十水系の寒暖差が高品質のお茶を育ててきた。<br>
+その土佐の風土が育んだお茶は茶葉の選定と合組(ブレンド)する茶師からの評価も高く、静岡茶や宇治茶のような高級日本茶の味を<br>
+引き立てる”名脇役”でもある。いま、その”名脇役”から”主役”を目指して駆け上がろうとするお茶が【土佐茶】である。<br>
+特徴は「金色透明」。最初は薄く感じられるところから最後力強く主張してくる滋味深さをもつ。
+</p>
+
+<h2><土佐茶の産地></h2>
+<div class="row">
+    <div class="col-md-4">
+        <img src="{% static 'images/towa.jpg' %}" alt="十和" class="img-fluid">
+    </div>
+    <div class="col-md-4">
+        <img src="{% static 'images/niyodo.jpeg' %}" alt="2nd Image" class="img-fluid">
+    </div>
+    <div class="col-md-4">
+        <img src="{% static 'images/tsuno.jpeg' %}" alt="3rd Image" class="img-fluid">
+    </div>
+</div>
+<h2><土佐茶の淹れ方></h2>
+
+<p>煎茶</p>
+<p>玉露</p>
+<p>番茶</p>
+
+<h2><土佐茶と料理></h2>
+<p>煎茶とお菓子のお供に</p>
+<p>玉露とリラックスタイム</p>
+<p>番茶と食事の際に</p>
 
 {% endblock %}

@@ -4,3 +4,6 @@ from django.views import generic
 #トップページ表示 
 class PrivacyPolicy(generic.TemplateView):
     template_name = "pages/privacy_policy.html"
+    
+class Tosacha(generic.TemplateView):
+    template_name = "pages/tosatea.html"
