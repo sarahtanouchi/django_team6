@@ -1,0 +1,52 @@
+{% extends "layouts/default_admin.html" %}
+{% load static %}
+
+{% block additional_css %}
+<link rel="stylesheet" href="{% static 'stylesheets/home.css' %}">
+{% endblock %}
+
+{% block title %}{{ title }}{% endblock %}
+ 
+{% block content %}
+    <div class="container">
+        <div class="d-flex justify-content-md-between">
+            <h1 class="m-0">{{ title }}</h1>
+            <a class="btn btn-secondary btn-sm mb-1" href="{% url 'items:create_coupon' %}">新規追加</a>
+        </div>
+        
+        <table class="information_table">
+    		<thead>
+    			<tr>
+    				<th>クーポンコード</th>
+    				<th>割引率</th>
+    				<th>概要</th>
+    				<th>削除ステータス</th>
+    				<th>操作</th>
+    		</thead>
+    		<tbody>
+    		    {% for coupon in coupon_list %}
+    			<tr>
+    				<td>{{ coupon.code }}</td>
+    				<td>{{ coupon.discount_percent }}</td>
+    				<td>{{ coupon.description }}</td>
+    				<td>{{ coupon.deleted }}</td>
+    			    <td>
+    				    <a class="btn btn-secondary btn-sm mb-1" href="{% url 'items:update_coupon' coupon.pk %}">
+                          編集
+                        </a>
+    					<form method="POST" action="{% url 'items:delete_coupon' coupon.pk %}">
+    					    {% csrf_token %}
+                            <button class="btn-white btn-sm mb-1" type="submit">削除</button>
+                        </form>
+    				</td>
+    			</tr>
+    			{% empty %}
+                    <p>クーポンはありません。</p>
+    			{% endfor %}
+    		</tbody>
+    	</table>
+    </div>
+    <div class="return_link d-flex justify-content-center mt-3">
+    	<button class="btn" onclick="window.history.back();return false;">＜ 戻る</button>
+    </div>
+{% endblock %}

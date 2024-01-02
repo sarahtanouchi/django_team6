@@ -9,8 +9,9 @@ from django.db.models import Avg
 from django.db import IntegrityError
 from django.http import JsonResponse, HttpResponseBadRequest
 
-from .models import Item, Cart, Area, Item_type, Occasion, Tea_set_type, Tea_type, Taste, Flavor, Image, Review, Favorite, Information
-from .forms import CartUpdateForm, ItemCreateForm, AreaCreateForm, ItemTypeCreateForm, OccasionCreateForm, TeaSetTypeCreateForm, TeaTypeCreateForm, TasteCreateForm, FlavorCreateForm, ImageCreateForm, ReviewForm, InformationCreateForm, FavoriteAddForm, SearchForm
+from .models import Item, Cart, Area, Item_type, Occasion, Tea_set_type, Tea_type, Taste, Flavor, Image, Review, Favorite, Information, Coupon
+from .forms import CartUpdateForm, ItemCreateForm, AreaCreateForm, ItemTypeCreateForm, OccasionCreateForm, TeaSetTypeCreateForm, TeaTypeCreateForm, TasteCreateForm, FlavorCreateForm
+from .forms import ImageCreateForm, ReviewForm, InformationCreateForm, FavoriteAddForm, SearchForm, CouponCreateForm
 
 
 # class Index(generic.ListView):
@@ -31,12 +32,15 @@ class Admin(LoginRequiredMixin, generic.TemplateView):
         context["title"] = "管理ページ"
         return context
 
-class Item_management(LoginRequiredMixin, generic.TemplateView):
+class Item_management(LoginRequiredMixin, generic.ListView):
+    model=Item
     template_name = "items/item_management.html"
+    paginate_by = 5
+    
     def get_context_data(self, **kwargs):
         items = Item.objects.all()
         context = super().get_context_data(**kwargs)
-        context["title"] = "商品管理ページ"
+        context["title"] = "商品管理"
         context["items"] = items
         return context
         
@@ -144,7 +148,7 @@ class Create_image(LoginRequiredMixin, generic.CreateView):
     template_name = "items/create.html"
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["title"] = "画像登録"
+        context["title"] = "画像新規追加"
         return context
         
     def form_valid(self, form):
@@ -154,14 +158,15 @@ class Create_image(LoginRequiredMixin, generic.CreateView):
         
 class Image_list(generic.ListView):
     model = Image
-    
     template_name = "items/image_list.html"
+    paginate_by = 30 
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["title"] = "画像の編集"
+        context["title"] = "画像管理"
         return context
         
-class Image_update(LoginRequiredMixin, generic.UpdateView):
+class Update_image(LoginRequiredMixin, generic.UpdateView):
     model = Image
     form_class = ImageCreateForm
     success_url = reverse_lazy("items:image_list")
@@ -535,3 +540,41 @@ def item_search(request):
         items = Item.objects.filter(name__startswith=search_term)
 
     return render(request, 'item_list.html', {'items': items, 'item_search_form': form})
+    
+class Coupon_list(LoginRequiredMixin, generic.ListView):
+    model = Coupon
+    template_name = "items/coupon_list.html"
+    paginate_by = 5
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "クーポン管理"
+        return context
+
+class Create_coupon(LoginRequiredMixin, generic.CreateView):
+    model = Coupon
+    form_class = CouponCreateForm
+    template_name = "items/create.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "クーポン新規追加"
+        return context
+        
+    def form_valid(self, form):
+        coupon = form.save(commit=False)
+        coupon.save()
+        return redirect("items:coupon_list")
+        
+class Update_coupon(LoginRequiredMixin, generic.UpdateView):
+    model = Coupon
+    form_class = CouponCreateForm
+    success_url = reverse_lazy("items:coupon_list")
+    template_name = "items/update.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "クーポンの編集"
+        return context
+
+class Delete_coupon(LoginRequiredMixin, generic.DeleteView):
+    model = Coupon
+    success_url = reverse_lazy("items:coupon_list")

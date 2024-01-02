@@ -8,42 +8,45 @@
 {% block title %}{{ title }}{% endblock %}
  
 {% block content %}
-<div class="container">
-    <h1>{{ title }}</h1>
-    <div class-"admin_create_btn">
-	    <a href="{% url 'items:information_create' %}">
-	       <button class="btn_md btn_white" type="button">新規追加</button>
-	    </a>
+	<div class="container">
+	    <h1>{{ title }}</h1>
+	    <div class-"admin_create_btn">
+		    <a href="{% url 'items:information_create' %}">
+		       <button class="btn_md btn_white" type="button">新規追加</button>
+		    </a>
+	    </div>
+	    
+	    <table class="information_table">
+			<thead>
+				<tr>
+					<th>タイトル</th>
+					<th>本文</th>
+					<th>登録日</th>
+					<th>操作</th>
+			</thead>
+			<tbody>
+			    {% for information in information_list %}
+				<tr>
+					<td>{{ information.title }}</td>
+					<td>{{ information.body }}</td>
+					<td>{{ information.create_date }}</td>
+				    <td>
+					    <a href="{% url 'items:information_update' information.id %}">
+	                      編集
+	                    </a>
+						<form method="POST" action="{% url 'items:information_delete' information.id %}">
+						    {% csrf_token %}
+	                        <input type="submit" value="削除" >
+	                    </form>
+					</td>
+				</tr>
+				{% empty %}
+	                <p>お知らせはありません。</p>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	<div class="return_link d-flex justify-content-center mt-3">
+    	<button class="btn" onclick="window.history.back();return false;">＜ 戻る</button>
     </div>
-    
-    <table class="information_table">
-		<thead>
-			<tr>
-				<th>タイトル</th>
-				<th>本文</th>
-				<th>登録日</th>
-				<th>操作</th>
-		</thead>
-		<tbody>
-		    {% for information in information_list %}
-			<tr>
-				<td>{{ information.title }}</td>
-				<td>{{ information.body }}</td>
-				<td>{{ information.create_date }}</td>
-			    <td>
-				    <a href="{% url 'items:information_update' information.id %}">
-                      編集
-                    </a>
-					<form method="POST" action="{% url 'items:information_delete' information.id %}">
-					    {% csrf_token %}
-                        <input type="submit" value="削除" >
-                    </form>
-				</td>
-			</tr>
-			{% empty %}
-                <p>お知らせはありません。</p>
-			{% endfor %}
-		</tbody>
-	</table>
-</div>
 {% endblock %}

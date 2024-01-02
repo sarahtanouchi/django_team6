@@ -1,5 +1,5 @@
 from django import forms
-from .models import Item, Area, Item_type, Occasion, Tea_set_type, Tea_type, Taste, Flavor, Image, Review, Favorite, Information
+from .models import Item, Area, Item_type, Occasion, Tea_set_type, Tea_type, Taste, Flavor, Image, Review, Favorite, Information, Coupon
 
 
 
@@ -132,4 +132,17 @@ class SearchForm(forms.Form):
         required=False,
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '商品を検索'})
     )
+    
+class CouponCreateForm(forms.ModelForm):
+    class Meta:
+        model = Coupon
+        fields = [
+            "code",
+            "discount_percent",
+            "description",
+            "deleted",
+        ]
+        widgets = {
+            "description":forms.Textarea(attrs={"rows":4}),
+        }
     
