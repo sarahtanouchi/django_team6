@@ -1,0 +1,47 @@
+{% extends "layouts/default_admin.html" %}
+{% load static %}
+
+{% block additional_css %}
+<link rel="stylesheet" href="{% static 'stylesheets/home.css' %}">
+{% endblock %}
+
+{% block title %}{{ title }}{% endblock %}
+ 
+{% block content %}
+	<div class="container">
+
+	    <table class="admin_table">
+			<thead>
+				<tr>
+					<th>お名前</th>
+					<th>メールアドレス</th></th>
+					<th>お問合せ項目</th>
+					<th>お問合せ内容</th>
+					<th>日時</th>
+					<th>対応ステータス</th>
+			</thead>
+			<tbody>
+			    {% for contact in contact_list %}
+				<tr>
+					<td>{{ contact.name }}</td>
+					<td>{{ contact.email }}</td>
+					<td>{{ contact.title }}</td>
+					<td>{{ contact.message }}</td>
+					<td>{{ contact.create_date }}</td>
+				    <td>
+						<form method="POST" action="">
+						    {% csrf_token %}
+						    <input type="checkbox" name="contact_ids" value="{{ contact.id }}">
+	                    </form>
+					</td>
+				</tr>
+				{% empty %}
+	                <p>お問合せはありません。</p>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	<div class="return_link d-flex justify-content-center mt-3">
+    	<button class="btn" onclick="window.history.back();return false;">＜ 戻る</button>
+    </div>
+{% endblock %}

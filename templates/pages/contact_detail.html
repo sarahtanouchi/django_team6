@@ -1,0 +1,15 @@
+{% extends "layouts/default_minimum.html" %}
+ 
+{% block title %}{{ title }}{% endblock %}
+ 
+{% block content %}
+    <h1>{{ title }}</h1>
+    <form action="" method="POST" enctype="multipart/form-data">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <button class="button is-primary" type="submit">更新</button>
+    </form>
+    <div class="return_link d-flex justify-content-center mt-3">
+    	<button class="btn" onclick="window.history.back();return false;">＜ 戻る</button>
+    </div>
+{% endblock %}

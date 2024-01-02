@@ -220,14 +220,14 @@ ul li{
     margin-right: 0px;
 }
 
-.information_table {
+.admin_table {
   width: 100%;
 	border-collapse: collapse;
 	text-align: center;
 	margin-top: 20px;
 }
 
-.information_table th, .information_table td {
+.admin_table th, .admin_table td {
 	border: solid 1px black;
 	padding: 5px;
 }
