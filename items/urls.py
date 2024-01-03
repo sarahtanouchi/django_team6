@@ -17,7 +17,7 @@ urlpatterns = [
     path("create_area/", views.Create_area.as_view(), name="create_area"),
     path("create_image/", views.Create_image.as_view(), name="create_image"),
     path("image_list/", views.Image_list.as_view(), name="image_list"),
-    path("image_update/<int:pk>/", views.Image_update.as_view(), name="image_update"),
+    path("update_image/<int:pk>/", views.Update_image.as_view(), name="update_image"),
     path("delete_image/<int:pk>/", views.Delete_image.as_view(), name="delete_image"),
     path("update/<int:pk>/", views.Update.as_view(), name="update"), # 編集
     path("delete/<int:pk>/", views.Delete.as_view(), name="delete"),
@@ -38,4 +38,8 @@ urlpatterns = [
     path("favorite_list/", views.Favorite_list.as_view(), name="favorite_list"), # お気に入りリスト
     path("favorite_add/<int:pk>/", views.Favorite_add.as_view(), name="favorite_add"), # お気に入り追加
     path("favorite_delete/<int:pk>/", views.Favorite_delete.as_view(), name="favorite_delete"), # お気に入り削除
+    path("coupon_list/", views.Coupon_list.as_view(), name="coupon_list"),
+    path("create_coupon/", views.Create_coupon.as_view(), name="create_coupon"),
+    path("update_coupon/<int:pk>/", views.Update_coupon.as_view(), name="update_coupon"),
+    path("delete_coupon/<int:pk>/", views.Delete_coupon.as_view(), name="delete_coupon"),
 ]
