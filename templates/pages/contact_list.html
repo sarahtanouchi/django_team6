@@ -19,6 +19,7 @@
 					<th>お問合せ内容</th>
 					<th>日時</th>
 					<th>対応ステータス</th>
+					<th>操作</th>
 			</thead>
 			<tbody>
 			    {% for contact in contact_list %}
@@ -28,11 +29,11 @@
 					<td>{{ contact.title }}</td>
 					<td>{{ contact.message }}</td>
 					<td>{{ contact.create_date }}</td>
+					<td>{{ contact.reply }}</td>
 				    <td>
-						<form method="POST" action="">
-						    {% csrf_token %}
-						    <input type="checkbox" name="contact_ids" value="{{ contact.id }}">
-	                    </form>
+				    	<a class="btn btn-secondary btn-sm mb-1" href="{% url 'pages:contact_update' contact.id %}">
+	                      編集
+	                    </a>
 					</td>
 				</tr>
 				{% empty %}

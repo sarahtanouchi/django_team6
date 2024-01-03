@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import Contact_form, Contact_complete, Contact_detail
+from .views import Contact_form, Contact_complete, Contact_update
  
 app_name = "pages"
  
@@ -10,5 +10,5 @@ urlpatterns = [
     path("contact/", views.Contact_form.as_view(), name="contact_form"), 
     path("contact_complete/", views.Contact_complete.as_view(), name="contact_complete"),
     path("contact_list/", views.Contact_list.as_view(), name="contact_list"),
-    path("contact_detail/<int:pk>/", views.Contact_detail.as_view(), name="contact_detail"),
+    path("contact_update/<int:pk>/", views.Contact_update.as_view(), name="contact_update"),
 ]

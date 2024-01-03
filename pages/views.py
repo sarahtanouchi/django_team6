@@ -6,7 +6,7 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
 from .models import Contact
-from .forms import ContactForm
+from .forms import ContactForm, ContactManagementForm
 
 
 class Tosacha(generic.TemplateView):
@@ -47,11 +47,11 @@ class Contact_list(LoginRequiredMixin, generic.ListView):
         context["title"] = "お問合せ管理"
         return context
     
-class Contact_detail(LoginRequiredMixin, generic.DetailView):
+class Contact_update(LoginRequiredMixin, generic.UpdateView):
     model = Contact
-    form_class = ContactForm
+    form_class = ContactManagementForm
+    template_name = "pages/contact_update.html"
     success_url = reverse_lazy("pages:contact_list")
-    template_name = "pages/contact_detail.html"
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "お問合せ詳細"

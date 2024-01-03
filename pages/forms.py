@@ -14,22 +14,6 @@ class ContactForm(forms.ModelForm):
             "message",
         ]
     
-    
-    # name = forms.CharField(
-    #     label='お名前',
-    #     max_length=30,
-    #     widget=forms.TextInput(attrs={
-    #         'class': 'form-control',
-    #         'placeholder': "全角で入力して下さい",
-    #     }),
-    # )
-    # email = forms.EmailField(
-    #     label='メールアドレス',
-    #     widget=forms.EmailInput(attrs={
-    #         'class': 'form-control',
-    #         'placeholder': "半角英数字で入力して下さい",
-    #     }),
-    # )
     CHOICES = [
         ('-----------', '-----------'),
         ('商品について', '商品について'),
@@ -66,3 +50,39 @@ class ContactForm(forms.ModelForm):
             send_mail(subject, message, from_email, recipient_list)
         except BadHeaderError:
             return HttpResponse("無効なヘッダが検出されました。")
+            
+class ContactManagementForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = [
+            "name",
+            "email",
+            "title",
+            "message",
+            "reply",
+        ]
+    
+    CHOICES = [
+        ('-----------', '-----------'),
+        ('商品について', '商品について'),
+        ('お届けについて', 'お届けについて'),
+        ('商品返品について', '商品返品について'),
+        ('その他', 'その他'),
+    ]
+
+    title = forms.ChoiceField(
+        label='お問合せ項目',
+        choices=CHOICES,
+        initial='-----------',
+        widget=forms.Select(attrs={
+            'class': 'form-control',
+        }),
+    )
+    
+    message = forms.CharField(
+        label='お問い合わせ内容',
+        widget=forms.Textarea(attrs={
+            'class': 'form-control',
+            'placeholder': "400文字以内で入力してください",
+        }),
+    )
