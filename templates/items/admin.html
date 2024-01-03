@@ -23,12 +23,15 @@
             <a href="{% url 'items:coupon_list' %}">クーポン管理</a>
         </div>
         <div class="mypage_item col-4">
-            <a href="{% url 'items:information_list' %}">おしらせ管理</a>
-           
-        </div>            
+            <a href="{% url 'items:information_list' %}">お知らせ管理</a>
+        </div>
+        <div class="mypage_item col-4">
+            <a href="{% url 'pages:contact_list' %}">お問合せ管理</a>
+        </div>
     </div>
-    <div class="return_link d-flex justify-content-center">
-        <a href="" onclick="window.history.back();return false;">＜ 戻る</a>
+
+    <div class="return_link d-flex justify-content-center mt-3">
+    	<button class="btn" onclick="window.history.back();return false;">＜ 戻る</button>
     </div>
 </main>
 {% endblock %}

@@ -2,6 +2,7 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% load static %}
+{% load humanize %}
 
 {% block additional_css %}
 <link rel="stylesheet" href="{% static 'stylesheets/home.css' %}">
@@ -74,7 +75,7 @@
                                         <a href="{% url 'items:item_detail' item.id %}">
                                             <small>{{ item.name }}</small>
                                         </a>
-                                        <small>{{ item.price }}円(税込)</small>
+                                        <small>{{ item.price | intcomma }}円(税込)</small>
                                     </div>
                                 </figcaption>
                             </figure>
@@ -179,7 +180,7 @@
             </div>
             <div class="col-6 col-md-5 mt-3">
                 <h3>土佐茶とは</h3>
-                <a href="#">
+                <a href="{% url 'pages:tosacha' %}">
                     <img src="{% static 'images/bancha_00009.jpeg' %}" alt="土佐茶とは" class="banner_image">
                 </a>
             </div>

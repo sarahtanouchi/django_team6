@@ -5,17 +5,17 @@
 {% block title %}{{ title }}{% endblock %}
  
 {% block content %}
-<main>
-    <h1>{{ title }}</h1>
-    
-    <form action="" method="POST">
-        {{ form.as_p }}
-        {% csrf_token %}
-        <button class="btn_lg btn_gray" type="submit">送信</button>
-    </form>
-
-    <div class="return_link d-flex justify-content-center">
-        <a href="" onclick="window.history.back();return false;">＜ 戻る</a>
-    </div>
+<main class="container">
+    <h1>お問合せ</h1>
+        <form action="" method="POST" enctype="multipart/form-data" class="ml-5">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <div class="d-flex justify-content-center mt-3">
+                <button class="btn_lg btn_gray" type="submit">送信</button>
+            </div>
+        </form>
+        <div class="return_link d-flex justify-content-center mt-3">
+        	<button class="btn" onclick="window.history.back();return false;">＜ 戻る</button>
+        </div>
 </main>
 {% endblock %}

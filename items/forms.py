@@ -130,7 +130,11 @@ class SearchForm(forms.Form):
         label='', 
         max_length=100,
         required=False,
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '商品を検索'})
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': '商品名で検索'
+            
+        })
     )
     
 class CouponCreateForm(forms.ModelForm):
