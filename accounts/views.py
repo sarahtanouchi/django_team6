@@ -11,6 +11,8 @@ from .models import Order, Coupon, Destination, Order_detail
 from items.models import Item, Cart
 from .forms import SignupForm, LoginForm, OrderCreateForm, OrderConfirmationForm
 
+User = get_user_model()
+
 # vv order confirm helper functions vv
 
 def create_destination(data):
@@ -85,20 +87,35 @@ def create_order_details(carts, order):
 # ^^ order confirm helper functions ^^
 
 class SignUp(generic.CreateView):
+    model = User
     form_class = SignupForm # 利用するフォームクラスを設定
     template_name = "accounts/sign_up.html"
+    success_url = reverse_lazy('accounts:complete')
  
-    def get_success_url(self):
-        # items:index のURL を逆引きして利用
-        return reverse_lazy("items:index") 
+    # def get_success_url(self):
+    #     # items:index のURL を逆引きして利用
+    #     return reverse_lazy("accounts:complete") 
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
- 
-        # 以下で、 辞書データ context に値を追加
         context["title"] = "新規お客様情報登録"
- 
         return context
+        
+    def form_valid(self, form):
+        ctx = {'form': form}
+        if self.request.POST.get('next', '') == 'confirm':
+            return render(self.request, 'accounts/signup_confirmation.html', ctx)
+        if self.request.POST.get('next', '') == 'back':
+            return render(self.request, 'accounts/sign_up.html', ctx)
+        if self.request.POST.get('next', '') == 'create':
+            return super().form_valid(form)
+        # else:
+        #     # 正常動作ではここは通らない。エラーページへの遷移でも良い
+        #     return redirect(reverse_lazy('home'))
+        
+class Complete(generic.TemplateView):
+    """登録完了ページ"""
+    template_name = 'accounts/complete_signup.html'
         
 # ログイン
 class Login(LoginView):
@@ -113,22 +130,49 @@ class Logout(LogoutView):
         context = super().get_context_data(**kwargs)
         context["title"] = "ログアウトしました"
         return context
+        
+# # パスワード再設定手続き
+# class Resetting(TemplateView):
+#     template_name = "accounts/resetting.html"
+    
+    
+# # パスワード再設定
+# class Reset(generic.CreateView):
+#     form_class = ResetForm
+#     template_name = "accounts/reset.html"
+    
+#     def get_success_url(self):
+#         # items:index のURL を逆引きして利用
+#         return reverse_lazy("account:login") 
+    
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         # 以下で、 辞書データ context に値を追加
+#         context["title"] = "パスワード再設定"
+#         return context
+        
+# # パスワード再設定完了
+# class Recomplete(TemplateView):
+#     """パスワード再設定完了ページ"""
+#     template_name = 'accounts/recomplete.html'
+    
+# # ユーザープロフィール
+# class Detail(LoginRequiredMixin, generic.TemplateView):
+#     template_name = "accounts/detail.html"
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context["title"] = "入力内容確認"
+#         return context
  
-# ユーザープロフィール
-class Detail(LoginRequiredMixin, generic.TemplateView):
-    template_name = "accounts/detail.html"
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["title"] = "プロフィール"
-        return context
- 
-# ユーザープロフィールの更新
-class Update(LoginRequiredMixin, generic.TemplateView):
-    template_name = "accounts/update.html"
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["title"] = "プロフィール編集"
-        return context
+# # ユーザープロフィールの更新
+# class Update(LoginRequiredMixin, generic.TemplateView):
+#     template_name = "accounts/update.html"
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context["title"] = "パスワード再設定手続き"
+#         return context
+
+
 
 class Mypage(LoginRequiredMixin, generic.TemplateView):
     template_name = "accounts/mypage.html"

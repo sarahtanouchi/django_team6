@@ -5,22 +5,104 @@ from django.contrib.auth.forms import (
 )
 # from django.contrib.admin.widgets import AdminDateWidget
 from django.contrib.auth import get_user_model
-from .models import Order, Order_detail, Destination
+from .models import Order, Order_detail, Destination, CustomUser
  
 User = get_user_model()
  
+class DateInput(forms.DateInput):
+    input_type = 'date'
+    
 class SignupForm(UserCreationForm):
-    """ユーザー登録用フォーム"""
     class Meta:
         model = User
-        fields = ("username",)
+        fields = [
+            "username",
+            "name",
+            "kana",
+            "postal_code",
+            "prefecture",
+            "city",
+            "street_address",
+            "building_name",
+            "tel_number",
+            "gender",
+            "birthdate",
+            "email",
+            "privacy_policy_agreement",
+        ]
+        
+        widgets = {
+            "birthdate": DateInput(),
+            "username": forms.Textarea(
+                attrs={
+                    "placeholder":"※口コミ投稿に表示されます",
+                    "cols": 50,
+                    "rows": 1,
+                }
+            ), 
+            "name": forms.Textarea(
+                attrs={
+                    "placeholder":"全角",
+                    "cols": 50,
+                    "rows": 1,
+                }
+            ), 
+            "kana": forms.Textarea(
+                attrs={
+                    "placeholder":"全角カナ",
+                    "cols": 50,
+                    "rows": 1,
+                }
+            ), 
+            "postal_code": forms.Textarea(
+                attrs={
+                    "cols": 30,
+                    "rows": 1,
+                }
+            ), 
+            "prefecture": forms.Textarea(
+                attrs={
+                    "cols": 30,
+                    "rows": 1,
+                }
+            ), 
+            "city": forms.Textarea(
+                attrs={
+                    "cols": 50,
+                    "rows": 1,
+                }
+            ), 
+            "street_address": forms.Textarea(
+                attrs={
+                    "cols": 50,
+                    "rows": 1,
+                }
+            ), 
+            "building_name": forms.Textarea(
+                attrs={
+                    "cols": 50,
+                    "rows": 1,
+                }
+            ), 
+            "tel_number": forms.Textarea(
+                attrs={
+                    "cols": 50,
+                    "rows": 1,
+                }
+            ), 
+            "email": forms.Textarea(
+                attrs={
+                    "placeholder":"半角英数字",
+                    "cols": 50,
+                    "rows": 1,
+                }
+            ), 
+        }
 
 class LoginForm(AuthenticationForm):
     pass
     # 継承のみ
     
-class DateInput(forms.DateInput):
-    input_type = 'date'
     
 class OrderCreateForm(forms.ModelForm):
     class Meta:

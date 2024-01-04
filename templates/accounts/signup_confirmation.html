@@ -1,0 +1,27 @@
+{% extends "layouts/default_minimum.html" %}
+ 
+{% block title %}入力内容確認{% endblock %}
+ 
+{% block content %}
+    <h1>入力内容確認</h1>
+
+    <table  class="ui celled table table table-hover" >
+        <tr><td>ユーザー名</td><td>{{form.username.value}}</td></tr>
+        <tr><td>お名前</td><td>{{form.name.value}}</td></tr>
+        <tr><td>フリガナ</td><td>{{form.kana.value}}</td></tr>
+        <tr><td>住所</td><td>{{form.prefecture.value}}</td></tr>
+    </table>
+    
+    <form action="{% url 'accounts:sign_up' %}" method="POST">
+        <!-- 各入力欄に紐付かないエラー -->
+        {{ form.non_field_errors }}
+ 
+        <!-- 入力欄の数だけ繰り返し -->
+        {% for field in form %}
+            {{field.as_hidden}}
+        {% endfor %}
+        {% csrf_token %}
+        <button type="submit" name="next" value="back">戻る</button>
+        <button type="submit" name="next" value="create">作成</button>
+    </form>
+{% endblock %}
