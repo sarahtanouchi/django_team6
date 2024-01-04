@@ -1,0 +1,2 @@
+cd ~/environment/django/django-sample-team-6-202310
+python manage.py runserver $IP:$PORT
