@@ -541,18 +541,9 @@ class Favorite_add(LoginRequiredMixin, generic.View):
             item=item,
             user=request.user,
         )
-        favorite_item.save()
+        favorite.save()
 
-        return HttpResponse("お気に入りに追加しました。")
-
-# @login_required        
-# def add_favorite(request,pk):
-#     item = get_object_or_404(Item, pk=pk)
-#     favorite_item, created = Favorite.objects.get_or_create(
-#         item=item,
-#         user=request.user,
-#     )
-#     favorite_item.save()
+        return redirect("items:favorite_list") 
 
 class Favorite_list(LoginRequiredMixin, generic.ListView):
     model = Favorite
@@ -573,6 +564,8 @@ class Favorite_delete(LoginRequiredMixin, generic.DeleteView):
     model = Favorite
     success_url = reverse_lazy("items:favorite_list")
     
+    def delete(self, request, *args, **kwargs):
+        return super().delete(request, *args, **kwargs)
 
 
 # キーワード検索

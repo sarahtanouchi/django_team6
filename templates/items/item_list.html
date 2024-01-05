@@ -21,7 +21,7 @@
 		                <li class="item_favorite_icon" >
 				            {% if user.is_authenticated %}
 				            	<form id="FavoriteForm" method="post" action="{% url 'items:favorite_add' item.id %}">
-				                	<a onclick="submitFavoriteForm('{{ item.id }}')">
+				                	<a onclick="addFavorite('{{ item.id }}')">
 				                    	<img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入り">
 				                	</a>
 				             	</form> 
@@ -35,7 +35,7 @@
 			             <li class="item_cart_icon">
 				             {% if user.is_authenticated %}
 					             <form id="CartForm" method="post" action="{% url 'items:add_item' item.id %}">
-					                <a onclick="submitCartForm('{{ item.id }}')">
+					                <a onclick="addCart('{{ item.id }}')">
 					                    <img src="{% static 'images/icon/cart_icon.png' %}" alt="カート">
 					                </a>
 					             </form>  
@@ -112,42 +112,8 @@
 		{% include "includes/pagination.html" %}
 	</div>
 	
-
+	<script src="{% static 'js/favorite_add.js' %}"></script>
 	<script>
-        var isAuthenticated = {% if user.is_authenticated %}true{% else %}false{% endif %};
-    
-        function showLoginModal() {
-            // ログインしていない場合はモーダルを表示
-            if (!isAuthenticated) {
-                $('#loginModal').modal('show');
-                return false;  
-            }
-            return true;  // ログインしている場合は通常の動作を続行
-        }
-	
-	
-	    function addToFavorites(itemId, icon) {
-	        // お気に入り追加のロジックを実行（Ajaxなどを使用）
-	        // 成功した場合、アイコンの色を変更
-	        simulateAsyncRequest().then(() => {
-	            icon.classList.toggle('favorited');
-	        });
-	    }
-	
-	    function addToCart(itemId, icon) {
-	        // カート追加のロジックを実行（Ajaxなどを使用）
-	        // 成功した場合、アイコンの色を変更
-	        simulateAsyncRequest().then(() => {
-	            icon.classList.toggle('added-to-cart');
-	        });
-	    }
-	
-	    // 非同期リクエストを模倣する関数
-	    function simulateAsyncRequest() {
-	        return new Promise(resolve => {
-	            // 仮の非同期処理（実際にはAjaxなどを使用する）
-	            setTimeout(resolve, 1000);
-	        });
-	    }
-</script>
+        var isAuthenticated = {{ user.is_authenticated|lower }};
+    </script>
 {% endblock %}
