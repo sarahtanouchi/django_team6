@@ -1,5 +1,4 @@
 	<form method="get" action="" id="filter_items_form">
-			 {% csrf_token %}
 			<div class="row">
 				<div class="col-md-2 offset-1">
 					<div class="form-check font-weight-bold">
@@ -34,13 +33,13 @@
 					{% endfor %}
 					<div class="form-check">
 				  		<label class="form-check-label font-weight-bold" for="snack">
-				   			<input class="form-check-input" type="checkbox" id="snack" name="item_type_filter" value="snack">
+				   			<input class="form-check-input" type="checkbox" id="snack" name="item_type_filter" value="お菓子">
 				   			お菓子
 				  		</label>
 					</div>
 					<div class="form-check">
     			  		<label class="form-check-label font-weight-bold" for="gift">
-    			   			<input class="form-check-input" type="checkbox" id="gift" name="item_type_filter" value="gift">
+    			   			<input class="form-check-input" type="checkbox" id="gift" name="item_type_filter" value="ギフト">
     			   			ギフトセット
     			  		</label>
 					</div>

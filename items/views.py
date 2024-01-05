@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.urls import reverse_lazy, reverse
-from django.db.models import Avg
+from django.db.models import Avg, Q
 from django.db import IntegrityError
 from django.http import JsonResponse, HttpResponseBadRequest
 
@@ -217,31 +217,76 @@ class Item_list(generic.ListView):
     paginate_by = 4
     
     def get_queryset(self):
-        item_type_filters = self.request.GET.getlist("item_type_filter", ["all"])
-        tea_type_filters = self.request.GET.getlist("tea_type_filter", ["all"])
-        tea_set_type_filters = self.request.GET.getlist("tea_set_type_filter", ["all"])
-        price_filters = self.request.GET.getlist("price_filter", ["all"])
-        taste_filters = self.request.GET.getlist("taste_filter", ["all"])
-        occasion_filters = self.request.GET.getlist("occasion_filter", ["all"])
+        item_type_filters = self.request.GET.getlist("item_type_filter", [])
+        tea_type_filters = self.request.GET.getlist("tea_type_filter", [])
+        tea_set_type_filters = self.request.GET.getlist("tea_set_type_filter", [])
+        price_filters = self.request.GET.getlist("price_filter", [])
+        taste_filters = self.request.GET.getlist("taste_filter", [])
+        occasion_filters = self.request.GET.getlist("occasion_filter", [])
+        
         items = Item.objects.all()
-        if "all" not in tea_type_filters:
+        if tea_type_filters:
             items = items.filter(tea_type__name__in=tea_type_filters)
-        if "all" not in tea_set_type_filters:
+        if tea_set_type_filters:
             items = items.filter(tea_set_type__name__in=tea_set_type_filters)
-        if "all" not in item_type_filters:
+        if item_type_filters:
             items = items.filter(item_type__name__in=item_type_filters)
-        if "less_than_1000" in price_filters:
-            items = items.filter(price__lte=1000)
-        if "less_than_5000" in price_filters:
-            items = items.filter(price__lte=5000)
-        if "more_than_5000" in price_filters:
-            items = items.filter(price__gte=5000)
-        if "all" not in taste_filters:
+        if price_filters:
+            price_to_query = {
+                'less_than_5000': Q(price__lte=5000),
+                'more_than_5000': Q(price__gte=5000),
+                'less_than_1000': Q(price__lte=1000),
+            }
+            filter_query = Q()
+
+            for price_filter in price_filters:
+                if price_filter in price_to_query:
+                    filter_query.add(price_to_query[price_filter], Q.OR)
+
+            items = items.filter(filter_query)
+        if taste_filters:
             items = items.filter(taste__name__in=taste_filters)
-        if "all" not in occasion_filters:
+        if occasion_filters:
             items = items.filter(occasion__name__in=occasion_filters)
         
         return items
+    
+    # def get_queryset(self):
+    #     item_type_filters = self.request.GET.getlist("item_type_filter", [])
+    #     tea_type_filters = self.request.GET.getlist("tea_type_filter", [])
+    #     tea_set_type_filters = self.request.GET.getlist("tea_set_type_filter", [])
+    #     price_filters = self.request.GET.getlist("price_filter", [])
+    #     taste_filters = self.request.GET.getlist("taste_filter", [])
+    #     occasion_filters = self.request.GET.getlist("occasion_filter", [])
+        
+    #     items = Item.objects.all()
+    #     if tea_type_filters:
+    #         items = items.filter(tea_type__name__in=tea_type_filters)
+    #     if tea_set_type_filters:
+    #         items = items.filter(tea_set_type__name__in=tea_set_type_filters)
+    #     if item_type_filters:
+    #         items = items.filter(item_type__name__in=item_type_filters)
+    #     if price_filters:
+    #         price_to_query = {
+    #              "less_than_5000" : Q(price__lte=5000),
+    #              "more_than_5000" : Q(price__gte=5000),
+    #              "less_than_1000" : Q(price__lte=1000),
+    #         }
+    #         filter_query = Q()
+            
+    #         for price_filter in price_filters:
+    #             if price_filter in price_to_query:
+    #                 filter_query.add(price_to_query[price_filter], Q.OR)
+            
+    #         items = items.filter(filter_query)
+            
+                 
+    #     if taste_filters:
+    #         items = items.filter(taste__name__in=taste_filters)
+    #     if occasion_filters:
+    #         items = items.filter(occasion__name__in=occasion_filters)
+        
+    #     return items
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
