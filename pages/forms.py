@@ -1,5 +1,7 @@
 from django import forms
 from django.conf import settings
+# from django.core.exceptions import ValidationError
+# from django.core.validators import validate_email
 from django.core.mail import BadHeaderError, send_mail
 from django.http import HttpResponse
 from .models import Contact
@@ -50,6 +52,7 @@ class ContactForm(forms.ModelForm):
             send_mail(subject, message, from_email, recipient_list)
         except BadHeaderError:
             return HttpResponse("無効なヘッダが検出されました。")
+            
             
 class ContactManagementForm(forms.ModelForm):
     class Meta:

@@ -10,9 +10,9 @@
             <li class="footer_item"><a href="{% url 'home' %}" class="navbar_link">ホーム</a></li>
             <li class="footer_item"><a href="{% url 'pages:tosacha' %}" class="navbar_link">土佐茶とは</a></li>
             <li class="footer_item"><a href="{% url 'items:index' %}" class="navbar_link">商品一覧</a></li>
-            <li class="footer_item"><a href="#" class="navbar_link">クーポン情報</a></li>
+            <li class="footer_item"><a href="{% url 'items:coupon_info' %}" class="navbar_link">クーポン情報</a></li>
             <li class="footer_item"><a href="{% url 'pages:privacy_policy' %}" class="navbar_link">プライバシーポリシー</a></li>
-            <li class="footer_item"><a href="{% url 'pages:contact_form' %}" class="navbar_link">お問合せ</a></li>
+            <li class="footer_item"><a href="{% url 'pages:contact' %}" class="navbar_link">お問合せ</a></li>
         </ul>
     </nav>
     <div class="copylight_container">
