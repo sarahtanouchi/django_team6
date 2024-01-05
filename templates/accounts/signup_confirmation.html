@@ -9,7 +9,11 @@
         <tr><td>ユーザー名</td><td>{{form.username.value}}</td></tr>
         <tr><td>お名前</td><td>{{form.name.value}}</td></tr>
         <tr><td>フリガナ</td><td>{{form.kana.value}}</td></tr>
-        <tr><td>住所</td><td>{{form.prefecture.value}}</td></tr>
+        <tr><td>住所</td><td>〒{{postal_code.value}}{{form.prefecture.value}}{{form.city.value}}{{form.street_address.value}}{{form.building_name.value}}</td></tr>
+        <tr><td>電話番号</td><td>{{form.tel_number.value}}</td></tr>
+        <tr><td>性別</td><td>{{form.gender.value}}</td></tr>
+        <tr><td>生年月日</td><td>{{form.birth_date.value}}</td></tr>
+        <tr><td>メールアドレス</td><td>{{form.email.value}}</td></tr>
     </table>
     
     <form action="{% url 'accounts:sign_up' %}" method="POST">
@@ -21,7 +25,11 @@
             {{field.as_hidden}}
         {% endfor %}
         {% csrf_token %}
-        <button type="submit" name="next" value="back">戻る</button>
-        <button type="submit" name="next" value="create">作成</button>
+        <div class="col-md-12 text-center">
+            <button type="submit" name="next" value="create">登録</button>
+        </div>
+        <div class="return_link d-flex justify-content-center">
+            <button type="submit" name="next" value="back">＜ 戻る</button>
+        </div>
     </form>
 {% endblock %}

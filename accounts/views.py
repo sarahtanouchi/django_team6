@@ -156,23 +156,21 @@ class Logout(LogoutView):
 #     """パスワード再設定完了ページ"""
 #     template_name = 'accounts/recomplete.html'
     
-# # ユーザープロフィール
-# class Detail(LoginRequiredMixin, generic.TemplateView):
-#     template_name = "accounts/detail.html"
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context["title"] = "入力内容確認"
-#         return context
+# ユーザープロフィール
+class Detail(LoginRequiredMixin, generic.TemplateView):
+    template_name = "accounts/detail.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "お客様情報"
+        return context
  
-# # ユーザープロフィールの更新
-# class Update(LoginRequiredMixin, generic.TemplateView):
-#     template_name = "accounts/update.html"
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context["title"] = "パスワード再設定手続き"
-#         return context
-
-
+# ユーザープロフィールの更新
+class Update(LoginRequiredMixin, generic.TemplateView):
+    template_name = "accounts/update.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "お客さ様情報の変更"
+        return context
 
 class Mypage(LoginRequiredMixin, generic.TemplateView):
     template_name = "accounts/mypage.html"
