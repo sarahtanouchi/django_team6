@@ -121,6 +121,17 @@ class SignupForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super(SignupForm, self).__init__(*args, **kwargs)
         self.fields['privacy_policy_agreement'].required = True
+        
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        
+        email = self.cleaned_data["email"]
+        user.email = email
+        
+        if commit:
+            user.save()
+            
+        return user
 
 class LoginForm(AuthenticationForm):
     pass
