@@ -623,3 +623,12 @@ class Update_coupon(LoginRequiredMixin, generic.UpdateView):
 class Delete_coupon(LoginRequiredMixin, generic.DeleteView):
     model = Coupon
     success_url = reverse_lazy("items:coupon_list")
+    
+class Coupon_info(generic.ListView):
+    model = Coupon
+    template_name = "items/coupon_info.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "クーポン情報"
+        return context

@@ -10,6 +10,7 @@ class ItemCreateForm(forms.ModelForm):
             "name", 
             "price",
             "status",
+            "recommended",
             "stock",
             "description",
             "item_type",
