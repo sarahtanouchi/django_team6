@@ -16,12 +16,12 @@
             {{ form.password }}
         </div>
         <input type="hidden" name="next" value="{{ next }}" />
-        <button type="submit">ログイン</button>
+        <button type="submit" class="btn btn-secondary btn-md" >ログイン</button>
         
     </form>
     
      <p>
         <a href="{% url 'accounts:password_reset' %}">パスワードが分からない方はこちら</a>
     </p>
-    <button type="submit">新規登録</button>
+    <a class="btn btn-outline-secondary btn-md" href="{% url 'accounts:sign_up' %}">新規登録</a>
 {% endblock %}

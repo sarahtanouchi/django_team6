@@ -8,6 +8,29 @@ class CustomUser(AbstractUser):
     REQUIRED_FIELDS = ["username"]
     USERNAME_FIELD = "email"
     
+    GENDER_CHOICES = (
+        ('female', '女性'),
+        ('male', '男性'),
+        ('not_specified', '未回答'),
+    )
+    
+    name = models.CharField(verbose_name='お名前', max_length=50, null=True) 
+    kana = models.CharField(verbose_name='フリガナ', max_length=50, null=True)
+    postal_code_regex = RegexValidator(regex=r'^[0-9]+$', message = ('正しい郵便番号を入力してください。'))
+    postal_code = models.CharField(validators=[postal_code_regex], max_length=7, verbose_name='郵便番号', null=True)
+    # postal_code = models.CharField(verbose_name='郵便番号', max_length=20, validators=[RegexValidator(r'^\d{7}$', message='正しい郵便番号を入力してください。')])
+    prefecture = models.CharField(verbose_name='都道府県', max_length=50, null=True)
+    city = models.CharField(verbose_name='市区町村', max_length=50, null=True)
+    street_address = models.CharField(verbose_name='番地', max_length=100, null=True)
+    building_name = models.CharField(verbose_name='建物名', max_length=100, blank=True, null=True)
+    tel_number_regex = RegexValidator(regex=r'^[0-9]+$', message = ('正しい電話番号を入力してください。'))
+    tel_number = models.CharField(validators=[tel_number_regex], max_length=15, verbose_name='電話番号', null=True)
+    # tel_number = models.CharField(verbose_name='電話番号', max_length=20, validators=[RegexValidator(r'^\d{8,}$', message='正しい電話番号を入力してください。')])
+    gender = models.CharField(verbose_name='性別', choices=GENDER_CHOICES, max_length=20, null=True)
+    birthdate = models.DateField(verbose_name='生年月日', blank= True, null=True)
+    privacy_policy_agreement = models.BooleanField(verbose_name='プライバシーポリシーに同意', default=False)
+    create_date = models.DateTimeField(verbose_name='作成日', auto_now_add=True, null=True)
+    
     def get_username(self):
         return self.username
 
@@ -25,10 +48,11 @@ from items.models import Item
 class Destination(models.Model):
     name = models.CharField("名前", max_length=200)
     kana = models.CharField("フリガナ", max_length=200)
-    postal_code_regex = RegexValidator(regex=r'^[0-9]+$', message = ("Postal Code must be entered in the format: '1234567'. Up to 7 digits allowed."))
+    postal_code_regex = RegexValidator(regex=r'^[0-9]+$', message = ('正しい郵便番号を入力してください。'))
     postal_code = models.CharField("郵便番号",validators=[postal_code_regex], max_length=7) 
     address = models.CharField("住所", max_length=200)
-    tel_number = models.CharField("電話番号", max_length=11)
+    tel_number_regex = RegexValidator(regex=r'^[0-9]+$', message = ('正しい電話番号を入力してください。'))
+    tel_number = models.CharField(validators=[tel_number_regex], max_length=15, verbose_name='電話番号')
 
 
 class Coupon(models.Model):
