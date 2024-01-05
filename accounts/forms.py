@@ -15,6 +15,7 @@ class DateInput(forms.DateInput):
 class SignupForm(UserCreationForm):
     class Meta:
         model = User
+        
         fields = [
             "username",
             "name",
@@ -29,7 +30,15 @@ class SignupForm(UserCreationForm):
             "birthdate",
             "email",
             "privacy_policy_agreement",
+            # "password1",
+            # "password2",
         ]
+        
+        error_messages = {
+            'privacy_policy_agreemen': {
+                'required': "アカウントの作成にはプライバシーポリシーへの同意が必要です。",
+            },
+        }
         
         widgets = {
             "birthdate": DateInput(),
@@ -54,13 +63,13 @@ class SignupForm(UserCreationForm):
                     "rows": 1,
                 }
             ), 
-            "postal_code": forms.Textarea(
+            "postal_code": forms.TextInput(
                 attrs={
                     "cols": 30,
                     "rows": 1,
                 }
             ), 
-            "prefecture": forms.Textarea(
+            "prefecture": forms.TextInput(
                 attrs={
                     "cols": 30,
                     "rows": 1,
@@ -97,7 +106,21 @@ class SignupForm(UserCreationForm):
                     "rows": 1,
                 }
             ), 
+            "password1": forms.TextInput(
+                attrs={
+                    "placeholder":"半角英数字を混ぜた８〜１２文字",
+                }
+            ), 
+            "password2": forms.TextInput(
+                attrs={
+                    "placeholder":"半角英数字を混ぜた８〜１２文字",
+                }
+            ), 
         }
+        
+    def __init__(self, *args, **kwargs):
+        super(SignupForm, self).__init__(*args, **kwargs)
+        self.fields['privacy_policy_agreement'].required = True
 
 class LoginForm(AuthenticationForm):
     pass
