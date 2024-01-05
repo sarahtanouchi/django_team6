@@ -7,8 +7,8 @@ from django.contrib.auth import get_user_model
 from django.utils.dateparse import parse_date
 
 
-from .models import Order, Destination, Order_detail
-from items.models import Item, Cart, Coupon
+from .models import Order, Coupon, Destination, Order_detail
+from items.models import Item, Cart
 from .forms import SignupForm, LoginForm, OrderCreateForm, OrderConfirmationForm
 
 # vv order confirm helper functions vv
@@ -64,9 +64,6 @@ def create_order(user, data):
 
     coupon_code_data = data.get("couponcode")
     coupon_match = Coupon.objects.filter(code=coupon_code_data).first()
-    print("マッチしたクーポン")
-    print("coupon code:", coupon_code_data)
-    print("db object:", coupon_match)
     if coupon_match is not None:
         new_order.coupon = coupon_match
         
@@ -195,12 +192,8 @@ class Order_confirmation(LoginRequiredMixin, generic.CreateView):
     def show_confirm_form(self, request, *args, **kwargs):
         carts = self.request.user.cart_set.all()
         form = None
-        new_order = create_order(self.request.user, request.POST)
-        
         if self.form_class is not None:
             form = self.form_class(request.POST)
-            
-        # coupon = Coupon.objects.all()[0]
             
         subtotal8_with_tax = 0
         subtotal10_with_tax = 0
@@ -216,34 +209,11 @@ class Order_confirmation(LoginRequiredMixin, generic.CreateView):
         subtotal8 = subtotal8_with_tax - tax8
         subtotal10 = subtotal10_with_tax - tax10
         
-        # discount8 = subtotal8 * coupon.discount_percentage/100
-        # discount10 = subtotal8 * coupon.discount_percentage/100
         
-        discount8 = subtotal8 * 10/100
-        discount10 = subtotal8 * 10/100
-        
-        discounted_subtotal8 = subtotal8 - discount8
-        discounted_subtotal10 = subtotal10 - discount10
-        
-        # tax_discount8 = tax8 *new_order.coupon.percentage/100
-        # tax_discount10 = tax10 *new_order.coupon.percentage/100
-        
-        discounted_tax8 = round(discounted_subtotal8*0.1)
-        discounted_tax10 = round(discounted_subtotal10*0.1)
-        
-        # discounted_tax8 = tax8 - tax_discount8
-        # discounted_tax10 = tax10 - tax_discount10
-        
-        discounted_subtotal8_with_tax = discounted_subtotal8 + discounted_tax8
-        discounted_subtotal10_with_tax = discounted_subtotal10 + discounted_tax10
-        
-        discounted_total = discounted_subtotal8_with_tax + discounted_subtotal10_with_tax
         
         total = 0
         for cart in carts:
             total += cart.total_amount()
-            
-        discounted_total = total
             
         context = {}
         if request.POST:
@@ -262,13 +232,6 @@ class Order_confirmation(LoginRequiredMixin, generic.CreateView):
         context["subtotal8"] = subtotal8
         context["subtotal10"] = subtotal10
         context["total"] = total
-        context["discounted_subtotal8"] = discounted_subtotal8
-        context["discounted_subtotal10"] = discounted_subtotal8
-        context["discounted_tax8"] = discounted_tax8
-        context["discounted_tax10"] = discounted_tax10
-        context["discounted_subtotal8_with_tax"] = discounted_subtotal8_with_tax
-        context["discounted_subtotal10_with_tax"] = discounted_subtotal10_with_tax
-        context["discounted_total"] = discounted_total
         
         return self.render_to_response(context)
         
