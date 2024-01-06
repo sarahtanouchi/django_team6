@@ -155,3 +155,6 @@ class Coupon(models.Model):
     deleted = models.BooleanField("削除ステイタス", default=False)
     description = models.CharField("クーポン詳細", max_length=1000)
     
+    def __str__(self):
+        return f'{self.code} ({self.discount_percent}%)'
+    

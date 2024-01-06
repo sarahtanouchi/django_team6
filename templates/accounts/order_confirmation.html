@@ -41,35 +41,66 @@
         					</div>
         				</div>
         			{% endfor %}
+        			{% if order_data.couponcode %}
+        			    <div class="row mt-5 mb-3">
+        			        <p class="offset-8 col-md-4 font-weight-bold text-left">クーポン利用：税抜き価格から{{ coupon_code.discount_percent }}％OFF</p>
+        			    </div>
+        			{% endif %}
         				<div class="row mb-4">
     					    <div class="col-md-9">
     					        <p class="text-right font-weight-bold">消費税８%対象商品</p>
     					    </div>
-    					    <div class="col-md-3">
-    					       <div class="">税抜小計：{{ subtotal8 | intcomma }}円</div>
-    					       <div>
-    					           <small>消費税８%：{{ tax8 | intcomma }}円</small>
-    					       </div>
-    					       <div class="font-weight-bold">税込小計：{{ subtotal8_with_tax | intcomma }}円</div>
-    					    </div>
+    					    {% if order_data.couponcode %}
+    					       <div class="col-md-3">
+        					       <div class="">税抜小計：{{ discounted_subtotal8 | intcomma }}円</div>
+        					       <div>
+        					           <small>消費税８%：{{ tax_discount8 | intcomma }}円</small>
+        					       </div>
+        					       <div class="font-weight-bold">税込小計：{{ discounted_subtotal8_with_tax | intcomma }}円</div>
+    					        </div>
+    					    {% else %}
+        					    <div class="col-md-3">
+        					       <div class="">税抜小計：{{ subtotal8 | intcomma }}円</div>
+        					       <div>
+        					           <small>消費税８%：{{ tax8 | intcomma }}円</small>
+        					       </div>
+        					       <div class="font-weight-bold">税込小計：{{ subtotal8_with_tax | intcomma }}円</div>
+        					    </div>
+        					 {% endif %}
     					</div>
 					<div class="row">
 					    <div class="col-md-9">
 					        <p class="text-right font-weight-bold">消費税10%対象商品</p>
 					    </div>
-					    <div class="col-md-3">
-					       <div>税抜小計：{{ subtotal10 | intcomma }}円</div>
-					       <div>
-					           <small>消費税10%：{{ tax10 | intcomma }}円</small>
-					       </div>
-					       <div class="font-weight-bold mb-4">税込小計：{{ subtotal10_with_tax | intcomma }}円</div>
-					       <div>
-    					       <small>送料：無料</small>
-					       </div>
-					       <div class="font-weight-bold">
-					           <big>税込合計：{{ total | intcomma }}円</big>
-					       </div>
-					    </div>
+					    {% if order_data.couponcode %}
+					         <div class="col-md-3">
+    					       <div>税抜小計：{{ discounted_subtotal10 | intcomma }}円</div>
+    					       <div>
+    					           <small>消費税10%：{{ tax_discount10 | intcomma }}円</small>
+    					       </div>
+    					       <div class="font-weight-bold mb-4">税込小計：{{ discounted_subtotal10_with_tax | intcomma }}円</div>
+    					       <div>
+        					       <small>送料：無料</small>
+    					       </div>
+    					       <div class="font-weight-bold">
+    					           <big>税込合計：{{ discounted_total | intcomma }}円</big>
+    					       </div>
+    					    </div>
+    				    {% else %}
+    					    <div class="col-md-3">
+    					       <div>税抜小計：{{ subtotal10 | intcomma }}円</div>
+    					       <div>
+    					           <small>消費税10%：{{ tax10 | intcomma }}円</small>
+    					       </div>
+    					       <div class="font-weight-bold mb-4">税込小計：{{ subtotal10_with_tax | intcomma }}円</div>
+    					       <div>
+        					       <small>送料：無料</small>
+    					       </div>
+    					       <div class="font-weight-bold">
+    					           <big>税込合計：{{ total | intcomma }}円</big>
+    					       </div>
+    					    </div>
+    					{% endif %}
 					</div>
         	    </div>
         	</div>
