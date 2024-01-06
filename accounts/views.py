@@ -134,9 +134,9 @@ class Logout(LogoutView):
         context["title"] = "ログアウトしました"
         return context
         
-# # パスワード再設定手続き
+# パスワード再設定手続き
 # class Resetting(TemplateView):
-#     template_name = "accounts/resetting.html"
+    # template_name = "accounts/resetting.html"
     
     
 # # パスワード再設定

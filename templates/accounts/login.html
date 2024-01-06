@@ -6,22 +6,31 @@
     <h1>{{ title }}</h1>
     <form action="" method="POST">
         {{ form.non_field_errors }}
-        {% csrf_token %}
-        <div>
-            <span>メールアドレス(ログインID)</span>
-            {{ form.username }}
-        </div>
-        <div>
-            <span>パスワード</span>
-            {{ form.password }}
-        </div>
-        <input type="hidden" name="next" value="{{ next }}" />
-        <button type="submit" class="btn btn-secondary btn-md" >ログイン</button>
+        <h3>ログイン・新規登録</h3>
+ 
+        {% for field in form %}
+            {% if field.name == 'username' %}
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <label for="{{ field.id_for_label }}">メールアドレス(ログインID)</label>
+                    <input type="text" id="{{ field.id_for_label }}" style="width: 400px;">
+                </div>
+        {% else %}
+                <div style="display: flex; flex-direction: column; align-items: center; margin-top: 10px;" >
+                    <label for="{{ field.id_for_label }}">パスワード</label>
+                    <input type="name=" id="{{ field.name }}" style="width: 400px;">
+                </div>
+            {% endif %}
+        {% endfor %}
         
-    </form>
-    
-     <p>
-        <a href="{% url 'accounts:password_reset' %}">パスワードが分からない方はこちら</a>
-    </p>
-    <a class="btn btn-outline-secondary btn-md" href="{% url 'accounts:sign_up' %}">新規登録</a>
+        {% csrf_token %}
+        <div style="display: flex; flex-direction: column; align-items: center; margin-top: 50px;">
+            <button style="width: fit-content;" type="submit">ログイン</button>
+            <div style="margin-top: 15px;">
+                <a href="{% url 'accounts:password_reset' %}">パスワードをお忘れの場合はこちら</a>
+            </div>
+            <div style="margin-top: 15px; margin-bottom: 100px;">
+                <button style="width: fit-content;" type="submit">新規登録</button>
+            </div>
+        </div>
+    </from>
 {% endblock %}
