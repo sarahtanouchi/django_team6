@@ -315,8 +315,10 @@ class Item_detail(generic.DetailView):
         context = super().get_context_data(**kwargs)
         context["title"] = "商品詳細"
         item = context["item"]
-        tax = round(item.price*0.1/1.1) 
-        context["tax"]=tax
+        tax8 = round(item.price*0.08/1.08) 
+        tax10 = round(item.price*0.1/1.1) 
+        context["tax8"]=tax8
+        context["tax10"]=tax10
         reviews = self.object.review_set.all()
         context["reviews"] = reviews      
         
@@ -338,21 +340,7 @@ def add_item(request,pk):
     else:
         cart_item.amount += cart_amount
     cart_item.save()
-    
-    
-    # cart_records = Cart.objects.filter(user=request.user, ordered=False)
-    
-    # if cart_records.exists():
-    #     cart = cart[0]
-    #     if cart.items.filter(item_pk=item.pk).exists():
-    #         cart.quantity += 1
-    #         cart.save()
-    #     else:
-    #         cart.items.add(cart_item)
-    # else:
-    #     cart = Cart.objects.create(user=request.user, item=)
-    #     cart.items.add(cart_item)
-        
+
     return redirect("items:carts")
             
     

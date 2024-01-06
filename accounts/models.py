@@ -81,4 +81,7 @@ class Order_detail(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE, null=True)
     amount = models.PositiveIntegerField("購入数")
     purchase_price = models.PositiveIntegerField("購入価格")
+    
+    def total_amount(self):
+        return self.purchase_price * self.amount
 
