@@ -83,7 +83,7 @@
         			    <div class="form-group form-row mt-4">
             			    <label class="col-md-2 col-form-label text-md-right" for="couponcode">クーポンコード</label>
             			    <div class="col-md-3">
-            			         <input class="form-control" type="text" id="couponcode" name="couponcode">
+            			         <input class="form-control" type="text" id="couponcode" name="couponcode" pattern="^[0-9A-Za-z]{6,6}">
             			    </div>
             			</div>
             			<nav class="navbar navbar-expand-md navbar-light bg-light">
@@ -104,8 +104,36 @@
         			    <nav class="navbar navbar-expand-md navbar-light bg-light">
         			        <span class="navbar-text">お客様情報</span>
         			    </nav>
-            			    
-            			    
+        			    <div class="row mt-4">
+            			    <div class="col-md-2 text-md-right">
+            			        (氏名)
+            			    </div>
+            			    <div class="col-md-3">
+            			         {{ user.name }}
+            			    </div>
+            			</div>
+            			<div class="row">
+            			    <div class="col-md-2 text-md-right">
+            			        (住所)
+            			    </div>
+            			    <div class="col-md-3">
+            			         〒{{ user.postal_code }}
+            			         {{ user.prefecture }}
+            			         {{ user.city }}
+            			         {{ user.street_address }}
+            			         {% if user.building_name %}
+            			             {{ user.building_name }}
+            			         {% endif %}
+            			    </div>
+            			</div>
+            			<div class="row mb-4">
+            			    <div class="col-md-2 text-md-right">
+            			        (電話番号)
+            			    </div>
+            			    <div class="col-md-3">
+            			         {{ user.tel_number }}
+            			    </div>
+            			</div>   
         			    <nav class="navbar navbar-expand-md navbar-light bg-light">
         			        <span class="navbar-text">お届け先</span>
         			    </nav>

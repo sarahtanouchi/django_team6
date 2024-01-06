@@ -7,11 +7,9 @@ from django.contrib.auth import get_user_model
 from django.utils.dateparse import parse_date
 
 
-from .models import Order, Destination, Order_detail
-from items.models import Item, Cart, Coupon
+from .models import Order, Coupon, Destination, Order_detail
+from items.models import Item, Cart
 from .forms import SignupForm, LoginForm, OrderCreateForm, OrderConfirmationForm
-
-User = get_user_model()
 
 # vv order confirm helper functions vv
 
@@ -66,9 +64,6 @@ def create_order(user, data):
 
     coupon_code_data = data.get("couponcode")
     coupon_match = Coupon.objects.filter(code=coupon_code_data).first()
-    print("マッチしたクーポン")
-    print("coupon code:", coupon_code_data)
-    print("db object:", coupon_match)
     if coupon_match is not None:
         new_order.coupon = coupon_match
         
@@ -90,35 +85,20 @@ def create_order_details(carts, order):
 # ^^ order confirm helper functions ^^
 
 class SignUp(generic.CreateView):
-    model = User
     form_class = SignupForm # 利用するフォームクラスを設定
     template_name = "accounts/sign_up.html"
-    success_url = reverse_lazy('accounts:complete')
  
-    # def get_success_url(self):
-    #     # items:index のURL を逆引きして利用
-    #     return reverse_lazy("accounts:complete") 
+    def get_success_url(self):
+        # items:index のURL を逆引きして利用
+        return reverse_lazy("items:index") 
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+ 
+        # 以下で、 辞書データ context に値を追加
         context["title"] = "新規お客様情報登録"
+ 
         return context
-        
-    def form_valid(self, form):
-        ctx = {'form': form}
-        if self.request.POST.get('next', '') == 'confirm':
-            return render(self.request, 'accounts/signup_confirmation.html', ctx)
-        if self.request.POST.get('next', '') == 'back':
-            return render(self.request, 'accounts/sign_up.html', ctx)
-        if self.request.POST.get('next', '') == 'create':
-            return super().form_valid(form)
-        # else:
-        #     # 正常動作ではここは通らない。エラーページへの遷移でも良い
-        #     return redirect(reverse_lazy('home'))
-        
-class Complete(generic.TemplateView):
-    """登録完了ページ"""
-    template_name = 'accounts/complete_signup.html'
         
 # ログイン
 class Login(LoginView):
@@ -133,38 +113,13 @@ class Logout(LogoutView):
         context = super().get_context_data(**kwargs)
         context["title"] = "ログアウトしました"
         return context
-        
-# # パスワード再設定手続き
-# class Resetting(TemplateView):
-#     template_name = "accounts/resetting.html"
-    
-    
-# # パスワード再設定
-# class Reset(generic.CreateView):
-#     form_class = ResetForm
-#     template_name = "accounts/reset.html"
-    
-#     def get_success_url(self):
-#         # items:index のURL を逆引きして利用
-#         return reverse_lazy("account:login") 
-    
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         # 以下で、 辞書データ context に値を追加
-#         context["title"] = "パスワード再設定"
-#         return context
-        
-# # パスワード再設定完了
-# class Recomplete(TemplateView):
-#     """パスワード再設定完了ページ"""
-#     template_name = 'accounts/recomplete.html'
-    
+ 
 # ユーザープロフィール
 class Detail(LoginRequiredMixin, generic.TemplateView):
     template_name = "accounts/detail.html"
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["title"] = "お客様情報"
+        context["title"] = "プロフィール"
         return context
  
 # ユーザープロフィールの更新
@@ -172,7 +127,7 @@ class Update(LoginRequiredMixin, generic.TemplateView):
     template_name = "accounts/update.html"
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["title"] = "お客さ様情報の変更"
+        context["title"] = "プロフィール編集"
         return context
 
 class Mypage(LoginRequiredMixin, generic.TemplateView):
@@ -205,7 +160,7 @@ class Order_create(LoginRequiredMixin, generic.CreateView):
         context["subtotal8_with_tax"] = subtotal8_with_tax
         context["subtotal10_with_tax"] = subtotal10_with_tax
         
-        tax8 = round(subtotal8_with_tax*0.08/1.08) 
+        tax8 = round(subtotal8_with_tax*0.1/1.1) 
         tax10 = round(subtotal10_with_tax*0.1/1.1) 
         
         context["tax8"] = tax8
@@ -237,7 +192,6 @@ class Order_confirmation(LoginRequiredMixin, generic.CreateView):
     def show_confirm_form(self, request, *args, **kwargs):
         carts = self.request.user.cart_set.all()
         form = None
-        
         if self.form_class is not None:
             form = self.form_class(request.POST)
             
@@ -249,49 +203,17 @@ class Order_confirmation(LoginRequiredMixin, generic.CreateView):
             elif cart.item.tax_percent == 10:
                 subtotal10_with_tax += cart.total_amount()  
                 
-        tax8 = round(subtotal8_with_tax*0.08/1.08) 
+        tax8 = round(subtotal8_with_tax*0.1/1.1) 
         tax10 = round(subtotal10_with_tax*0.1/1.1) 
         
         subtotal8 = subtotal8_with_tax - tax8
         subtotal10 = subtotal10_with_tax - tax10
         
-        discount8 = 0
-        discount10 = 0
-        # tax_discount8 = 0
-        # tax_discount10 = 0
-
-        coupon_code = self.request.POST.get('couponcode')
-        coupon_match = Coupon.objects.filter(code=coupon_code).first()
-        if coupon_match:
-            discount8 = subtotal8 * coupon_match.discount_percent/100
-            discount10 = subtotal10 * coupon_match.discount_percent/100
-            # tax_discount8 = tax8 * coupon_match.discount_percent/100
-            # tax_discount10 = tax10 * coupon_match.discount_percent/100
-
         
-        discounted_subtotal8 = round(subtotal8 - discount8)
-        discounted_subtotal10 = round(subtotal10 - discount10)
-        
-        # discounted_tax8 = round(tax8 - tax_discount8)
-        # discounted_tax10 = round(tax10 - tax_discount10)
-        tax_discount8 = round(discounted_subtotal8*0.08)
-        tax_discount10 = round(discounted_subtotal10*0.1)
-        
-        # discount8 = subtotal8 * coupon.discount_percentage/100
-        # discount10 = subtotal8 * coupon.discount_percentage/100
-    
-        # discounted_tax8 = tax8 - tax_discount8
-        # discounted_tax10 = tax10 - tax_discount10
-        
-        discounted_subtotal8_with_tax = round(discounted_subtotal8 + tax_discount8)
-        discounted_subtotal10_with_tax = round(discounted_subtotal10 + tax_discount10)
-        
-        discounted_total = discounted_subtotal8_with_tax + discounted_subtotal10_with_tax
         
         total = 0
         for cart in carts:
             total += cart.total_amount()
-
             
         context = {}
         if request.POST:
@@ -303,7 +225,6 @@ class Order_confirmation(LoginRequiredMixin, generic.CreateView):
         
         context["title"] = "注文内容確認ページ" 
         context["carts"] = carts
-        context["coupon_code"] = coupon_match
         context["subtotal8_with_tax"] = subtotal8_with_tax
         context["subtotal10_with_tax"] = subtotal10_with_tax
         context["tax8"] = tax8
@@ -311,15 +232,6 @@ class Order_confirmation(LoginRequiredMixin, generic.CreateView):
         context["subtotal8"] = subtotal8
         context["subtotal10"] = subtotal10
         context["total"] = total
-        context["discounted_subtotal8"] = discounted_subtotal8
-        context["discounted_subtotal10"] = discounted_subtotal10
-        # context["discounted_tax8"] = discounted_tax8
-        # context["discounted_tax10"] = discounted_tax10
-        context["tax_discount8"] = tax_discount8
-        context["tax_discount10"] = tax_discount10
-        context["discounted_subtotal8_with_tax"] = discounted_subtotal8_with_tax
-        context["discounted_subtotal10_with_tax"] = discounted_subtotal10_with_tax
-        context["discounted_total"] = discounted_total
         
         return self.render_to_response(context)
         

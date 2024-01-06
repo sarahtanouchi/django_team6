@@ -11,7 +11,18 @@
         <tr><td class="bg-light text-center">フリガナ</td><td class="pl-5">{{form.kana.value}}</td></tr>
         <tr><td class="bg-light text-center">住所</td><td class="pl-5">〒{{form.postal_code.value}}　{{form.prefecture.value}}{{form.city.value}}{{form.street_address.value}}{{form.building_name.value}}</td></tr>
         <tr><td class="bg-light text-center">電話番号</td><td class="pl-5">{{form.tel_number.value}}</td></tr>
-        <!--<tr><td>性別</td><td>{{form.user.get_gender_display }}</td></tr>-->
+        <tr>
+            <td class="bg-light text-center">性別</td>
+            <td class="pl-5">
+                {% if form.gender.value == "female" %}
+                    女性
+                {% elif form.gender.value == "male" %}
+　　　　　          男性
+　　　　　      {% else %}
+　　　　　          未回答
+                {% endif %}
+            </td>
+        </tr>
         <tr><td class="bg-light text-center">生年月日</td><td class="pl-5">{{form.birthdate.value}}</td></tr>
         <tr><td class="bg-light text-center">メールアドレス</td><td class="pl-5">{{form.email.value}}</td></tr>
     </table>
