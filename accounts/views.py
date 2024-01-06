@@ -377,10 +377,71 @@ class Order_history(LoginRequiredMixin, generic.ListView):
         
         return context
         
-    # def get_queryset(self):
-    #     queryset = super().get_queryset()
-    #     queryset = queryset.filter(order=self.request.user)
-    #     return queryset
+class Order_details(generic.DetailView):
+    model = Order
+    template_name = "accounts/order_detail.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "ご注文の詳細"
+        print(context)
+        order = context["order"]
+        order_details = order.order_detail_set.all()
+        context["order_details"] = order_details 
         
+        subtotal8_with_tax = 0
+        subtotal10_with_tax = 0
+        for order_detail in order_details:
+            if order_detail.item.tax_percent == 8:
+                subtotal8_with_tax += order_detail.total_amount()
+            elif order_detail.item.tax_percent == 10:
+                subtotal10_with_tax += order_detail.total_amount()  
+                
+        tax8 = round(subtotal8_with_tax*0.08/1.08) 
+        tax10 = round(subtotal10_with_tax*0.1/1.1) 
         
+        subtotal8 = subtotal8_with_tax - tax8
+        subtotal10 = subtotal10_with_tax - tax10
+        
+        discount8 = 0
+        discount10 = 0
+        
+        if order.coupon :
+            discount8 = subtotal8 * order.coupon.discount_percent/100
+            discount10 = subtotal10 * order.coupon.discount_percent/100
+
+        discounted_subtotal8 = round(subtotal8 - discount8)
+        discounted_subtotal10 = round(subtotal10 - discount10)
+        
+        tax_discount8 = round(discounted_subtotal8*0.08)
+        tax_discount10 = round(discounted_subtotal10*0.1)
+        
+        discounted_subtotal8_with_tax = round(discounted_subtotal8 + tax_discount8)
+        discounted_subtotal10_with_tax = round(discounted_subtotal10 + tax_discount10)
+        
+        discounted_total = discounted_subtotal8_with_tax + discounted_subtotal10_with_tax
+ 
+        
+        total = 0
+        for order_detail in order_details:
+            total += order_detail.total_amount()
+            
+        context["total"] = total
+        context["subtotal8_with_tax"] = subtotal8_with_tax
+        context["subtotal10_with_tax"] = subtotal10_with_tax
+        context["tax8"] = tax8
+        context["tax10"] = tax10
+        context["subtotal8"] = subtotal8
+        context["subtotal10"] = subtotal10
+        context["total"] = total
+        context["discounted_subtotal8"] = discounted_subtotal8
+        context["discounted_subtotal10"] = discounted_subtotal10
+        context["tax_discount8"] = tax_discount8
+        context["tax_discount10"] = tax_discount10
+        context["discounted_subtotal8_with_tax"] = discounted_subtotal8_with_tax
+        context["discounted_subtotal10_with_tax"] = discounted_subtotal10_with_tax
+        context["discounted_total"] = discounted_total
+        
+        return context
+        
+   
     

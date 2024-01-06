@@ -1,0 +1,165 @@
+{% extends "layouts/default.html" %}
+{% load static %}
+{% load humanize %}
+ 
+{% block title %}{{ title }}{% endblock %}
+ 
+{% block content %}
+
+    <div class="container">
+		<h1>{{ title }}</h1>
+		<div class="row">
+			<div class="col-md-12">
+    		    <nav class="navbar navbar-expand-md navbar-light bg-light justify-content-between">
+    		        <span class="navbar-text">{{ order.purchase_date }} ご注文分</span>
+    		        <div>
+        		        <span class="navbar-text">ステータス：{{ order.get_status_display }}</span>
+        		        {% if order.status == "accepted" %}
+                            <a class="btn btn-secondary btn-sm ml-2" href="{% url 'home' %}">注文をキャンセル</a>
+                        {% endif %}
+                    </div>
+                </nav> 
+                {% for order_detail in order_details %}
+                    <div class="card item">
+    					<div class="row item_row">
+    						<div class="col-md-3 item_figure">
+    							{% with order_detail.item.item_images.all.0 as first_image %}
+                           			<img class="rounded img-fluid auto" src="{{ first_image.image.url }}">
+                        		{% endwith %}
+    						</div>
+							<div class="col-md-4 offset-1 item_description">
+    							<dl>
+                                    <dt>{{ order_detail.item.name }}</dt>
+                                    <dd>{{ order_detail.item.description }}</dd>
+                                </dl>
+                            </div>
+                            <div class="col-md-3 offset-1 item_description">
+                        		<dl>
+                                    <dt>購入数</dt>
+                                    <dd>{{ order_detail.amount }}</dd>
+                                    <dt>税込価格</dt>
+                                    <dd>{{ order_detail.item.price | intcomma  }}円
+                                        <small>(内税{{ order_detail.item.tax_percent | intcomma }}%)</small>
+                                    </dd>
+                                </dl>
+    						</div>
+    					</div>
+    				</div>
+    			{% endfor %}
+    		</div>
+        </div>
+        <div class="row mt-3">
+            <table  class="col-md-7 ui celled table table table-hover" >
+                {% if order.coupon %}
+                    <tr>
+                        <td class="bg-light text-center">
+                            クーポン内容
+                        </td>
+                        <td class="pl-5">
+                            税抜き価格から{{ order.coupon.discount_percent }}％OFF
+                        </td>
+                    </tr>
+                {% endif %}
+                <tr>
+                    <td class="bg-light text-center">お受取人</td>
+                    <td class="pl-5">
+                        {% if order.destination %}
+                            {{ order.destination.name }}様
+                        {% else %}
+                            ご本人様
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr><td class="bg-light text-center">お届け日指定</td>
+                    <td class="pl-5">
+                        {% if order.arrival_date %}
+                            {{ order.arrival_date}}
+                        {% else %}
+                            なし
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr><td class="bg-light text-center">ギフト包装</td>
+                    <td class="pl-5">
+                        {% if order.gift_wrapping == True %}
+                            希望する
+                        {% else %}
+                            希望しない
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="bg-light text-center">
+                        その他ご要望
+                    </td>
+                    <td class="pl-5">
+                        {{ order.request_comment }}
+                    </td>
+                </tr>
+            </table>
+    		<div class="col-md-5 mb-4">
+    		   <div class="row">
+    			    <div class="col-md-7">
+    			        <p class="text-right font-weight-bold">消費税８%対象商品</p>
+    			    </div>
+    			    {% if order.coupon %}
+    			       <div class="col-md-5">
+    				       <div class="">税抜小計：{{ discounted_subtotal8 | intcomma }}円</div>
+    				       <div>
+    				           <small>消費税８%：{{ tax_discount8 | intcomma }}円</small>
+    				       </div>
+    				       <div class="font-weight-bold">税込小計：{{ discounted_subtotal8_with_tax | intcomma }}円</div>
+    			        </div>
+    			    {% else %}
+    				    <div class="col-md-5">
+    				       <div class="">税抜小計：{{ subtotal8 | intcomma }}円</div>
+    				       <div>
+    				           <small>消費税８%：{{ tax8 | intcomma }}円</small>
+    				       </div>
+    				       <div class="font-weight-bold">税込小計：{{ subtotal8_with_tax | intcomma }}円</div>
+    				    </div>
+    				 {% endif %}
+    		    </div>
+    		    <div class="row mt-4">
+        		    <div class="col-md-7">
+        		        <p class="text-right font-weight-bold">消費税10%対象商品</p>
+        		    </div>
+        		    {% if order.coupon %}
+        		         <div class="col-md-5">
+            			      <div>税抜小計：{{ discounted_subtotal10 | intcomma }}円</div>
+            			      <div>
+            			          <small>消費税10%：{{ tax_discount10 | intcomma }}円</small>
+            			      </div>
+            			      <div class="font-weight-bold mb-4">税込小計：{{ discounted_subtotal10_with_tax | intcomma }}円</div>
+            			      <div>
+            				      <small>送料：無料</small>
+            			      </div>
+            			      <div class="font-weight-bold">
+            			          税込合計：{{ discounted_total | intcomma }}円
+            			      </div>
+        			    </div>
+    		        {% else %}
+        			    <div class="col-md-5">
+        			       　<div>税抜小計：{{ subtotal10 | intcomma }}円</div>
+        			       　<div>
+        			           　<small>消費税10%：{{ tax10 | intcomma }}円</small>
+        			       　</div>
+        			       　<div class="font-weight-bold mb-4">税込小計：{{ subtotal10_with_tax | intcomma }}円</div>
+        			       　<div>
+        				      　 <small>送料：無料</small>
+        			       　</div>
+        			       　<div class="font-weight-bold">
+        			       　    税込合計：{{ total | intcomma }}円
+        			       　</div>
+        			    </div>
+        			{% endif %}
+    		    </div>
+    		</div>
+        </div>
+			
+        <div class="return_link d-flex justify-content-center mt-5">
+           	<button class="btn" onclick="window.history.back();return false;">＜ 戻る</button>
+        </div>
+    </div>
+
+{% endblock %}

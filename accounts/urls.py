@@ -22,4 +22,5 @@ urlpatterns = [
     path("mypage/", views.Mypage.as_view(), name="mypage"), #マイページ
     # path("favorite/", views.Favorite.as_view(), name="favorite"), # お気に入り
     path("order_history/", views.Order_history.as_view(), name="order_history"), #注文履歴
+    path("order_details/<int:pk>", views.Order_details.as_view(), name="order_details") #注文詳細
 ]
