@@ -3,7 +3,6 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.contrib.auth import get_user_model
 
-# from items.models import Coupon
 
 class CustomUser(AbstractUser):
     email = models.EmailField(verbose_name="メールアドレス", max_length=255, unique=True)
@@ -33,10 +32,7 @@ class Destination(models.Model):
     tel_number = models.CharField("電話番号", max_length=11)
 
 
-class Coupon(models.Model):
-    code = models.CharField("クーポンコード", max_length=7)
-    discount_percentage = models.PositiveIntegerField("割引率")
-
+from items.models import Coupon
 
 class Order(models.Model):
     ORDER_STATUS = (

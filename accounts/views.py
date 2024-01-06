@@ -163,7 +163,7 @@ class Order_create(LoginRequiredMixin, generic.CreateView):
         context["subtotal8_with_tax"] = subtotal8_with_tax
         context["subtotal10_with_tax"] = subtotal10_with_tax
         
-        tax8 = round(subtotal8_with_tax*0.1/1.1) 
+        tax8 = round(subtotal8_with_tax*0.08/1.08) 
         tax10 = round(subtotal10_with_tax*0.1/1.1) 
         
         context["tax8"] = tax8
@@ -195,12 +195,9 @@ class Order_confirmation(LoginRequiredMixin, generic.CreateView):
     def show_confirm_form(self, request, *args, **kwargs):
         carts = self.request.user.cart_set.all()
         form = None
-        new_order = create_order(self.request.user, request.POST)
         
         if self.form_class is not None:
             form = self.form_class(request.POST)
-            
-        # coupon = Coupon.objects.all()[0]
             
         subtotal8_with_tax = 0
         subtotal10_with_tax = 0
@@ -210,40 +207,49 @@ class Order_confirmation(LoginRequiredMixin, generic.CreateView):
             elif cart.item.tax_percent == 10:
                 subtotal10_with_tax += cart.total_amount()  
                 
-        tax8 = round(subtotal8_with_tax*0.1/1.1) 
+        tax8 = round(subtotal8_with_tax*0.08/1.08) 
         tax10 = round(subtotal10_with_tax*0.1/1.1) 
         
         subtotal8 = subtotal8_with_tax - tax8
         subtotal10 = subtotal10_with_tax - tax10
         
+        discount8 = 0
+        discount10 = 0
+        # tax_discount8 = 0
+        # tax_discount10 = 0
+
+        coupon_code = self.request.POST.get('couponcode')
+        coupon_match = Coupon.objects.filter(code=coupon_code).first()
+        if coupon_match:
+            discount8 = subtotal8 * coupon_match.discount_percent/100
+            discount10 = subtotal10 * coupon_match.discount_percent/100
+            # tax_discount8 = tax8 * coupon_match.discount_percent/100
+            # tax_discount10 = tax10 * coupon_match.discount_percent/100
+
+        
+        discounted_subtotal8 = round(subtotal8 - discount8)
+        discounted_subtotal10 = round(subtotal10 - discount10)
+        
+        # discounted_tax8 = round(tax8 - tax_discount8)
+        # discounted_tax10 = round(tax10 - tax_discount10)
+        tax_discount8 = round(discounted_subtotal8*0.08)
+        tax_discount10 = round(discounted_subtotal10*0.1)
+        
         # discount8 = subtotal8 * coupon.discount_percentage/100
         # discount10 = subtotal8 * coupon.discount_percentage/100
-        
-        discount8 = subtotal8 * 10/100
-        discount10 = subtotal8 * 10/100
-        
-        discounted_subtotal8 = subtotal8 - discount8
-        discounted_subtotal10 = subtotal10 - discount10
-        
-        # tax_discount8 = tax8 *new_order.coupon.percentage/100
-        # tax_discount10 = tax10 *new_order.coupon.percentage/100
-        
-        discounted_tax8 = round(discounted_subtotal8*0.1)
-        discounted_tax10 = round(discounted_subtotal10*0.1)
-        
+    
         # discounted_tax8 = tax8 - tax_discount8
         # discounted_tax10 = tax10 - tax_discount10
         
-        discounted_subtotal8_with_tax = discounted_subtotal8 + discounted_tax8
-        discounted_subtotal10_with_tax = discounted_subtotal10 + discounted_tax10
+        discounted_subtotal8_with_tax = round(discounted_subtotal8 + tax_discount8)
+        discounted_subtotal10_with_tax = round(discounted_subtotal10 + tax_discount10)
         
         discounted_total = discounted_subtotal8_with_tax + discounted_subtotal10_with_tax
         
         total = 0
         for cart in carts:
             total += cart.total_amount()
-            
-        discounted_total = total
+
             
         context = {}
         if request.POST:
@@ -255,6 +261,7 @@ class Order_confirmation(LoginRequiredMixin, generic.CreateView):
         
         context["title"] = "注文内容確認ページ" 
         context["carts"] = carts
+        context["coupon_code"] = coupon_match
         context["subtotal8_with_tax"] = subtotal8_with_tax
         context["subtotal10_with_tax"] = subtotal10_with_tax
         context["tax8"] = tax8
@@ -263,9 +270,11 @@ class Order_confirmation(LoginRequiredMixin, generic.CreateView):
         context["subtotal10"] = subtotal10
         context["total"] = total
         context["discounted_subtotal8"] = discounted_subtotal8
-        context["discounted_subtotal10"] = discounted_subtotal8
-        context["discounted_tax8"] = discounted_tax8
-        context["discounted_tax10"] = discounted_tax10
+        context["discounted_subtotal10"] = discounted_subtotal10
+        # context["discounted_tax8"] = discounted_tax8
+        # context["discounted_tax10"] = discounted_tax10
+        context["tax_discount8"] = tax_discount8
+        context["tax_discount10"] = tax_discount10
         context["discounted_subtotal8_with_tax"] = discounted_subtotal8_with_tax
         context["discounted_subtotal10_with_tax"] = discounted_subtotal10_with_tax
         context["discounted_total"] = discounted_total
