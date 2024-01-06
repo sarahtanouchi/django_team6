@@ -14,40 +14,83 @@
     <div class="container contents">
 		<h1>{{ title }}</h1>
 		<div class="row">
-			<div class="col-12">
 			{% for favorite in favorites %}
-				<div class="card item">
-					<div class="row item_row">
-						<div class="col-3 item_figure">
-							{% with favorite.item.item_images.all.0 as first_image %}
-                       			<img class="rounded img-fluid auto" src="{{ first_image.image.url }}">
-                    		{% endwith %}
-                            <form method="POST" action="{% url 'items:delete_favorite' favorite.id %}">
-	    						{% csrf_token %}
-	    						<input type="submit" value="削除" >
-                			</form>
-						</div>
-						<div class="col-5 item_description">
-							<dl>
-                                <dt>{{ favorite.item.name }}</dt>
-                                <dd>{{ favorite.item.description }}</dd>
-                             </dl>
-                        </div>
-                        <div class="col-4 item_description">
-                    		<dl>
-                                <dt>税込価格</dt>
-                                <dd>{{ favorite.item.price | intcomma }}円
-                                	<small>(内税{{ favorite.item.tax_percent }}%)</small>
-                                </dd>
-                            </dl>
-						</div>
-					</div>
+				<div class="col-3 mb-4">
+	         		<ul class="item_upper_icons">
+					
+		                <!-- お気に入り追加 -->
+		                <li class="item_favorite_icon" >
+				            {% if user.is_authenticated %}
+				            	<form id="FavoriteForm" method="post" action="">
+				                	<a onclick="addFavorite('{{ item.id }}')">
+				                    	<img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入り">
+				                	</a>
+				             	</form> 
+							{% else %}
+				                <a onclick="showLoginModal();">
+				                    <img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入り">
+				                </a>                
+				            {% endif %}
+				         </li>
+			             <!-- カート追加 -->
+			             <li class="item_cart_icon">
+				             {% if user.is_authenticated %}
+					             <form id="CartForm" method="post" action="">
+					                <a onclick="addCart('{{ item.id }}')">
+					                    <img src="{% static 'images/icon/cart_icon.png' %}" alt="カート">
+					                </a>
+					             </form>  
+				             {% else %}
+				                <a onclick="showLoginModal();">
+				                     <img src="{% static 'images/icon/cart_icon.png' %}" alt="カート">
+				                 </a>                
+				             {% endif %}
+				          </li>
+		             </ul>
+		         	<div>	   
+					{% if favorite.item.item_images %}
+		    			{% with favorite.item.item_images.all.0 as image %}
+		    			<figure>
+	    					<a href="">
+		    					<img class="item_image img-fluid" src="{{ image.image.url }}">
+			    			</a>
+			    			<div class="item_tag_row">
+			    				<span class="item_tag">
+			    					{% if favorite.item.taste %}
+		    							{{ favorite.item.tea_type }}
+			    					{% else %}
+			    						{{ favorite.item.item_type }}
+			    					{% endif %}
+			    				</span>
+			    				<span class="item_tag">
+			    					{% if favorite.item.taste %}
+	    								{{ favorite.item.taste }}
+		    						{% else %}
+		    							{{ favorite.item.occasion }}
+		    						{% endif %}	
+			    				</span>
+			    			</div>
+			    			<figcaption>
+			    				<div class="recommend_item_name">
+			    					<a href="">
+                                        <small>{{ favorite.item.name }}</small>
+                                    </a>
+                                    <small>{{ favorite.item.price | intcomma }}円(税込)</small>
+			    				</div>
+			    			</figcaption>
+			    		</figure>
+                		{% endwith %}
+            		{% else %}
+                		<img class="item_image" src="{% static 'images/no_image.jpg' %}">
+                	{% endif %}
 				</div>
+			</div>
 			{% empty %}
             	<p class="text-center mt-5 mb-3">お気に入り商品はありません。</p>
 			{% endfor %}
-			</div>
 		</div>
+		{% include "includes/pagination.html" %}
+
 		<div class="d-flex justify-content-center">
             <a href="{% url 'items:index' %}">
                 <button class="btn_lg btn_white" type="button">商品をさがす</button>
@@ -59,5 +102,5 @@
     	</div>
     </div>	
 </main>
-<!--<script src="{% static 'js/favorite_add.js' %}"></script>-->
+<script src="{% static 'js/favorite_add.js' %}"></script>
 {% endblock %}

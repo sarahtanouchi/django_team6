@@ -458,7 +458,6 @@ class Review_create(LoginRequiredMixin, generic.CreateView):
     model = Review
     form_class = ReviewForm
     template_name = 'items/review_create.html'
-    ordering = "-created_date"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -466,51 +465,55 @@ class Review_create(LoginRequiredMixin, generic.CreateView):
         item_id = self.kwargs["pk"]
         item = get_object_or_404(Item, pk=item_id)
         context["item"] = item
-        
         return context
         
     def form_valid(self, form):
         item_id = self.kwargs["pk"]
         item = get_object_or_404(Item, pk=item_id)
         
-        try:
-            review = form.save(commit=False)
-            review.user = self.request.user
-            review.item = item
-            review.save() 
-        except IntegrityError:
-            # 重複がある場合の処理
-            return HttpResponseBadRequest("このアイテムに対するレビューは既に存在します。")
-            
-        return redirect("items:item_detail", pk=item_id)
+        # 重複チェック
+        if Review.objects.filter(user=self.request.user, item=item).exists():
+            form.add_error(None, "このアイテムに対するレビューは既に存在します。")
+            return self.form_invalid(form)
 
+        review = form.save(commit=False)
+        review.user = self.request.user
+        review.item = item
+        review.save()
+        return redirect("items:item_detail", pk=item_id)
+        
 #　商品ごとのレビュー        
 class Review_list(generic.ListView):
     model = Review
-    template_name = "items/item_detail.html"
+    template_name = "items/review_list.html"
     context_object_name = 'reviews'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "レビュー"
         
-      # 商品ごとのrate平均
+        # 商品ごとのrate平均
         item_id = self.kwargs.get('pk')
-        average_rate = Review.objects.filter(item__id=item_id).aggregate(Avg('rate'))['rate__avg']
+        reviews = Review.objects.filter(item__id=item_id)
+        average_rate = reviews.aggregate(Avg('rate'))['rate__avg']
+        
+        # 商品情報を取得
+        item = Item.objects.get(pk=item_id)
+
         context["average_rate"] = average_rate
+        context["item"] = item
+        
         return context
         
     def get_queryset(self):
-        queryset = super().get_queryset()
-        queryset.filter(item=self.request.item)
-        return queryset
+        item_id = self.kwargs.get('pk')
+        return Review.objects.filter(item__id=item_id)
         
-        # item_id = self.kwargs.get('pk')
-        # return queryset.filter(item__id=item_id)
         
 # ユーザーのレビュー投稿履歴
 class Review_history(LoginRequiredMixin, generic.ListView):
     model = Review
+    form_class = ReviewForm
     template_name = "items/review_history.html"
     ordering = "-created_at"
     
@@ -523,12 +526,13 @@ class Review_history(LoginRequiredMixin, generic.ListView):
  
     def get_queryset(self):
         queryset = super().get_queryset()
-        queryset.filter(user=self.request.user)
+        queryset = queryset.filter(user=self.request.user)
         return queryset
 
 class Review_delete(LoginRequiredMixin, generic.DeleteView):
     model = Review
     success_url = reverse_lazy("items:review_history") 
+
 
 # お気に入り
 class Favorite_add(LoginRequiredMixin, generic.View):
@@ -541,23 +545,27 @@ class Favorite_add(LoginRequiredMixin, generic.View):
             item=item,
             user=request.user,
         )
-        favorite.save()
+        
+        if not created:
+            print(f"Item {item.name} is already in favorites for user {request.user.username}")
 
-        return redirect("items:favorite_list") 
+        # return redirect("items:favorite_list") 
 
 class Favorite_list(LoginRequiredMixin, generic.ListView):
     model = Favorite
+    form_class = FavoriteAddForm
     template_name = "items/favorite_list.html"
-    context_object_name = "favorite"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "お気に入りリスト"
- 
+        favorites = self.request.user.favorite_set.all()
+        context["favorites"] = favorites
         return context
     
     def get_queryset(self):
-        queryset = Favorite.objects.filter(user=self.request.user)
+        queryset = super().get_queryset()
+        queryset = queryset.filter(user=self.request.user)
         return queryset
 
 class Favorite_delete(LoginRequiredMixin, generic.DeleteView):
@@ -625,3 +633,5 @@ class Coupon_info(generic.ListView):
         context = super().get_context_data(**kwargs)
         context["title"] = "クーポン情報"
         return context
+        
+
