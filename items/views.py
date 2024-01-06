@@ -340,21 +340,7 @@ def add_item(request,pk):
     else:
         cart_item.amount += cart_amount
     cart_item.save()
-    
-    
-    # cart_records = Cart.objects.filter(user=request.user, ordered=False)
-    
-    # if cart_records.exists():
-    #     cart = cart[0]
-    #     if cart.items.filter(item_pk=item.pk).exists():
-    #         cart.quantity += 1
-    #         cart.save()
-    #     else:
-    #         cart.items.add(cart_item)
-    # else:
-    #     cart = Cart.objects.create(user=request.user, item=)
-    #     cart.items.add(cart_item)
-        
+
     return redirect("items:carts")
             
     
