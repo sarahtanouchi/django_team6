@@ -46,24 +46,65 @@ $(document).ready(function(){
 <h2><土佐茶の産地></h2>
 <div class="row">
     <div class="col-md-4">
-        <img src="{% static 'images/towa.jpg' %}" alt="十和" class="img-fluid">
+        <div class="image-container">
+            <img src="{% static 'images/towa.jpg' %}" alt="十和" class="img-fluid">
+            <p class="image-comment">十和</p>
+        </div>
     </div>
     <div class="col-md-4">
-        <img src="{% static 'images/niyodo.jpeg' %}" alt="2nd Image" class="img-fluid">
+        <img src="{% static 'images/niyodo.jpeg' %}" alt="仁淀川" class="img-fluid">
+        <p>仁淀川</p>
     </div>
     <div class="col-md-4">
-        <img src="{% static 'images/tsuno.jpeg' %}" alt="3rd Image" class="img-fluid">
+        <img src="{% static 'images/tsuno.jpeg' %}" alt="津野町" class="img-fluid">
+        <p>津野</p>
     </div>
 </div>
+
 <h2><土佐茶の淹れ方></h2>
+<div class="row">
+    <div class="col-md-3">
+        <img src="{% static 'images/hot_water.png' %}" alt="お湯" class="img-fluid">
+        <p>お湯の温度</p>
+        <p>煎茶 : 70℃くらい</p>
+        <p>玉露 : 50℃くらい<</p>
+        <p>番茶 : １００℃くらい</p>
+    </div>
+    <div class="col-md-3">
+        <img src="{% static 'images/tea_leaf.jfif' %}" alt="茶葉" class="img-fluid">
+        <p>茶葉の量</p>
+        <p>煎茶 :１人２～３g程度</p>
+        <p>玉露 :１人５～１０g程度</p>
+        <p>番茶 :１人１５g程度</p>
+    </div>
+    <div class="col-md-3">
+        <img src="{% static 'images/teapot.png' %}" alt="急須" class="img-fluid">
+        <P>お茶の抽出時間</P>
+        <p>煎茶 : ６０秒～９０秒程度</p>
+        <p>玉露 : １２０秒程度</p>
+        <p>番茶 : ３０秒程度</p>
+    </div>
+    <div class="col-md-3">
+        <img src="{% static 'images/how_to_tea.jfif' %}" alt="淹れ方" class="img-fluid">
+        <p>湯呑への注ぎ方</p>
+        <p>お茶が同じ濃さ・量になるように<br>少しずつ回しつぎ、最後の一滴まで<br>注ぎます。</p>
+    </div>
+</div>
 
-<p>煎茶</p>
-<p>玉露</p>
-<p>番茶</p>
-
-<h2><土佐茶と料理></h2>
-<p>煎茶とお菓子のお供に</p>
-<p>玉露とリラックスタイム</p>
-<p>番茶と食事の際に</p>
+<h2><土佐茶のシーン></h2>
+<div class="row">
+    <div class="col-md-4">
+        <img src="{% static 'images/wagashi.jfif' %}" alt="和菓子" class="img-fluid">
+        <p>煎茶とお菓子のお供に</p>
+    </div>
+    <div class="col-md-4">
+        <img src="{% static 'images/onigiri.jfif' %}" alt="おにぎり" class="img-fluid">
+        <p>番茶と食事の際に</p>
+    </div>
+    <div class="col-md-4">
+        <img src="{% static 'images/gyokuro.jfif' %}" alt="玉露" class="img-fluid">
+        <p>玉露とリラックスタイムに</p>
+    </div>
+</div>
 
 {% endblock %}
