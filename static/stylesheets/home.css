@@ -256,3 +256,17 @@ footer{
     text-align: center;
     cursor: pointer;
 }
+
+.admin_table td {
+        padding: 3px; /* パディングを調整 */
+
+    }
+    
+.coupon-image {
+        max-width: 200px;
+        max-height: 200px;
+    }
+    
+.large-text {
+        font-size: 30px;
+    }

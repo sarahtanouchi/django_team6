@@ -12,11 +12,13 @@
         <table class="admin_table">
             {% for coupon in coupon_list %}
             <tr>
-                <td>クーポンコード</td>
-                <td>{{ coupon.code }}</td>
-            </tr>
-            <tr>
-                <td colspan="2">税抜合計価格から10%off</td>
+                <td>
+                    <img class="coupon-image" src="{% static 'images/coupon.png' %}" alt="Coupon Image">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="large-text">クーポンコード&nbsp;&nbsp;&nbsp;&nbsp;{{ coupon.code }}<br>
+                    <span class="large-text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    税抜合計価格から10%off</span>
+                </td>
             </tr>
                 {% empty %}
                     <td colspan="2">クーポンはありません</td>
