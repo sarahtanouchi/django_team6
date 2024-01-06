@@ -16,14 +16,14 @@
 			{% for item in item_list %}
 				<div class="col-3 mb-4">
 					<ul class="item_upper_icons">
-						
 		                <!-- お気に入り追加 -->
 		                <li class="item_favorite_icon" >
 				            {% if user.is_authenticated %}
-				            	<form id="FavoriteForm" method="post" action="{% url 'items:favorite_add' item.id %}">
-				                	<a onclick="addFavorite('{{ item.id }}')">
-				                    	<img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入り">
-				                	</a>
+				            	<form id="FavoriteForm{{ item.id }}" method="post" action="{% url 'items:favorite_add' item.id %}">
+				            		{% csrf_token %}
+				            		<a onclick="submitFavoriteForm(event);">
+						                <img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入り">
+						            </a>
 				             	</form> 
 							{% else %}
 				                <a onclick="showLoginModal();">
@@ -46,26 +46,7 @@
 				             {% endif %}
 				          </li>
 		             </ul>
-		             <!--モーダル-->
-				    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-				        <div class="modal-dialog" role="document">
-				            <div class="modal-content">
-				                <div class="modal-header">
-				                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				                        <span aria-hidden="true">&times;</span>
-				                    </button>
-				                </div>
-				                <div class="modal-body" style="text-align: center;">
-				                    <h5 class="modal-title" id="loginModalLabel">ログインしてください</h5>
-				                    <button class="btn btn_lg btn_white">
-				                        <a href="{% url 'accounts:login' %}" >ログイン</a>
-				                    </button>
-				                    <button type="button" class="btn btn_lg btn_gray" data-dismiss="modal">閉じる</button>
-				                </div>
-				            </div>
-				        </div>
-				    </div>
-		             
+ 
 		             <div>   
 						{% if item.item_images %}
 			    			{% with item.item_images.all.0 as image %}
@@ -111,9 +92,5 @@
 		</div>
 		{% include "includes/pagination.html" %}
 	</div>
-	
 	<script src="{% static 'js/favorite_add.js' %}"></script>
-	<script>
-        var isAuthenticated = {{ user.is_authenticated|lower }};
-    </script>
 {% endblock %}

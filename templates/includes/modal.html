@@ -1,0 +1,19 @@
+ <!--ログイン注記モーダル-->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="text-align: center;">
+                    <h5 class="modal-title" id="loginModalLabel">ログインしてください</h5>
+                    <button class="btn btn_lg btn_white">
+                        <a href="{% url 'accounts:login' %}" >ログイン</a>
+                    </button>
+                    <button type="button" class="btn btn_lg btn_gray" data-dismiss="modal">閉じる</button>
+                </div>
+            </div>
+        </div>
+    </div>

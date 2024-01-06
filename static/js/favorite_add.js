@@ -1,8 +1,18 @@
-var isAuthenticated = true;
+// var is_Authenticated = {{ user.is_authenticated|lower }};
+var is_Authenticated = true;
 
+function submitFavoriteForm(event) {
+    event.preventDefault();
+    var favoriteForm = document.getElementById('FavoriteForm');
+    if (favoriteForm) {
+        favoriteForm.submit();
+    } else {
+        console.error('FavoriteForm not found.');
+        // 他に適切な処理を追加
+    }
+}
 
 function addFavorite(itemId) {
-    // アイテムIDを取得し、フォームデータを作成
     var formData = new FormData();
     formData.append('item_id', itemId);
 
@@ -29,7 +39,7 @@ function addFavorite(itemId) {
 // お気に入り削除
 function deleteFavorite(itemId) {
     // Ajaxリクエスト
-    $.ajax({
+    S.ajax({
         type: 'POST',
         url: '/favorite_delete/' + itemId + '/',  // URLは実際の設定に合わせて変更
         data: {},
@@ -47,8 +57,7 @@ function deleteFavorite(itemId) {
 }
 
 function showLoginModal() {
-    // ログインしていない場合はモーダルを表示
-    if (!isAuthenticated) {
+    if (!is_Authenticated) {
         $('#loginModal').modal('show');
         return false;  
     }
@@ -70,10 +79,3 @@ function addToFavorites(itemId, icon) {
 //     });
 // }
 
-// 非同期リクエストを模倣する関数
-function simulateAsyncRequest() {
-    return new Promise(resolve => {
-        // 仮の非同期処理（実際にはAjaxなどを使用する）
-        setTimeout(resolve, 1000);
-    });
-}

@@ -36,11 +36,12 @@ urlpatterns = [
     path("review_list/", views.Review_list.as_view(), name="review_list"), #各商品レビュー
     path("review_delete/<int:pk>/", views.Review_delete.as_view(), name="review_delete"), #レビュー投稿
     path("favorite_list/", views.Favorite_list.as_view(), name="favorite_list"), # お気に入りリスト
-    path("favorite_add/<int:pk>/", views.Favorite_add.as_view(), name="favorite_add"), # お気に入り追加
+    path("favorite_add/<int:pk>/", views.Favorite_add, name="favorite_add"), # お気に入り追加
     path("favorite_delete/<int:pk>/", views.Favorite_delete.as_view(), name="favorite_delete"), # お気に入り削除
     path("coupon_list/", views.Coupon_list.as_view(), name="coupon_list"),
     path("create_coupon/", views.Create_coupon.as_view(), name="create_coupon"),
     path("update_coupon/<int:pk>/", views.Update_coupon.as_view(), name="update_coupon"),
     path("delete_coupon/<int:pk>/", views.Delete_coupon.as_view(), name="delete_coupon"),
     path("coupon_info/", views.Coupon_info.as_view(), name="coupon_info"),
+
 ]

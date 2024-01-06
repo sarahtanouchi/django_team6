@@ -18,7 +18,26 @@
                 <div class="row item_row">
                     {% with review.item.item_images.all.0 as first_image %}
                     <figure class="col-3 item_figure">
-               			<img class="rounded img-fluid auto" src="{{ first_image.image.url }}">
+                        <a href="">
+               			    <img class="img-fluid auto" src="{{ first_image.image.url }}">
+               			</a>
+            	        <div class="item_tag_row">
+		    				<span class="item_tag">
+		    					{% if review.item.taste %}
+	    							{{ review.item.tea_type }}
+		    					{% else %}
+		    						{{ review.item.item_type }}
+		    					{% endif %}
+		    				</span>
+		    				<span class="item_tag">
+		    					{% if review.item.taste %}
+    								{{ review.item.taste }}
+	    						{% else %}
+	    							{{ review.item.occasion }}
+	    						{% endif %}	
+		    				</span>
+		    			</div>
+            	        
             	        <figcaption>
     	    				<div class="review_item_name">
     	    					<a href="">
