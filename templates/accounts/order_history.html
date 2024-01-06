@@ -6,18 +6,16 @@
  
 {% block content %}
     <div class="container">
-		<h1 class="h4">{{ title }}</h1>
+		<h1>{{ title }}</h1>
 		<div class="row">
 			<div class="col-md-12">
                 {% for order_info in order_history %}
-        		    <nav class="navbar navbar-expand-md navbar-light bg-light justify-content-between mt-4">
+        		    <nav class="navbar navbar-expand-md navbar-light bg-light justify-content-between">
         		        <span class="navbar-text">{{ order_info.order.purchase_date }} ご注文分</span>
-        		        {% if order_info.order.coupon %}
-        		            <span class="navbar-text">利用クーポン：{{ order_info.order.coupon.code }}</span>
-        		        {% endif %}
-        		        <span class="navbar-text">合計金額：{{ order_info.total | intcomma }}円</span>
-        		        <span class="navbar-text">ステータス：{{ order_info.order.get_status_display }}</span>
-                        <a class="btn btn-outline-secondary btn-sm" href="{% url 'home' %}">注文をキャンセル</a>
+        		        <div>
+            		        <span class="navbar-text">ステータス：{{ order_info.order.get_status_display }}</span>
+                            <a class="btn btn-secondary btn-sm ml-2" href="{% url 'accounts:order_details' order_info.order.pk %}">ご注文の詳細</a>
+                        </div>
                     </nav> 
                     {% for order_detail in order_info.order_details %}
                         <div class="card item">
