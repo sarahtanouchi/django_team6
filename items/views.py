@@ -315,8 +315,10 @@ class Item_detail(generic.DetailView):
         context = super().get_context_data(**kwargs)
         context["title"] = "商品詳細"
         item = context["item"]
-        tax = round(item.price*0.1/1.1) 
-        context["tax"]=tax
+        tax8 = round(item.price*0.08/1.08) 
+        tax10 = round(item.price*0.1/1.1) 
+        context["tax8"]=tax8
+        context["tax10"]=tax10
         reviews = self.object.review_set.all()
         context["reviews"] = reviews      
         
