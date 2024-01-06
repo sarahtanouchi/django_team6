@@ -135,7 +135,36 @@
         			    <nav class="navbar navbar-expand-md navbar-light bg-light">
         			        <span class="navbar-text">お客様情報</span>
         			    </nav>
-            			    
+            			<div class="row mt-4">
+            			    <div class="col-md-2 text-md-right">
+            			        (氏名)
+            			    </div>
+            			    <div class="col-md-3">
+            			         {{ user.name }}
+            			    </div>
+            			</div>
+            			<div class="row">
+            			    <div class="col-md-2 text-md-right">
+            			        (住所)
+            			    </div>
+            			    <div class="col-md-3">
+            			         〒{{ user.postal_code }}
+            			         {{ user.prefecture }}
+            			         {{ user.city }}
+            			         {{ user.street_address }}
+            			         {% if user.building_name %}
+            			             {{ user.building_name }}
+            			         {% endif %}
+            			    </div>
+            			</div>
+            			<div class="row mb-4">
+            			    <div class="col-md-2 text-md-right">
+            			        (電話番号)
+            			    </div>
+            			    <div class="col-md-3">
+            			         {{ user.tel_number }}
+            			    </div>
+            			</div>   
             			    
         			    <nav class="navbar navbar-expand-md navbar-light bg-light">
         			        <span class="navbar-text">お届け先</span>
