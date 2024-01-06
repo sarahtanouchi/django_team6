@@ -6,15 +6,29 @@
     <h1>{{ title }}</h1>
     <form action="" method="POST">
         {{ form.non_field_errors }}
+        <h1>ログイン・新規登録</h1>
  
         {% for field in form %}
-        <p>
-            <label for="{{ field.id_for_label }}">{{ field.label_tag }}</label>
-            {{ field }}
-            {{ field.errors }}
-        </p>
+            {% if field.name == 'username' %}
+                <p>
+                    <label for="{{ field.id_for_label }}">メールアドレス(ログインID)</label>
+                </P>
+                <P>
+                    <input type="text" id="{{ field.id_for_label }}">
+                </p>
+        {% else %}
+                <p>
+                    <label for="{{ field.id_for_label }}">パスワード</label>
+                </p>
+                <P>
+                    <input type="name=" id="{{ field.name }}">
+                </P>
+            {% endif %}
         {% endfor %}
+        
         {% csrf_token %}
         <button type="submit">ログイン</button>
-    </form>
+        <a href="{% url "resetting" %}">パスワードをお忘れの場合はこちら</a>
+        <button type="submit">新規登録</button>
+    </from>
 {% endblock %}
