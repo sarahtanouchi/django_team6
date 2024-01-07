@@ -1,0 +1,50 @@
+<div class="container col-10 mt-5 ml-7">
+    <h2>レビュー</h2>
+        {% if reviews %}
+        <ul>
+            {% for review in reviews %}
+                <li class="item_detail_review">
+                    <strong>{{ review.user.username }}</strong> さん
+                    <p>評価:
+                        {% if review.rate == 5 %}
+                            <span class="fas fa-star"></span>
+                            <span class="fas fa-star"></span>
+                            <span class="fas fa-star"></span>
+                            <span class="fas fa-star"></span>
+                            <span class="fas fa-star"></span>
+                        {% elif review.rate == 4 %}
+                            <span class="fas fa-star"></span>
+                            <span class="fas fa-star"></span>
+                            <span class="fas fa-star"></span>
+                            <span class="fas fa-star"></span>
+                            <span class="far fa-star"></span>
+                        {% elif review.rate == 3 %}
+                            <span class="fas fa-star"></span>
+                            <span class="fas fa-star"></span>
+                            <span class="fas fa-star"></span>
+                            <span class="far fa-star"></span>
+                            <span class="far fa-star"></span>
+                        {% elif review.rate == 2 %}
+                            <span class="fas fa-star"></span>
+                            <span class="fas fa-star"></span>
+                            <span class="far fa-star"></span>
+                            <span class="far fa-star"></span>
+                            <span class="far fa-star"></span>
+                        {% elif review.rate == 1 %}
+                            <span class="fas fa-star"></span>
+                            <span class="far fa-star"></span>
+                            <span class="far fa-star"></span>
+                            <span class="far fa-star"></span>
+                            <span class="far fa-star"></span>
+                        {% endif %}
+                    </p>
+                    <p>コメント: {{ review.comment }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+            <div class="text-center">
+                <p>まだレビューはありません。</p>
+            </div>    
+        {% endif %}
+    </div>

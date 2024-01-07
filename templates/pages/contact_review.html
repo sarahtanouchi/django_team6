@@ -1,0 +1,41 @@
+{% extends "layouts/default_admin.html" %}
+{% load static %}
+
+{% block additional_css %}
+<link rel="stylesheet" href="{% static 'stylesheets/home.css' %}">
+{% endblock %}
+
+{% block title %}{{ title }}{% endblock %}
+ 
+{% block content %}
+<main>
+    <h2>入力内容の確認</h2>
+    <dl>
+        <dt>お名前</dt>
+        <dd>{{ form_data.name }}</dd>
+
+        <dt>メールアドレス</dt>
+        <dd>{{ form_data.email }}</dd>
+
+        <dt>お問合せ項目</dt>
+        <dd>{{ form_data.title }}</dd>
+
+        <dt>お問い合わせ内容</dt>
+        <dd>{{ form_data.message }}</dd>
+    </dl>
+
+    <form method="post" action="{% url 'pages:contact_complete' %}">
+        {% csrf_token %}
+        <input type="hidden" name="name" value="{{ form_data.name }}">
+        <input type="hidden" name="email" value="{{ form_data.email }}">
+        <input type="hidden" name="title" value="{{ form_data.title }}">
+        <input type="hidden" name="message" value="{{ form_data.message }}">
+        <div class="d-flex justify-content-center mt-3">
+            <button class="btn_lg btn_gray" type="submit">送信</button>
+        </div>
+    </form>
+    <div class="return_link d-flex justify-content-center mt-3">
+        <button class="btn" onclick="window.history.back();return false;">＜ 戻る</button>
+    </div>
+</main>
+{% endblock %}

@@ -6,7 +6,8 @@
  
 {% block content %}
 <main>
-    <p class="complete_message">問い合わせが完了しました。</p>
+    <p class="complete_message">{{ success }} </p>
+
     <div class="d-flex justify-content-center">
         <a href="{% url 'home' %}">
             <button class="btn_lg btn_white" type="button">トップページへ</button>
