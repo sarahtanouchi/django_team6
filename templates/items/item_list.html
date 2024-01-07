@@ -19,7 +19,7 @@
 						<!-- お気に入り追加 -->
 						<li class="item_favorite_icon">
 						    {% if user.is_authenticated %}
-						    <button class="bg-transparent border-0" onclick="submitFavoriteForm('{{ item.id }}')">
+						    <button class="bg-transparent border-0" onclick="addToFavoritesAsync(this, '{{ item.id }}')">
 						        <img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入り">
 						    </button>
 						    {% else %}
@@ -142,13 +142,31 @@
 			}
 		}
 	
-		function addToFavorites(itemId, icon) {
-			// お気に入り追加のロジックを実行（Ajaxなどを使用）
-			// 成功した場合、アイコンの色を変更
-			simulateAsyncRequest().then(() => {
-				icon.classList.toggle('favorited');
-			});
+		async function addToFavoritesAsync(button, itemId) {
+			if (itemId == undefined || itemId == null)
+				return;
+	
+			const formData = new FormData();
+			// formData.append('amount', amount.toString());
+			
+			const request =  createRequest(formData);
+			const url = "{% url 'items:favorite_add' 11111 %}".replace("11111", itemId);
+			const succeed = await sendRequestAsync(url, request);
+	
+			if (button) {
+				const successColor = '#8ff0a4';
+				const failColor = 'lightred';
+				if (succeed)
+					highlightButton(button, successColor, 1.25);
+				else
+					highlightButton(button, failColor, 1.25);
+			}
 		}
+			
+		// 	simulateAsyncRequest().then(() => {
+		// 		icon.classList.toggle('favorited');
+		// 	});
+		// }
 	
 		// 非同期リクエストを模倣する関数
 		function simulateAsyncRequest() {

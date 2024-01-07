@@ -518,29 +518,37 @@ class Review_delete(LoginRequiredMixin, generic.DeleteView):
     model = Review
     success_url = reverse_lazy("items:review_history") 
 
-# お気に入り
-class Favorite_add(LoginRequiredMixin, generic.View):
-    model = Favorite
-    form_class = FavoriteAddForm
+# # お気に入り
+# class Favorite_add(LoginRequiredMixin, generic.View):
+#     model = Favorite
+#     form_class = FavoriteAddForm
     
-    def post(self, request, *args, **kwargs):
-        item = get_object_or_404(Item, pk=self.kwargs['pk'])
-        favorite, created = Favorite.objects.get_or_create(
-            item=item,
-            user=request.user,
-        )
+#     def post(self, request, *args, **kwargs):
+#         item = get_object_or_404(Item, pk=self.kwargs['pk'])
+#         favorite, created = Favorite.objects.get_or_create(
+#             item=item,
+#             user=request.user,
+#         )
+#         favorite_item.save()
+
+#         return HttpResponse("お気に入りに追加しました。")
+        
+@login_required        
+def favorite_add(request,pk):
+    item = get_object_or_404(Item, pk=pk)
+    favorite_item, created = Favorite.objects.get_or_create(
+        item=item,
+        user=request.user,
+    )
+    
+    if created:
         favorite_item.save()
-
-        return HttpResponse("お気に入りに追加しました。")
-
-# @login_required        
-# def add_favorite(request,pk):
-#     item = get_object_or_404(Item, pk=pk)
-#     favorite_item, created = Favorite.objects.get_or_create(
-#         item=item,
-#         user=request.user,
-#     )
-#     favorite_item.save()
+        # cart_item.amount = cart_amount
+    else:
+        favorite_item.delete()
+        # cart_item.amount += cart_amount
+    
+    return redirect("items:favorite_list")
 
 class Favorite_list(LoginRequiredMixin, generic.ListView):
     model = Favorite
@@ -550,12 +558,14 @@ class Favorite_list(LoginRequiredMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "お気に入りリスト"
+        favorites = self.request.user.favorite_set.all()
+        context["favorites"] = favorites
  
         return context
     
-    def get_queryset(self):
-        queryset = Favorite.objects.filter(user=self.request.user)
-        return queryset
+    # def get_queryset(self):
+    #     queryset = Favorite.objects.filter(user=self.request.user)
+    #     return queryset
 
 class Favorite_delete(LoginRequiredMixin, generic.DeleteView):
     model = Favorite
