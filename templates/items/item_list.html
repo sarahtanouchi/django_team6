@@ -16,36 +16,32 @@
 			{% for item in item_list %}
 				<div class="col-3 mb-4">
 					<ul class="item_upper_icons">
-						
-		                <!-- お気に入り追加 -->
-		                <li class="item_favorite_icon" >
-				            {% if user.is_authenticated %}
-				            	<form id="FavoriteForm" method="post" action="{% url 'items:favorite_add' item.id %}">
-				                	<a onclick="submitFavoriteForm('{{ item.id }}')">
-				                    	<img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入り">
-				                	</a>
-				             	</form> 
-							{% else %}
-				                <a onclick="showLoginModal();">
-				                    <img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入り">
-				                </a>                
-				            {% endif %}
-				         </li>
-			             <!-- カート追加 -->
-			             <li class="item_cart_icon">
-				             {% if user.is_authenticated %}
-					             <form id="CartForm" method="post" action="{% url 'items:add_item' item.id %}">
-					                <a onclick="submitCartForm('{{ item.id }}')">
-					                    <img src="{% static 'images/icon/cart_icon.png' %}" alt="カート">
-					                </a>
-					             </form>  
-				             {% else %}
-				                <a onclick="showLoginModal();">
-				                     <img src="{% static 'images/icon/cart_icon.png' %}" alt="カート">
-				                 </a>                
-				             {% endif %}
-				          </li>
-		             </ul>
+						<!-- お気に入り追加 -->
+						<li class="item_favorite_icon">
+						    {% if user.is_authenticated %}
+						    <button class="bg-transparent border-0" onclick="addToFavoritesAsync(this, '{{ item.id }}')">
+						        <img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入り">
+						    </button>
+						    {% else %}
+						    <button class="bg-transparent border-0" onclick="showLoginModal()">
+						        <img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入り">
+						    </button>
+						    {% endif %}
+						</li>
+						<!-- カート追加 -->
+						<li class="item_cart_icon">
+						    {% if user.is_authenticated %}
+						    <button class="bg-transparent border-0" onclick="addToCartAsync(this, '{{ item.id }}')">
+						        <img src="{% static 'images/icon/cart_icon.png' %}" alt="カート">
+						    </button>
+						    {% else %}
+						    <button class="bg-transparent border-0" onclick="showLoginModal()">
+						        <img src="{% static 'images/icon/cart_icon.png' %}" alt="カート">
+						    </button>
+						    {% endif %}
+						</li>
+					</ul>
+					
 		             <!--モーダル-->
 				    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
 				        <div class="modal-dialog" role="document">
@@ -112,42 +108,114 @@
 		{% include "includes/pagination.html" %}
 	</div>
 	
-
 	<script>
-        var isAuthenticated = {% if user.is_authenticated %}true{% else %}false{% endif %};
-    
-        function showLoginModal() {
-            // ログインしていない場合はモーダルを表示
-            if (!isAuthenticated) {
-                $('#loginModal').modal('show');
-                return false;  
-            }
-            return true;  // ログインしている場合は通常の動作を続行
-        }
+		var isAuthenticated = ('{{user.is_authenticated}}' == "True");
+		const csrf_token = '{{csrf_token}}';
 	
+		function showLoginModal() {
+			// ログインしていない場合はモーダルを表示
+			if (!isAuthenticated) {
+				$('#loginModal').modal('show');
+				return false;  
+			}
+			return true;  // ログインしている場合は通常の動作を続行
+		}
 	
-	    function addToFavorites(itemId, icon) {
-	        // お気に入り追加のロジックを実行（Ajaxなどを使用）
-	        // 成功した場合、アイコンの色を変更
-	        simulateAsyncRequest().then(() => {
-	            icon.classList.toggle('favorited');
-	        });
-	    }
+		async function addToCartAsync(button, itemId, amount=1) {
+			if (itemId == undefined || itemId == null)
+				return;
 	
-	    function addToCart(itemId, icon) {
-	        // カート追加のロジックを実行（Ajaxなどを使用）
-	        // 成功した場合、アイコンの色を変更
-	        simulateAsyncRequest().then(() => {
-	            icon.classList.toggle('added-to-cart');
-	        });
-	    }
+			const formData = new FormData();
+			formData.append('amount', amount.toString());
+			
+			const request =  createRequest(formData);
+			const url = "{% url 'items:add_item' 11111 %}".replace("11111", itemId);
+			const succeed = await sendRequestAsync(url, request);
 	
-	    // 非同期リクエストを模倣する関数
-	    function simulateAsyncRequest() {
-	        return new Promise(resolve => {
-	            // 仮の非同期処理（実際にはAjaxなどを使用する）
-	            setTimeout(resolve, 1000);
-	        });
-	    }
-</script>
+			if (button) {
+				const successColor = '#8ff0a4';
+				const failColor = 'lightred';
+				if (succeed)
+					highlightButton(button, successColor, 1.25);
+				else
+					highlightButton(button, failColor, 1.25);
+			}
+		}
+	
+		async function addToFavoritesAsync(button, itemId) {
+			if (itemId == undefined || itemId == null)
+				return;
+	
+			const formData = new FormData();
+			// formData.append('amount', amount.toString());
+			
+			const request =  createRequest(formData);
+			const url = "{% url 'items:favorite_add' 11111 %}".replace("11111", itemId);
+			const succeed = await sendRequestAsync(url, request);
+	
+			if (button) {
+				const successColor = '#8ff0a4';
+				const failColor = 'lightred';
+				if (succeed)
+					highlightButton(button, successColor, 1.25);
+				else
+					highlightButton(button, failColor, 1.25);
+			}
+		}
+			
+		// 	simulateAsyncRequest().then(() => {
+		// 		icon.classList.toggle('favorited');
+		// 	});
+		// }
+	
+		// 非同期リクエストを模倣する関数
+		function simulateAsyncRequest() {
+			return new Promise(resolve => {
+				// 仮の非同期処理（実際にはAjaxなどを使用する）
+				setTimeout(resolve, 1000);
+			});
+		}
+	
+		function highlightButton(button, color='#8ff0a4', highlightSeconds=1) {
+			button.style = `box-shadow: 0px 0px 10px 12px ${color} inset;`;
+			setTimeout(() => {
+				button.style = '';
+			}, highlightSeconds * 1000);
+		}
+	
+		function createRequest(formData) {
+			const requestHeaders = {'X-CSRFToken': `${csrf_token}`};
+			const request = {
+				headers: requestHeaders,
+				method: 'POST',
+				body: formData
+			}
+			return request;
+		}
+	
+		async function sendRequestAsync(url, request) {
+			try {
+				const response = await fetch(url, request);
+				if (!response.ok) {
+					const reason = await response.json();
+					if (reason.message || reason.statusText)
+						console.error(reason.message || reason.statusText);
+					console.error("request failed");
+					console.error('Url', url);
+					console.error('Request', request);
+				}
+	
+				return true;
+			} catch(err) {
+				console.error(err);
+				console.error("request failed!");
+				console.error('Url', url);
+				console.error('Method:', request.method);
+				console.error('Headers:', request.headers);
+				console.error('Data', request.body);
+			}
+	
+			return false;
+		}
+	</script>
 {% endblock %}

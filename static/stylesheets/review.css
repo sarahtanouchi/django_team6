@@ -85,3 +85,7 @@ input[type="radio"]:checked ~ .star_radio_label_flex > label > .false_star {
 
 
 /*お気に入りリスト*/
+.input-sm {
+    width: 10em;
+    max-width: 100%;
+}
