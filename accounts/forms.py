@@ -11,7 +11,25 @@ User = get_user_model()
  
 class DateInput(forms.DateInput):
     input_type = 'date'
+
+class LoginForm(AuthenticationForm):
+    class Meta:
+        model = User
     
+        widgets = {
+            "email": forms.Textarea(
+                attrs={
+                    "cols": 50,
+                    "rows": 1,
+                }
+            ), 
+            "password": forms.TextInput(
+                attrs={
+                    "placeholder":"半角英数字を混ぜた８〜１２文字",
+                }
+            ), 
+        }
+        
 class SignupForm(UserCreationForm):
     class Meta:
         model = User

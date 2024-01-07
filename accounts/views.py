@@ -125,6 +125,11 @@ class Login(LoginView):
     """ログインページ"""
     form_class = LoginForm
     template_name = 'accounts/login.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "ログイン・新規登録"
+        return context
  
 # ログアウト
 class Logout(LogoutView):

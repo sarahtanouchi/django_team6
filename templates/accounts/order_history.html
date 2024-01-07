@@ -38,7 +38,6 @@
 						
                 		                <!-- お気に入り追加 -->
                 		                <li class="item_favorite_icon">
-                						    {% if order_info.order.user.is_authenticated %}
                 						    <button class="bg-transparent border-0" onclick="addToFavoritesAsync(this, '{{ order_detail.item.pk }}')">
                 						    	{% if order_detail.item in favorite_items %}
                 						        <img src="{% static 'images/icon/favorite_pink_icon.png' %}" alt="お気に入り">
@@ -46,23 +45,12 @@
                 						        <img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入り">
                 						        {% endif %}
                 						    </button>
-                						    {% else %}
-                						    <button class="bg-transparent border-0" onclick="showLoginModal()">
-                						        <img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入り">
-                						    </button>
-                						    {% endif %}
                 						</li>
                 			             <!-- カート追加 -->
                 			             <li class="item_cart_icon">
-                						    {% if order_info.order.user.is_authenticated %}
                 						    <button class="bg-transparent border-0" onclick="addToCartAsync(this, '{{ order_detail.item.pk }}')">
                 						        <img src="{% static 'images/icon/cart_icon.png' %}" alt="カート">
                 						    </button>
-                						    {% else %}
-                						    <button class="bg-transparent border-0" onclick="showLoginModal()">
-                						        <img src="{% static 'images/icon/cart_icon.png' %}" alt="カート">
-                						    </button>
-                						    {% endif %}
                 						</li>
                 		             </ul>
                 		             <div class="mt-3">
@@ -86,15 +74,6 @@
         var isAuthenticated = ('{{user.is_authenticated}}' == "True");
 		const csrf_token = '{{csrf_token}}';
 	
-		function showLoginModal() {
-			// ログインしていない場合はモーダルを表示
-			if (!isAuthenticated) {
-				$('#loginModal').modal('show');
-				return false;  
-			}
-			return true;  // ログインしている場合は通常の動作を続行
-		}
-		
 		async function addToCartAsync(button, itemId, amount=1) {
 			if (itemId == undefined || itemId == null)
 				return;
