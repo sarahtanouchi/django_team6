@@ -251,53 +251,18 @@ class Item_list(generic.ListView):
         
         return items
     
-    # def get_queryset(self):
-    #     item_type_filters = self.request.GET.getlist("item_type_filter", [])
-    #     tea_type_filters = self.request.GET.getlist("tea_type_filter", [])
-    #     tea_set_type_filters = self.request.GET.getlist("tea_set_type_filter", [])
-    #     price_filters = self.request.GET.getlist("price_filter", [])
-    #     taste_filters = self.request.GET.getlist("taste_filter", [])
-    #     occasion_filters = self.request.GET.getlist("occasion_filter", [])
-        
-    #     items = Item.objects.all()
-    #     if tea_type_filters:
-    #         items = items.filter(tea_type__name__in=tea_type_filters)
-    #     if tea_set_type_filters:
-    #         items = items.filter(tea_set_type__name__in=tea_set_type_filters)
-    #     if item_type_filters:
-    #         items = items.filter(item_type__name__in=item_type_filters)
-    #     if price_filters:
-    #         price_to_query = {
-    #              "less_than_5000" : Q(price__lte=5000),
-    #              "more_than_5000" : Q(price__gte=5000),
-    #              "less_than_1000" : Q(price__lte=1000),
-    #         }
-    #         filter_query = Q()
-            
-    #         for price_filter in price_filters:
-    #             if price_filter in price_to_query:
-    #                 filter_query.add(price_to_query[price_filter], Q.OR)
-            
-    #         items = items.filter(filter_query)
-            
-                 
-    #     if taste_filters:
-    #         items = items.filter(taste__name__in=taste_filters)
-    #     if occasion_filters:
-    #         items = items.filter(occasion__name__in=occasion_filters)
-        
-    #     return items
-    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["tea_types"] = Tea_type.objects.all()
         context["tea_set_types"] = Tea_set_type.objects.all()
         context["tastes"] = Taste.objects.all()
         context["occasions"] = Occasion.objects.all()
-        # tea_type_filters = self.request.GET.getlist("tea_type_filter", ["all"])
-        # context['tea_type_filters'] = tea_type_filters
         recommended_items = Item.objects.filter(recommended=True)
         context["recommended_items"] = recommended_items
+        
+        user_favorites = self.request.user.favorite_set.all()
+        favorite_items = list(map(lambda x : x.item, user_favorites))
+        context['favorite_items'] = favorite_items
         
         return context
         

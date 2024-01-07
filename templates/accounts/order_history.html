@@ -37,33 +37,33 @@
                                     <ul class="item_upper_icons">
 						
                 		                <!-- お気に入り追加 -->
-                		                <li class="item_favorite_icon" >
-                				            {% if user.is_authenticated %}
-                				            	<form id="FavoriteForm" method="post" action="">
-                				                	<a onclick="submitFavoriteForm('{{ item.id }}')">
-                				                    	<img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入り">
-                				                	</a>
-                				             	</form> 
-                							{% else %}
-                				                <a onclick="showLoginModal();">
-                				                    <img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入り">
-                				                </a>                
-                				            {% endif %}
-                				         </li>
+                		                <li class="item_favorite_icon">
+                						    {% if order_info.order.user.is_authenticated %}
+                						    <button class="bg-transparent border-0" onclick="addToFavoritesAsync(this, '{{ order_detail.item.pk }}')">
+                						    	{% if order_detail.item in favorite_items %}
+                						        <img src="{% static 'images/icon/favorite_pink_icon.png' %}" alt="お気に入り">
+                						        {% else %}
+                						        <img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入り">
+                						        {% endif %}
+                						    </button>
+                						    {% else %}
+                						    <button class="bg-transparent border-0" onclick="showLoginModal()">
+                						        <img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入り">
+                						    </button>
+                						    {% endif %}
+                						</li>
                 			             <!-- カート追加 -->
                 			             <li class="item_cart_icon">
-                				             {% if user.is_authenticated %}
-                					             <form id="CartForm" method="post" action="">
-                					                <a onclick="submitCartForm('{{ item.pk }}')">
-                					                    <img src="{% static 'images/icon/cart_icon.png' %}" alt="カート">
-                					                </a>
-                					             </form>  
-                				             {% else %}
-                				                <a onclick="showLoginModal();">
-                				                    <img src="{% static 'images/icon/cart_icon.png' %}" alt="カート">
-                				                 </a>                
-                				             {% endif %}
-                				          </li>
+                						    {% if order_info.order.user.is_authenticated %}
+                						    <button class="bg-transparent border-0" onclick="addToCartAsync(this, '{{ order_detail.item.pk }}')">
+                						        <img src="{% static 'images/icon/cart_icon.png' %}" alt="カート">
+                						    </button>
+                						    {% else %}
+                						    <button class="bg-transparent border-0" onclick="showLoginModal()">
+                						        <img src="{% static 'images/icon/cart_icon.png' %}" alt="カート">
+                						    </button>
+                						    {% endif %}
+                						</li>
                 		             </ul>
                 		             <div class="mt-3">
                                 	     <a class="btn btn-secondary btn-sm" href="{% url 'items:review_create' order_detail.item.pk %}">レビューを投稿</a>
@@ -81,4 +81,121 @@
            	<button class="btn" onclick="window.history.back();return false;">＜ 戻る</button>
         </div>
     </div>
+    
+    <script>
+        var isAuthenticated = ('{{user.is_authenticated}}' == "True");
+		const csrf_token = '{{csrf_token}}';
+	
+		function showLoginModal() {
+			// ログインしていない場合はモーダルを表示
+			if (!isAuthenticated) {
+				$('#loginModal').modal('show');
+				return false;  
+			}
+			return true;  // ログインしている場合は通常の動作を続行
+		}
+		
+		async function addToCartAsync(button, itemId, amount=1) {
+			if (itemId == undefined || itemId == null)
+				return;
+	
+			const formData = new FormData();
+			formData.append('amount', amount.toString());
+			
+			const request =  createRequest(formData);
+			const url = "{% url 'items:add_item' 11111 %}".replace("11111", itemId);
+			const succeed = await sendRequestAsync(url, request);
+	
+			if (button) {
+				const successColor = '#8ff0a4';
+				const failColor = 'lightred';
+				if (succeed)
+					highlightButton(button, successColor, 1.25);
+				else
+					highlightButton(button, failColor, 1.25);
+			}
+		}
+		async function addToFavoritesAsync(button, itemId) {
+		    if (itemId == undefined || itemId == null)
+		        return;
+		
+		    const formData = new FormData();
+		    // formData.append('amount', amount.toString());
+		
+		    const request =  createRequest(formData);
+		    const url = "{% url 'items:favorite_add' 11111 %}".replace("11111", itemId);
+		    const succeed = await sendRequestAsync(url, request);
+		
+		    if (button) {
+		        const successColor = '#8ff0a4';
+		        const failColor = 'lightred';
+		
+		        const imgIcon = button.querySelector('img');
+		        const addFavoriteIcon = "{% static 'images/icon/favorite_pink_icon.png' %}";
+		        const removeFavoriteIcon = "{% static 'images/icon/favorite_icon.png' %}";
+		
+		        if (succeed) {
+		            highlightButton(button, successColor, 1.25);
+		
+		            if (imgIcon && imgIcon.src.includes(removeFavoriteIcon))
+		                imgIcon.src = addFavoriteIcon;
+		            else if (imgIcon && imgIcon.src.includes(addFavoriteIcon))
+		                imgIcon.src = removeFavoriteIcon;
+		        }
+		        else
+		            highlightButton(button, failColor, 1.25);
+		    }
+		}
+		
+	
+		// 非同期リクエストを模倣する関数
+		function simulateAsyncRequest() {
+			return new Promise(resolve => {
+				// 仮の非同期処理（実際にはAjaxなどを使用する）
+				setTimeout(resolve, 1000);
+			});
+		}
+	
+		function highlightButton(button, color='#8ff0a4', highlightSeconds=1) {
+			button.style = `box-shadow: 0px 0px 10px 12px ${color} inset;`;
+			setTimeout(() => {
+				button.style = '';
+			}, highlightSeconds * 1000);
+		}
+	
+		function createRequest(formData) {
+			const requestHeaders = {'X-CSRFToken': `${csrf_token}`};
+			const request = {
+				headers: requestHeaders,
+				method: 'POST',
+				body: formData
+			}
+			return request;
+		}
+	
+		async function sendRequestAsync(url, request) {
+			try {
+				const response = await fetch(url, request);
+				if (!response.ok) {
+					const reason = await response.json();
+					if (reason.message || reason.statusText)
+						console.error(reason.message || reason.statusText);
+					console.error("request failed");
+					console.error('Url', url);
+					console.error('Request', request);
+				}
+	
+				return true;
+			} catch(err) {
+				console.error(err);
+				console.error("request failed!");
+				console.error('Url', url);
+				console.error('Method:', request.method);
+				console.error('Headers:', request.headers);
+				console.error('Data', request.body);
+			}
+	
+			return false;
+		}
+	</script>
 {% endblock %}
