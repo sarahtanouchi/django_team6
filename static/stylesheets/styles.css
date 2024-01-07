@@ -87,10 +87,27 @@ ul li{
   color: #FFFFFF;
   border: 0;
 }
+/*カートボタン*/
+.btn_cart{
+  height: 50px;
+	width: 200px;
+	align-items: center;
+	justify-content: center;
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #555555;
+  color: #FFFFFF;
+  border: 0;
+}
+.btn_delete{
+  background-color: none;
+  border: 0;
+}
 
-.return_link a{
+.return_link button{
   text-decoration: none;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 /*一覧表示商品の上部アイコン*/
@@ -272,18 +289,25 @@ ul li{
 	display: block;
 }
 
-.item.card {
+.item {
 	margin-bottom: 20px;
 	padding: 10px;
 	/*border: solid 5px #f0b400;*/
-
 }
+.card {
+	margin-bottom: 20px;
+	padding: 10px;
+	/*border: solid 5px #f0b400;*/
+	/*height: 200px;*/
+}
+
 
 .item_row {
 	align-items: center;
+	height: 200px;
 }
-.item_figure {
-	/* padding: 10px; */
+.item_figure img{
+  height: 180px;	
 }
 .item_description {
 

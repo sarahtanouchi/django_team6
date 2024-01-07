@@ -82,6 +82,3 @@ input[type="radio"]:checked ~ .star_radio_label_flex > label > .false_star {
 .review_item_row{
     display: flex;
 }
-
-
-/*お気に入りリスト*/

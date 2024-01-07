@@ -94,71 +94,107 @@
         <div class="item_search_container">
             <div class="row">
                 <div class="col-12 col-lg-2 offset-lg-1 search_item">
-                お茶の種類から探す
+                    <p>お茶の種類から探す</p>
                 </div>
                 <div class="col-3 col-lg-2 search_item">
-                    <a href="{% url 'items:index' %}?tea_type_filter=煎茶">
-                        <span>煎茶</span>
-                        <img src="{% static 'images/bancha_00009.jpeg' %}" alt="煎茶" class="search_image">
+                    <a href="{% url 'items:index' %}?tea_type_filter=煎茶" class="search_item_link">
+                        <div class="image-container">
+                            <div class="overlay">
+                                <span class="category_text"> 煎　茶 </span>
+                            </div>
+                            <img src="{% static 'images/sencha.jpg' %}" alt="煎茶" class="search_image">
+                        </div>
                     </a>
                 </div>
                 <div class="col-3 col-lg-2 search_item">
-                    <a href="{% url 'items:index' %}?tea_type_filter=玉露">
-                        <span>玉露</span>
-                        <img src="{% static 'images/bancha_00009.jpeg' %}" alt="玉露" class="search_image">
+                    <a href="{% url 'items:index' %}?tea_type_filter=玉露" class="search_item_link">
+                        <div class="image-container">
+                            <div class="overlay">
+                                <span class="category_text"> 玉　露 </span>
+                            </div>
+                            <img src="{% static 'images/gyokuro.jpeg' %}" alt="玉露" class="search_image">
+                        </div>
                     </a>
                 </div>
                 <div class="col-3 col-lg-2 search_item">
-                    <a href="{% url 'items:index' %}?tea_type_filter=ほうじ茶">
-                         <span>ほうじ茶</span>
-                        <img src="{% static 'images/bancha_00009.jpeg' %}" alt="ほうじ茶" class="search_image">
+                    <a href="{% url 'items:index' %}?tea_type_filter=ほうじ茶" class="search_item_link">
+                        <div class="image-container">
+                            <div class="overlay">
+                                <span class="category_text">ほうじ茶</span>
+                            </div>
+                            <img src="{% static 'images/hojicha.jpg' %}" alt="ほうじ茶" class="search_image">
+                        </div>    
                     </a>
                 </div>
             </div>
 
-            <div class="row mt-3">
+            <div class="row mt-4">
                 <div class="col-12 col-lg-2 offset-lg-1 pt-3 search_item">
                     <P>利用シーンから探す</P>
                 </div>
                 <div class="col-3 col-lg-2 search_item">
-                    <a href="{% url 'items:index' %}?occasion_filter=ご自宅用"> 
-                        <span>自宅用</span>
-                        <img src="{% static 'images/bancha_00009.jpeg' %}" alt="自宅用" class="search_image">
+                    <a href="{% url 'items:index' %}?occasion_filter=ご自宅用" class="search_item_link">
+                        <div class="image-container">
+                            <div class="overlay">                        
+                                <span class="category_text">自 宅 用</span>
+                            </div>
+                            <img src="{% static 'images/gyokuro_00024.jpeg' %}" alt="自宅用" class="search_image">
+                        </div>
                     </a>
                 </div>
                 <div class="col-3 col-lg-2 search_item">
-                    <a href="{% url 'items:index' %}?occasion_filter=お土産">
-                        <span>お土産</span>
-                        <img src="{% static 'images/bancha_00009.jpeg' %}" alt="お土産" class="search_image">
+                    <a href="{% url 'items:index' %}?occasion_filter=お土産" class="search_item_link">
+                        <div class="image-container">
+                            <div class="overlay">
+                                <span class="category_text">お 土 産</span>
+                            </div>
+                            <img src="{% static 'images/gift_box_00002.jpeg' %}" alt="お土産" class="search_image">
+                        </div>
                     </a>
                 </div>
                 <div class="col-3 col-lg-2 search_item">
-                    <a href="{% url 'items:index' %}?occasion_filter=贈答品">
-                         <span>贈答用</span>
-                        <img src="{% static 'images/bancha_00009.jpeg' %}" alt="贈答用" class="search_image">
+                    <a href="{% url 'items:index' %}?occasion_filter=贈答品" class="search_item_link">
+                        <div class="image-container">
+                            <div class="overlay">
+                                <span class="category_text">贈 答 用</span>
+                            </div>
+                            <img src="{% static 'images/gift_box_00014.jpeg' %}" alt="贈答用" class="search_image">
+                        </div>
                     </a>
                 </div>
             </div>
-            <div class="row mt-3">
+            <div class="row mt-4">
                 <div class="col-12 col-lg-2 offset-lg-1 pt-3 search_item">
                     <p>価格帯から探す</p>
                 </div>
                 <div class="col-3 col-lg-2 search_item">
-                    <a href="{% url 'items:index' %}?price_filter=less_than_1000">
-                        <span>1,000円以下</span>
-                        <img src="{% static 'images/bancha_00009.jpeg' %}" alt="1,000円以下" class="search_image">
+                    <a href="{% url 'items:index' %}?price_filter=less_than_1000" class="search_item_link">
+                        <div class="image-container">
+                            <div class="overlay">
+                                <span class="category_text">1,000円以下</span>
+                            </div>
+                            <img src="{% static 'images/washi_green.jpg' %}" alt="1,000円以下" class="search_image">
+                        </div>
                     </a>
                 </div>
                 <div class="col-3 col-lg-2 search_item">
-                    <a href="{% url 'items:index' %}?price_filter=less_than_5000">
-                        <span>5,000円以下</span>
-                        <img src="{% static 'images/bancha_00009.jpeg' %}" alt="1,000～5,000円" class="search_image">
+                    <a href="{% url 'items:index' %}?price_filter=less_than_5000" class="search_item_link">
+                        <div class="image-container">
+                            <div class="overlay">
+                                <span class="category_text">5,000円以下</span>
+                            </div>
+                            <img src="{% static 'images/washi_yellow.jpg' %}" alt="1,000～5,000円" class="search_image">
+                        </div>
                     </a>
                 </div>
                 <div class="col-3 col-lg-2 search_item">
-                    <a href="{% url 'items:index' %}?price_filter=more_than_5000">
-                         <span>5,000円以上</span>
-                        <img src="{% static 'images/bancha_00009.jpeg' %}" alt="5,000円以上" class="search_image">
+                    <a href="{% url 'items:index' %}?price_filter=more_than_5000" class="search_item_link">
+                        <div class="image-container">
+                            <div class="overlay">
+                                <span class="category_text">5,000円以上</span>
+                            </div>
+                            <img src="{% static 'images/washi_brown.jpg' %}" alt="5,000円以上" class="search_image">
+                        </div>
                     </a>
                 </div>
             </div>

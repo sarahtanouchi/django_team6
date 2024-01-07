@@ -1,14 +1,5 @@
-<div class="row">
-    <div class="col-5 offset-1 mt-5 item_detail_review_container">
-        <h2>レビュー</h2>
-        <div class="ml-5">
-            {% if average_rate %}
-                <p>平均: {{ average_rate }}</p>
-
-            {% endif %}
-        </div>
-    </div>
-    <div class="col-6 mt-5">
+<div class="container col-10 mt-5 ml-7">
+    <h2>レビュー</h2>
         {% if reviews %}
         <ul>
             {% for review in reviews %}
@@ -57,4 +48,3 @@
             </div>    
         {% endif %}
     </div>
-</div>
