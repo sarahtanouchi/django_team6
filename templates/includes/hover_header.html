@@ -1,0 +1,28 @@
+     ポップアップ表示途中 
+    <li id="mypage-icon"  data-toggle="popover" data-content="#popover-content">
+        <img src="{% static 'images/icon/mypage_icon.png' %}" alt="マイページ">
+    </li>
+    
+     ポップアップの中身（非表示） 
+     <div id="popover-content" class="popover-content" style="display: none;">
+        {% if user.is_authenticated %}
+            <a href="{% url 'accounts:mypage' %}">マイページ</a><br>
+            <a href="#" onclick="logoutAndShowModal()">ログアウト</a>
+        {% else %}
+            <a href="{% url 'accounts:login' %}?next={{request.path}}">ログイン</a>
+        {% endif %}
+    </div>
+    
+    <script>
+    // ポップオーバーの設定
+    $(document).ready(function () {
+        $('#mypage-icon').popover({
+            content: function () {
+                return $('#popover-content').html();
+            },
+            html: true
+        });
+    });
+
+    </script>
+                
