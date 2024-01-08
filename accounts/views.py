@@ -132,26 +132,26 @@ class Login(LoginView):
         return context
  
 # ログアウト
-# class Logout(LogoutView):
-#     template_name = "accounts/logout.html"
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context["title"] = "ログアウトしました"
-#         return context
-
 class Logout(LogoutView):
+    template_name = "accounts/logout.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "ログアウトしました"
+        return context
 
-    def get(self, request, *args, **kwargs):
-        context = {'title': 'ログアウトしました'}
-        return render(request, 'accounts/logout.html', context)
+# class Logout(LogoutView):
+
+#     def get(self, request, *args, **kwargs):
+#         context = {'title': 'ログアウトしました'}
+#         return render(request, 'accounts/logout.html', context)
         
-    def post(self, request, *args, **kwargs):
-        # ログアウト処理が完了した後、accounts/login にリダイレクト
-        response = super().post(request, *args, **kwargs)
-        if request.is_ajax():
-            return response
-        print("Redirecting to login page...")
-        return redirect('login')
+#     def post(self, request, *args, **kwargs):
+#         # ログアウト処理が完了した後、accounts/login にリダイレクト
+#         response = super().post(request, *args, **kwargs)
+#         if request.is_ajax():
+#             return response
+#         print("Redirecting to login page...")
+#         return redirect('login')
 
 # # パスワード再設定手続き
 # class Resetting(TemplateView):

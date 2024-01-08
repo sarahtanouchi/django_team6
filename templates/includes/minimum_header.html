@@ -13,7 +13,10 @@
             <li>
                 {% if user.is_authenticated %}
                     <strong>{{ request.user.username }}様</strong>
-                    <a href="#" onclick="logoutAndShowModal()"><p>ログアウト</p></a>
+                    <form method="POST" action="{% url 'accounts:logout' %}">
+                        {% csrf_token %}
+                        <button class="border-0 bg-transparent" type="submit">ログアウト</button>
+                    </form>
                 {% else %}
                     <a href="{% url 'accounts:login' %}?next={{request.path}}"><p>ログイン</p></a>
                 {% endif %}
@@ -62,16 +65,6 @@
     </nav>
     {% include 'includes/modal.html' %}
     <script>
-        var logoutUrl = "{% url 'accounts:logout' %}";
-
-        function logoutAndShowModal() {
-            // ログアウト処理
-            window.location.href = "{% url 'accounts:logout' %}";
-
-            // ログアウト完了モーダルを表示
-            $('#logoutModal').modal('show');
-        }
-
         // ログイン状態をJavaScriptに渡す
         var isAuthenticated = {% if user.is_authenticated %}true{% else %}false{% endif %};
         
