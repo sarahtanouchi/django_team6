@@ -13,22 +13,22 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 class LoginForm(AuthenticationForm):
-    class Meta:
-        model = User
     
-        widgets = {
-            "email": forms.Textarea(
-                attrs={
-                    "cols": 50,
-                    "rows": 1,
-                }
-            ), 
-            "password": forms.TextInput(
-                attrs={
-                    "placeholder":"半角英数字を混ぜた８〜１２文字",
-                }
-            ), 
-        }
+    username = forms.CharField(
+        widget = forms.TextInput(
+            attrs={
+                'style': 'width:300px;'
+            }
+        )
+    )
+
+    password = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                'style': 'width:300px;'
+            }
+        )
+    )
         
 class SignupForm(UserCreationForm):
     class Meta:
@@ -65,6 +65,7 @@ class SignupForm(UserCreationForm):
                     "placeholder":"※口コミ投稿に表示されます",
                     "cols": 50,
                     "rows": 1,
+                    'style': 'resize:none;',
                 }
             ), 
             "name": forms.Textarea(
@@ -72,6 +73,7 @@ class SignupForm(UserCreationForm):
                     "placeholder":"全角",
                     "cols": 50,
                     "rows": 1,
+                    'style': 'resize:none;',
                 }
             ), 
             "kana": forms.Textarea(
@@ -79,6 +81,7 @@ class SignupForm(UserCreationForm):
                     "placeholder":"全角カナ",
                     "cols": 50,
                     "rows": 1,
+                    'style': 'resize:none;',
                 }
             ), 
             "postal_code": forms.TextInput(
@@ -97,24 +100,28 @@ class SignupForm(UserCreationForm):
                 attrs={
                     "cols": 50,
                     "rows": 1,
+                    'style': 'resize:none;',
                 }
             ), 
             "street_address": forms.Textarea(
                 attrs={
                     "cols": 50,
                     "rows": 1,
+                    'style': 'resize:none;',
                 }
             ), 
             "building_name": forms.Textarea(
                 attrs={
                     "cols": 50,
                     "rows": 1,
+                    'style': 'resize:none;',
                 }
             ), 
             "tel_number": forms.Textarea(
                 attrs={
                     "cols": 50,
                     "rows": 1,
+                    'style': 'resize:none;',
                 }
             ), 
             "email": forms.Textarea(
@@ -122,6 +129,7 @@ class SignupForm(UserCreationForm):
                     "placeholder":"半角英数字",
                     "cols": 50,
                     "rows": 1,
+                    'style': 'resize:none;',
                 }
             ), 
             "password1": forms.TextInput(
@@ -150,10 +158,6 @@ class SignupForm(UserCreationForm):
             user.save()
             
         return user
-
-class LoginForm(AuthenticationForm):
-    pass
-    # 継承のみ
     
     
 class OrderCreateForm(forms.ModelForm):

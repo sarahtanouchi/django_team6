@@ -20,7 +20,10 @@
             <li>
                 {% if user.is_authenticated %}
                     <p>{{ request.user.username }}様</p>
-                    <a href="{% url 'accounts:logout' %}"><p>ログアウト</p></a>
+                    <form method="POST" action="{% url 'accounts:logout' %}">
+                        {% csrf_token %}
+                        <button class="border-0 bg-transparent" type="submit">ログアウト</button>
+                    </form>
                 {% else %}
                     <a href="{% url 'accounts:login' %}?next={{request.path}}"><p>ログイン</p></a>
                 {% endif %}
