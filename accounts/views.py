@@ -52,7 +52,7 @@ def create_order(user, data):
     
     destination_choice = data.get("destination")
     if destination_choice == "user_address":
-         new_order.destination = None # change this once user has destination field
+         new_order.destination = None # ユーザー登録実装できたら変更要
          #new_order.destination = user.destination
     else:
         new_destination = create_destination(data)
@@ -124,6 +124,12 @@ class Login(LoginView):
     """ログインページ"""
     form_class = LoginForm
     template_name = 'accounts/login.html'
+    authentication_form = LoginForm
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "ログイン・新規登録"
+        return context
  
 # ログアウト
 # class Logout(LogoutView):
@@ -383,10 +389,11 @@ class Order_history(LoginRequiredMixin, generic.ListView):
             
             orders_with_details.append(order_information)
             
-        # context["orders"] = orders
-        # order_details = Order_detail.objects.all()
-        # order_details = self.order.order_detail_set.all()
         context["order_history"] = orders_with_details
+        
+        user_favorites = self.request.user.favorite_set.all()
+        favorite_items = list(map(lambda x : x.item, user_favorites))
+        context['favorite_items'] = favorite_items
         
         return context
         

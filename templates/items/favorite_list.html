@@ -15,52 +15,52 @@
 		<h1>{{ title }}</h1>
 		<div class="row">
 			<div class="col-md-12">
-			{% for favorite in favorites %}
-				<div class="card item">
-					<div class="row item_row">
-						<div class="col-md-3 item_figure">
-							{% with favorite.item.item_images.all.0 as first_image %}
-                       			<img class="rounded img-fluid auto" src="{{ first_image.image.url }}">
-                    		{% endwith %}
-                            <form method="POST" action="{% url 'items:favorite_delete' favorite.pk %}">
-	    						{% csrf_token %}
-	    						<input type="submit" value="削除" >
-                			</form>
-						</div>
-						<div class="col-md-4 offset-1 item_description">
-							<dl>
-                                <dt>{{ favorite.item.name }}</dt>
-                                <dd>{{ favorite.item.description }}</dd>
-                                <dt class="mt-3">税込価格</dt>
-                                <dd>{{ favorite.item.price | intcomma }}円
-                                	<small>(内税{{ favorite.item.tax_percent }}%)</small>
-                                </dd>
-                             </dl>
-                        </div>
-                        <div class="col-md-3 offset-1">
-                        	<form class="form-group" method="post" action="{% url 'items:add_item' favorite.item.pk %}">
-                                        {% csrf_token %}
-                                <div class="row mb-3">
-	                                <div class="spinner-container col-md-6">
-	                                    <span class="spinner-sub disabled">-</span>
-	                                    <input class="spinner" type="number" min="1" max="50" value="1" name="amount">
-	                                    <span class="spinner-add">+</span>
+				{% for favorite in favorites %}
+					<div class="card item">
+						<div class="row item_row">
+							<div class="col-md-3 item_figure">
+								{% with favorite.item.item_images.all.0 as first_image %}
+	                       			<img class="rounded img-fluid auto" src="{{ first_image.image.url }}">
+	                    		{% endwith %}
+	                            <form method="POST" action="{% url 'items:favorite_delete' favorite.pk %}">
+		    						{% csrf_token %}
+		    						<input type="submit" value="削除" >
+	                			</form>
+							</div>
+							<div class="col-md-4 offset-1 item_description">
+								<dl>
+	                                <dt>{{ favorite.item.name }}</dt>
+	                                <dd>{{ favorite.item.description }}</dd>
+	                                <dt class="mt-3">税込価格</dt>
+	                                <dd>{{ favorite.item.price | intcomma }}円
+	                                	<small>(内税{{ favorite.item.tax_percent }}%)</small>
+	                                </dd>
+	                             </dl>
+	                        </div>
+	                        <div class="col-md-3 offset-1">
+	                        	<form class="form-group" method="post" action="{% url 'items:add_item' favorite.item.pk %}">
+	                                        {% csrf_token %}
+	                                <div class="row mb-3">
+		                                <div class="spinner-container col-md-6">
+		                                    <span class="spinner-sub disabled">-</span>
+		                                    <input class="spinner" type="number" min="1" max="50" value="1" name="amount">
+		                                    <span class="spinner-add">+</span>
+		                                </div>
 	                                </div>
-                                </div>
-                                <!--<input class="form-control input-sm" type="number" value="1" name="amount">-->
-                                <div class="item_upper_icons row">
-		                    		<button class="btn btn-outline-secondary btn-md col-md-7" type=submit>
-		                    			カートに入れる<img src="{% static 'images/icon/cart_icon.png' %}" alt="カート">
-		                    		</button>
-	                    		</div>
-                    		</form>
+	                                <!--<input class="form-control input-sm" type="number" value="1" name="amount">-->
+	                                <div class="item_upper_icons row">
+			                    		<button class="btn btn-outline-secondary btn-md col-md-7" type=submit>
+			                    			カートに入れる<img src="{% static 'images/icon/cart_icon.png' %}" alt="カート">
+			                    		</button>
+		                    		</div>
+	                    		</form>
+							</div>
 						</div>
 					</div>
-				</div>
+				{% empty %}
+	            	<p class="text-center mt-5 mb-3">お気に入り商品はありません。</p>
+				{% endfor %}
 			</div>
-			{% empty %}
-            	<p class="text-center mt-5 mb-3">お気に入り商品はありません。</p>
-			{% endfor %}
 		</div>
 		{% include "includes/pagination.html" %}
 

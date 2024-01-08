@@ -3,25 +3,41 @@
 {% block title %}{{ title }}{% endblock %}
  
 {% block content %}
-    <h1>{{ title }}</h1>
-    <form action="" method="POST">
-        {{ form.non_field_errors }}
-        {% csrf_token %}
-        <div>
-            <span>メールアドレス(ログインID)</span>
-            {{ form.username }}
-        </div>
-        <div>
-            <span>パスワード</span>
-            {{ form.password }}
-        </div>
-        <input type="hidden" name="next" value="{{ next }}" />
-        <button type="submit" class="btn btn-secondary btn-md" >ログイン</button>
-        
-    </form>
-    
-     <p>
-        <a href="{% url 'accounts:password_reset' %}">パスワードが分からない方はこちら</a>
-    </p>
-    <a class="btn btn-outline-secondary btn-md" href="{% url 'accounts:sign_up' %}">新規登録</a>
+    <div class="container">
+        <h1>{{ title }}</h1>
+        <div class= "text-canter">
+            <form action="" method="POST">
+                {{ form.non_field_errors }}
+                {% csrf_token %}
+                <div class="form-group form-row">
+                    <label class="col-form-label col-md-12 text-center" for="id_username">
+                        メールアドレス(ログインID)
+                    </label>
+                    <div class="col-md-12 text-center">
+                        {{ form.username }}
+                    </div>
+                </div>
+                <div class="form-group form-row">
+                    <label class="col-form-label col-md-12 text-center" for="id_password">
+                        パスワード
+                    </label>
+                    <div class="col-md-12 text-center">
+                        {{ form.password }}
+                    </div>
+                </div>
+                <input type="hidden" name="next" value="{{ next }}" />
+                
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn_md btn_gray">ログイン</button>
+                </div>
+            </form>
+            
+            <div class="d-flex justify-content-center">
+                <a href="{% url 'accounts:password_reset' %}">パスワードをお忘れの方はこちら</a>
+            </div>
+            <div class="d-flex justify-content-center">
+                <a class="btn btn_md btn_white" href="{% url 'accounts:sign_up' %}">新規登録</a>
+            </div>
+        </div>    
+    </div>
 {% endblock %}
