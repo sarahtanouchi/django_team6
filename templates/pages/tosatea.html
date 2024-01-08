@@ -12,9 +12,32 @@
 <div class="container-fluid">
     <div id="cl" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner"> 
-            <div class="carousel-item active"><img src="{% static 'images/top.png' %}" class="carousel-image"></div>
-            <div class="carousel-item"><img src="{% static 'images/top2.jpg' %}" class="carousel-image"></div>
-            <div class="carousel-item"><img src="{% static 'images/top3.jpeg' %}" class="carousel-image"></div>
+            <div class="carousel-item active">
+                <img src="{% static 'images/tosatea/tosatea_top1.jpg' %}" class="carousel-image">
+                <div class="carousel-caption text-center">
+                    <div class="caption-background">
+                        <h3 class="display-4"></h3>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'images/tosatea/tosatea_top2.jpg' %}" class="carousel-image">
+                <div class="carousel-caption text-center">
+                    <div class="caption-background">
+                        <h3></h3>
+                        <!-- テキストその他のコンテンツ -->
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'images/tosatea/tosatea_top3.jpeg' %}" class="carousel-image">
+                <div class="carousel-caption text-center">
+                    <div class="caption-background">
+                        <h3></h3>
+                        <!-- テキストその他のコンテンツ -->
+                    </div>
+                </div>
+            </div>
         </div>
         <a class="carousel-control-prev" href="#cl" data-slide="prev">
             <span class="carousel-control-prev-icon"></span>
@@ -24,6 +47,7 @@
         </a>
     </div>
 </div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
@@ -35,76 +59,136 @@ $(document).ready(function(){
 </script>
 {% endblock %} 
 {% block lower_content %}
-<h1>土佐茶の紹介</h1>
-<p>
-高知県のお茶産業は古くから山間地の暮らしを支え、仁淀川水系や四万十水系の寒暖差が高品質のお茶を育ててきた。<br>
-その土佐の風土が育んだお茶は茶葉の選定と合組(ブレンド)する茶師からの評価も高く、静岡茶や宇治茶のような高級日本茶の味を<br>
-引き立てる”名脇役”でもある。いま、その”名脇役”から”主役”を目指して駆け上がろうとするお茶が【土佐茶】である。<br>
-特徴は「金色透明」。最初は薄く感じられるところから最後力強く主張してくる滋味深さをもつ。
-</p>
 
-<h2><土佐茶の産地></h2>
-<div class="row">
-    <div class="col-md-4">
-        <div class="image-container">
-            <img src="{% static 'images/towa.jpg' %}" alt="十和" class="img-fluid">
-            <p class="image-comment">十和</p>
+<section class="container">
+    <h1 style="text-align:center;">土佐茶の紹介</h1>
+    <div class="row col-10 mx-auto" style="background-color: #f0f5f5; padding: 30px;">
+        <p>土佐茶は高知県の風土に育まれる伝統的な日本茶であり、その独自の特徴は美しい自然環境、独特な気候条件、そして茶農家たちの丹精込めた手仕事に由来しています。土佐茶は、さまざまな産地ごとに異なる風味と香りを楽しむことができる、豊かな茶の文化を象徴しています。</p>
+        <p>
+            高知県のお茶産業は古くから山間地の暮らしを支え、仁淀川水系や四万十水系の寒暖差が高品質のお茶を育ててきました。<br>
+            その土佐の風土が育んだお茶は茶葉の選定と合組(ブレンド)する茶師からの評価も高く、静岡茶や宇治茶のような高級日本茶の味を引き立てる”名脇役”でもあります。いま、その”名脇役”から”主役”に駆け上がろうとするのが【土佐茶】です。<br>
+            特徴は「金色透明」。最初は薄く感じられるところから最後力強く主張してくる滋味深さを持ちます。
+        </p>
+    </div>
+</section>
+
+<section class="container col-11">
+    <h2>土佐茶の産地</h2>
+    <div class="row col-10 mx-auto">
+        <p>
+            高知県は豊かな地理的多様性を誇り、様々な茶畑が広がります。山間部から平野地帯まで、各地域が異なる気象条件と自然環境を有し、これが土佐茶の多様性を生み出しています。<br>
+            標高の高い地域では、寒暖差が茶葉に深い味わいをもたらします。温暖な気候が広がる地域では、新芽の成育が早く、茶葉には爽やかな風味が感じられます。山間部の湿度が高い場所では、土佐茶に独特の芳醇な香りが宿ります。標高が高い地域では、茶葉がゆっくりと成熟し、寒暖差がコクと甘みをもたらします。
+        </p>
+    </div>
+    <div class="row ml-3">
+        <div class="col-md-4">
+            <div class="image-container">
+                <p class="image-comment">四万十町(十和)</p>
+                <img src="{% static 'images/tosatea/towa.jpg' %}" alt="十和" class="img-fluid">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="image-container">
+                <p class="image-comment">仁淀川町</p>
+                <img src="{% static 'images/tosatea/niyodo.jpeg' %}" alt="仁淀川" class="img-fluid">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="image-container">
+                <p class="image-comment">津野町</p>
+                <img src="{% static 'images/tosatea/tsuno.jpeg' %}" alt="津野町" class="img-fluid">
+            </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <img src="{% static 'images/niyodo.jpeg' %}" alt="仁淀川" class="img-fluid">
-        <p>仁淀川</p>
+    <div class="row ml-3">
+        <div class="col-md-4">
+            <div class="image-container">
+                <p class="image-comment">佐川町</p>
+                <img src="{% static 'images/tosatea/area_sakawa.jpg' %}" alt="佐川" class="img-fluid">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="image-container">
+                <p class="image-comment">いの町</p>
+                <img src="{% static 'images/tosatea/area_ino.jpg' %}" alt="いの" class="img-fluid">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="image-container">
+                <p class="image-comment">三原村</p>
+                <img src="{% static 'images/tosatea/area_mihara.jpg' %}" alt="三原" class="img-fluid">
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        <img src="{% static 'images/tsuno.jpeg' %}" alt="津野町" class="img-fluid">
-        <p>津野</p>
+    <div class="row ml-3">
+        <div class="col-md-4">
+            <div class="image-container">
+                <p class="image-comment">日高村</p>
+                <img src="{% static 'images/tosatea/area_hidaka.jpg' %}" alt="日高" class="img-fluid">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="image-container">
+                <p class="image-comment">大豊町</p>
+                <img src="{% static 'images/tosatea/area_otoyo.jpeg' %}" alt="大豊" class="img-fluid">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="image-container">
+                <p class="image-comment">安芸市</p>
+                <img src="{% static 'images/tosatea/area_aki.jpg' %}" alt="安芸" class="img-fluid">
+            </div>
+        </div>
     </div>
-</div>
+</section>
 
-<h2><土佐茶の淹れ方></h2>
-<div class="row">
-    <div class="col-md-3">
-        <img src="{% static 'images/hot_water.png' %}" alt="お湯" class="img-fluid">
-        <p>お湯の温度</p>
-        <p>煎茶 : 70℃くらい</p>
-        <p>玉露 : 50℃くらい<</p>
-        <p>番茶 : １００℃くらい</p>
+<section class="container col-11">
+    <h2>土佐茶の淹れ方</h2>
+    <div class="row ml-3">
+        <div class="col-md-3">
+            <img src="{% static 'images/tosatea/hot_water.png' %}" alt="お湯" class="img-fluid">
+            <p>お湯の温度</p>
+            <p>煎茶 : 70℃くらい</p>
+            <p>玉露 : 50℃くらい<</p>
+            <p>番茶 : １００℃くらい</p>
+        </div>
+        <div class="col-md-3">
+            <img src="{% static 'images/tosatea/tea_leaf.jfif' %}" alt="茶葉" class="img-fluid">
+            <p>茶葉の量</p>
+            <p>煎茶 :１人２～３g程度</p>
+            <p>玉露 :１人５～１０g程度</p>
+            <p>番茶 :１人１５g程度</p>
+        </div>
+        <div class="col-md-3">
+            <img src="{% static 'images/tosatea/kyusu.jpg' %}" alt="急須" class="img-fluid">
+            <P>お茶の抽出時間</P>
+            <p>煎茶 : ６０秒～９０秒程度</p>
+            <p>玉露 : １２０秒程度</p>
+            <p>番茶 : ３０秒程度</p>
+        </div>
+        <div class="col-md-3">
+            <img src="{% static 'images/tosatea/how_to_tea.jfif' %}" alt="淹れ方" class="img-fluid">
+            <p>湯呑への注ぎ方</p>
+            <p>お茶が同じ濃さ・量になるように<br>少しずつ回しつぎ、最後の一滴まで<br>注ぎます。</p>
+        </div>
     </div>
-    <div class="col-md-3">
-        <img src="{% static 'images/tea_leaf.jfif' %}" alt="茶葉" class="img-fluid">
-        <p>茶葉の量</p>
-        <p>煎茶 :１人２～３g程度</p>
-        <p>玉露 :１人５～１０g程度</p>
-        <p>番茶 :１人１５g程度</p>
-    </div>
-    <div class="col-md-3">
-        <img src="{% static 'images/teapot.png' %}" alt="急須" class="img-fluid">
-        <P>お茶の抽出時間</P>
-        <p>煎茶 : ６０秒～９０秒程度</p>
-        <p>玉露 : １２０秒程度</p>
-        <p>番茶 : ３０秒程度</p>
-    </div>
-    <div class="col-md-3">
-        <img src="{% static 'images/how_to_tea.jfif' %}" alt="淹れ方" class="img-fluid">
-        <p>湯呑への注ぎ方</p>
-        <p>お茶が同じ濃さ・量になるように<br>少しずつ回しつぎ、最後の一滴まで<br>注ぎます。</p>
-    </div>
-</div>
+</section>
 
-<h2><土佐茶のシーン></h2>
-<div class="row">
-    <div class="col-md-4">
-        <img src="{% static 'images/wagashi.jfif' %}" alt="和菓子" class="img-fluid">
-        <p>煎茶とお菓子のお供に</p>
+<section class="container col-11">
+<h2>土佐茶のシーン</h2>
+    <div class="row ml-3">
+        <div class="col-md-4">
+            <img src="{% static 'images/tosatea/wagashi.jfif' %}" alt="和菓子" class="img-fluid">
+            <p>煎茶とお菓子のお供に</p>
+        </div>
+        <div class="col-md-4">
+            <img src="{% static 'images/tosatea/onigiri.jfif' %}" alt="おにぎり" class="img-fluid">
+            <p>番茶と食事の際に</p>
+        </div>
+        <div class="col-md-4">
+            <img src="{% static 'images/tosatea/gyokuro.jfif' %}" alt="玉露" class="img-fluid">
+            <p>玉露とリラックスタイムに</p>
+        </div>
     </div>
-    <div class="col-md-4">
-        <img src="{% static 'images/onigiri.jfif' %}" alt="おにぎり" class="img-fluid">
-        <p>番茶と食事の際に</p>
-    </div>
-    <div class="col-md-4">
-        <img src="{% static 'images/gyokuro.jfif' %}" alt="玉露" class="img-fluid">
-        <p>玉露とリラックスタイムに</p>
-    </div>
-</div>
-
+</section>
 {% endblock %}
