@@ -13,16 +13,14 @@
         <ul class="header_user_actions">
             <li>
                 {% if user.is_authenticated %}
-<<<<<<< HEAD
+                    <!--<p>{{ request.user.username }}様</p>-->
+                    <!--<form method="POST" action="{% url 'accounts:logout' %}">-->
+                    <!--    {% csrf_token %}-->
+                    <!--    <button class="border-0 bg-transparent" type="submit">ログアウト</button>-->
+                    <!--</form>-->
+                    
                     <strong>{{ request.user.username }}様</strong>
                     <a href="#" onclick="logoutAndShowModal()"><p>ログアウト</p></a>
-=======
-                    <p>{{ request.user.username }}様</p>
-                    <form method="POST" action="{% url 'accounts:logout' %}">
-                        {% csrf_token %}
-                        <button class="border-0 bg-transparent" type="submit">ログアウト</button>
-                    </form>
->>>>>>> develop
                 {% else %}
                     <a href="{% url 'accounts:login' %}?next={{request.path}}"><p>ログイン</p></a>
                 {% endif %}
