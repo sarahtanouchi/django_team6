@@ -12,7 +12,7 @@
         <ul class="header_user_actions">
             <li>
                 {% if user.is_authenticated %}
-                    <strong>{{ request.user.username }}様</strong>
+                    <strong class="ml-2">{{ request.user.username }}様</strong>
                     <form method="POST" action="{% url 'accounts:logout' %}">
                         {% csrf_token %}
                         <button class="border-0 bg-transparent" type="submit">ログアウト</button>
