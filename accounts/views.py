@@ -125,6 +125,7 @@ class Login(LoginView):
     """ログインページ"""
     form_class = LoginForm
     template_name = 'accounts/login.html'
+    authentication_form = LoginForm
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

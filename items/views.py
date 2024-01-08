@@ -260,8 +260,11 @@ class Item_list(generic.ListView):
         recommended_items = Item.objects.filter(recommended=True)
         context["recommended_items"] = recommended_items
         
-        user_favorites = self.request.user.favorite_set.all()
-        favorite_items = list(map(lambda x : x.item, user_favorites))
+        favorite_items = []
+        if not self.request.user.is_anonymous and self.request.user.favorite_set is not None:
+            user_favorites = self.request.user.favorite_set.all()
+            favorite_items = list(map(lambda x : x.item, user_favorites))
+            
         context['favorite_items'] = favorite_items
         
         return context
