@@ -15,7 +15,7 @@
     		        <div>
         		        <span class="navbar-text">ステータス：{{ order.get_status_display }}</span>
         		        {% if order.status == "accepted" %}
-                            <a class="btn btn-secondary btn-sm ml-2" href="{% url 'home' %}">注文をキャンセル</a>
+                            <button class="btn btn-secondary btn-sm ml-2" onclick="showCancellationModal()">注文をキャンセル</button>
                         {% endif %}
                     </div>
                 </nav> 
@@ -161,5 +161,11 @@
            	<button class="btn" onclick="window.history.back();return false;">＜ 戻る</button>
         </div>
     </div>
+    <script>
+		function showCancellationModal() {
+				$('#cancellationModal').modal('show');
+		}
+	
+    </script>
 
 {% endblock %}
