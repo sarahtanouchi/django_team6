@@ -5,8 +5,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
 from django.utils.dateparse import parse_date
-
-
+from django.http import HttpResponseRedirect
 from .models import Order, Destination, Order_detail
 from items.models import Item, Cart, Coupon
 from .forms import SignupForm, LoginForm, OrderCreateForm, OrderConfirmationForm
@@ -139,7 +138,21 @@ class Logout(LogoutView):
         context = super().get_context_data(**kwargs)
         context["title"] = "ログアウトしました"
         return context
+
+# class Logout(LogoutView):
+
+#     def get(self, request, *args, **kwargs):
+#         context = {'title': 'ログアウトしました'}
+#         return render(request, 'accounts/logout.html', context)
         
+#     def post(self, request, *args, **kwargs):
+#         # ログアウト処理が完了した後、accounts/login にリダイレクト
+#         response = super().post(request, *args, **kwargs)
+#         if request.is_ajax():
+#             return response
+#         print("Redirecting to login page...")
+#         return redirect('login')
+
 # # パスワード再設定手続き
 # class Resetting(TemplateView):
 #     template_name = "accounts/resetting.html"

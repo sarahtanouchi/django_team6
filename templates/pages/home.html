@@ -6,15 +6,32 @@
 
 {% block additional_css %}
 <link rel="stylesheet" href="{% static 'stylesheets/home.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 {% endblock %}
 
 {% block upper_content %} 
-
 <div class="container-fluid">
-    <div class="top_image"> 
-        <img src="{% static 'images/top.png' %}" alt="土佐茶畑">
+    <div class="top_video">
+        <video id="myVideo" autoplay muted>
+            <source src="{% static 'videos/top_video.mp4' %}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+        <div class="text-overlay">
+            <div class="overlay_main">
+                <h1 class="top_title">Welcome to 土佐金色透茶堂</h1>
+                <p class="top_message">Discover the beauty of Tosa tea fields</p>
+            </div>
+            <div class="overlay_annotation">
+                <small class="top_annotation">高知県津野町の茶畑(提供：LIFEisPHOTO)</small>
+            </div>
+            <button id="toggleButton" onclick="toggleVideo()">
+                <i class="fas fa-pause"></i> 
+            </button>
+        </div>
     </div>
 </div>
+
 {% endblock %} 
 {% block lower_content %}
 <main>
@@ -102,7 +119,7 @@
                             <div class="overlay">
                                 <span class="category_text"> 煎　茶 </span>
                             </div>
-                            <img src="{% static 'images/sencha.jpg' %}" alt="煎茶" class="search_image">
+                            <img src="{% static 'images/top/sencha.jpg' %}" alt="煎茶" class="search_image">
                         </div>
                     </a>
                 </div>
@@ -112,7 +129,7 @@
                             <div class="overlay">
                                 <span class="category_text"> 玉　露 </span>
                             </div>
-                            <img src="{% static 'images/gyokuro.jpeg' %}" alt="玉露" class="search_image">
+                            <img src="{% static 'images/top/gyokuro.jpeg' %}" alt="玉露" class="search_image">
                         </div>
                     </a>
                 </div>
@@ -122,7 +139,7 @@
                             <div class="overlay">
                                 <span class="category_text">ほうじ茶</span>
                             </div>
-                            <img src="{% static 'images/hojicha.jpg' %}" alt="ほうじ茶" class="search_image">
+                            <img src="{% static 'images/top/hojicha.jpg' %}" alt="ほうじ茶" class="search_image">
                         </div>    
                     </a>
                 </div>
@@ -138,7 +155,7 @@
                             <div class="overlay">                        
                                 <span class="category_text">自 宅 用</span>
                             </div>
-                            <img src="{% static 'images/gyokuro_00024.jpeg' %}" alt="自宅用" class="search_image">
+                            <img src="{% static 'images/top/gyokuro_00024.jpeg' %}" alt="自宅用" class="search_image">
                         </div>
                     </a>
                 </div>
@@ -148,7 +165,7 @@
                             <div class="overlay">
                                 <span class="category_text">お 土 産</span>
                             </div>
-                            <img src="{% static 'images/gift_box_00002.jpeg' %}" alt="お土産" class="search_image">
+                            <img src="{% static 'images/top/gift_box_00002.jpeg' %}" alt="お土産" class="search_image">
                         </div>
                     </a>
                 </div>
@@ -158,7 +175,7 @@
                             <div class="overlay">
                                 <span class="category_text">贈 答 用</span>
                             </div>
-                            <img src="{% static 'images/gift_box_00014.jpeg' %}" alt="贈答用" class="search_image">
+                            <img src="{% static 'images/top/gift_box_00014.jpeg' %}" alt="贈答用" class="search_image">
                         </div>
                     </a>
                 </div>
@@ -173,7 +190,7 @@
                             <div class="overlay">
                                 <span class="category_text">1,000円以下</span>
                             </div>
-                            <img src="{% static 'images/washi_green.jpg' %}" alt="1,000円以下" class="search_image">
+                            <img src="{% static 'images/top/washi_yellow.jpg' %}" alt="1,000円以下" class="search_image">
                         </div>
                     </a>
                 </div>
@@ -183,7 +200,7 @@
                             <div class="overlay">
                                 <span class="category_text">5,000円以下</span>
                             </div>
-                            <img src="{% static 'images/washi_yellow.jpg' %}" alt="1,000～5,000円" class="search_image">
+                            <img src="{% static 'images/top/washi_brown.jpg' %}" alt="1,000～5,000円" class="search_image">
                         </div>
                     </a>
                 </div>
@@ -193,7 +210,7 @@
                             <div class="overlay">
                                 <span class="category_text">5,000円以上</span>
                             </div>
-                            <img src="{% static 'images/washi_brown.jpg' %}" alt="5,000円以上" class="search_image">
+                            <img src="{% static 'images/top/washi_green.jpg' %}" alt="5,000円以上" class="search_image">
                         </div>
                     </a>
                 </div>
@@ -201,7 +218,7 @@
         </div>    
             <div class="d-flex justify-content-center">
                 <a href="{% url 'items:index' %}">
-                    <button class="btn_lg btn_white" type="button">商品一覧ページへ</button>
+                    <button class="btn btn_lg btn_white" type="button">商品一覧ページへ</button>
                 </a>
             </div>
     </section>
@@ -211,26 +228,51 @@
             <div class="col-6 col-md-5 mt-3">
                 <h3>好み診断</h3>
                 <a href="#">
-                    <img src="{% static 'images/bancha_00009.jpeg' %}" alt="好み診断" class="banner_image">
+                    <img src="{% static 'images/top/bancha_00009.jpeg' %}" alt="好み診断" class="banner_image">
                 </a>
             </div>
             <div class="col-6 col-md-5 mt-3">
                 <h3>土佐茶とは</h3>
                 <a href="{% url 'pages:tosacha' %}">
-                    <img src="{% static 'images/bancha_00009.jpeg' %}" alt="土佐茶とは" class="banner_image">
+                    <img src="{% static 'images/top/bancha_00009.jpeg' %}" alt="土佐茶とは" class="banner_image">
                 </a>
             </div>
         </div>
     </section>
     
-    <section class="container">
-    <h2>動画</h2>
-        <div class="video_container">
-            <video class="tea_video"  width="900" height="500" controls>
-                <source src="#" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
-    </section>
-</main> 
+    <!--<section class="container">-->
+    <!--    <div class="video_container">-->
+    <!--        <video class="tea_video"  width="900" height="500" controls>-->
+    <!--            <source src="#" type="video/mp4">-->
+    <!--            Your browser does not support the video tag.-->
+    <!--        </video>-->
+    <!--    </div>-->
+    <!--</section>-->
+</main>
+
+<script>
+    // ページロード時に実行
+    document.addEventListener("DOMContentLoaded", function () {
+        var video = document.getElementById("myVideo");
+        // 3秒後にテキストを表示する
+        setTimeout(function () {
+            var textOverlay = document.querySelector(".text-overlay");
+            textOverlay.classList.add("show");
+        }, 3000);
+    });
+
+    // ビデオとボタン
+    function toggleVideo() {
+        var video = document.getElementById("myVideo");
+        var button = document.getElementById("toggleButton");
+        
+        if (video.paused) {
+            video.play();
+            button.innerHTML = '<i class="fas fa-pause"></i>'; 
+        } else {
+            video.pause();
+            button.innerHTML = '<i class="fas fa-play"></i>'; 
+        }
+    }
+</script>
 {% endblock %}

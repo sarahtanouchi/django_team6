@@ -9,47 +9,41 @@
 {% endblock %} 
 
 {% block content %}
-<main class="contents">
+<main class="container">
     <h1>{{ title }}</h1>
-    <div class="row ml-4">
-        <div class="col-12">
+    <div class="row ml-5">
+        <div class="col-12 mx-auto">
         {% for review in reviews %}
             <div class="card item">
                 <div class="row item_row">
                     {% with review.item.item_images.all.0 as first_image %}
                     <figure class="col-3 item_figure">
                         <a href="">
-               			    <img class="img-fluid auto" src="{{ first_image.image.url }}">
+               			    <img class="rounded img-fluid auto" src="{{ first_image.image.url }}">
                			</a>
-            	        <div class="item_tag_row">
-		    				<span class="item_tag">
-		    					{% if review.item.taste %}
-	    							{{ review.item.tea_type }}
-		    					{% else %}
-		    						{{ review.item.item_type }}
-		    					{% endif %}
-		    				</span>
-		    				<span class="item_tag">
-		    					{% if review.item.taste %}
-    								{{ review.item.taste }}
-	    						{% else %}
-	    							{{ review.item.occasion }}
-	    						{% endif %}	
-		    				</span>
-		    			</div>
-            	        
-            	        <figcaption>
-    	    				<div class="review_item_name">
-    	    					<a href="">
-    		    					<span>{{ review.item.name }}</span>
-    		    				</a>
-    		    				<span>　{{ review.item.price | intcomma }}円(税込)</span>
-    		    			</div>
-    	    			</figcaption>
-	    			</figure>
-    	    		{% endwith %}
-                    <ul class="col-9">   
-                        <li class="item_review">
+         <!--   	        <div class="item_tag_row">-->
+		    			<!--	<span class="item_tag">-->
+		    			<!--		{% if review.item.taste %}-->
+	    				<!--			{{ review.item.tea_type }}-->
+		    			<!--		{% else %}-->
+		    			<!--			{{ review.item.item_type }}-->
+		    			<!--		{% endif %}-->
+		    			<!--	</span>-->
+		    			<!--	<span class="item_tag">-->
+		    			<!--		{% if review.item.taste %}-->
+    					<!--			{{ review.item.taste }}-->
+	    				<!--		{% else %}-->
+	    				<!--			{{ review.item.occasion }}-->
+	    				<!--		{% endif %}	-->
+		    			<!--	</span>-->
+		    			<!--</div>-->
+                    </figure>
+                    {% endwith %}
+                    <ul class="col-8">   
+	    				<li class="review_item_name mb-3">
+		    				<strong>{{ review.item.name }}　{{ review.item.price | intcomma }}円(税込)</strong>
+		    			</li>
+                        <li class="item_review ml-3">
                             <p>評価:
                                 {% if review.rate == 5 %}
                                     <span class="fas fa-star"></span>
@@ -88,10 +82,19 @@
                         </li>
                     </ul>
                 </div>
-            	<form method="POST" action="{% url 'items:review_delete' review.id %}" class="ml-auto">
-				    {% csrf_token %}
-                    <input type="submit" value="投稿を削除" >
-                </form>
+                <form class="ml-auto" method="POST" action="{% url 'items:review_delete' review.id %}">
+					{% csrf_token %}
+					<button class="btn_delete" type="submit">
+						 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+						 	<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
+						 </svg>
+						 <small>投稿を削除</small>
+					</button>
+    			</form>
+        <!--    	<form method="POST" action="{% url 'items:review_delete' review.id %}" class="ml-auto">-->
+				    <!--{% csrf_token %}-->
+        <!--            <input type="submit" value="投稿を削除" >-->
+        <!--        </form>-->
             </div>
         {% empty %}
             <p class="text-center mt-5 mb-3">レビュー投稿はありません</p>
