@@ -272,12 +272,12 @@ class Item_list(generic.ListView):
         
         return context
         
-# 商品検索
-def item_list(request):
-    items = Item.objects.all()
-    item_search_form = ItemSearchForm()
+# # 商品検索
+# # def item_list(request):
+# #     items = Item.objects.all()
+# #     item_search_form = ItemSearchForm()
 
-    return render(request, 'item_list.html', {'items': items, 'item_search_form': item_search_form})
+#     return render(request, 'item_list.html', {'items': items, 'item_search_form': item_search_form})
 
 class Item_detail(generic.DetailView):
     model = Item
@@ -291,10 +291,13 @@ class Item_detail(generic.DetailView):
         context["tax8"]=tax8
         context["tax10"]=tax10
         reviews = self.object.review_set.all()
-        context["reviews"] = reviews  
+        context["reviews"] = reviews 
         
-        user_favorites = self.request.user.favorite_set.all()
-        favorite_items = list(map(lambda x : x.item, user_favorites))
+        favorite_items = []
+        if not self.request.user.is_anonymous and self.request.user.favorite_set is not None:
+            user_favorites = self.request.user.favorite_set.all()
+            favorite_items = list(map(lambda x : x.item, user_favorites))
+            
         context['favorite_items'] = favorite_items
         
         return context
