@@ -1,0 +1,6 @@
+<form class="form-inline" action="{% url 'items:index' %}" method="get">
+    <div class="form-group form-row">
+        <input class="col-md-11 form-control" type="search" name="query"　value="{{ request.GET.query }}"  placeholder=" 商品名で検索 " max_length=100,>
+    </div>
+    <button type="submit" class="btn btn-secondary btn-sm">検索</button>
+</form>
