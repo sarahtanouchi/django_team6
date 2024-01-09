@@ -291,7 +291,11 @@ class Item_detail(generic.DetailView):
         context["tax8"]=tax8
         context["tax10"]=tax10
         reviews = self.object.review_set.all()
-        context["reviews"] = reviews      
+        context["reviews"] = reviews  
+        
+        user_favorites = self.request.user.favorite_set.all()
+        favorite_items = list(map(lambda x : x.item, user_favorites))
+        context['favorite_items'] = favorite_items
         
         return context
 

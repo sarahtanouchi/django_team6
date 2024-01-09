@@ -1,6 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
@@ -462,6 +463,32 @@ class Order_details(generic.DetailView):
         context["discounted_total"] = discounted_total
         
         return context
+
+@login_required        
+def cancel_order(request,pk):
+    order = get_object_or_404(Order, pk=pk)
+    order.status = "canceled"
+    order.save()
+    return redirect("accounts:order_cancellation", pk)
+    
+class Order_cancellation(LoginRequiredMixin, generic.TemplateView):
+    template_name = "accounts/complete_order_cancel.html"
+    model = Order
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         
+        return context
+        # order = context["order"]
+        # order_details = order.order_detail_set.all()
+        
+        # for order_detail in order_details:
+        #     context["order_detail"] = order_detail
+        # # orders = self.request.user.order_set.all()
+        
+        # if self.request.post.get("query") == "cancel":
+        #     order.status = "canceled"
+        #     order.save()
+
    
     
