@@ -180,11 +180,14 @@ class Logout(LogoutView):
 #     template_name = 'accounts/recomplete.html'
     
 # ユーザープロフィール
-class Detail(LoginRequiredMixin, generic.TemplateView):
-    template_name = "accounts/detail.html"
+class Detail(LoginRequiredMixin, generic.DetailView):
+    model = User
+    template_name = "accounts/profile.html"
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "お客様情報"
+        user = self.request.user
+        context["user"] = user
         return context
  
 # ユーザープロフィールの更新
