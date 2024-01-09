@@ -148,14 +148,6 @@
 		// 	});
 		// }
 	
-		// 非同期リクエストを模倣する関数
-		function simulateAsyncRequest() {
-			return new Promise(resolve => {
-				// 仮の非同期処理（実際にはAjaxなどを使用する）
-				setTimeout(resolve, 1000);
-			});
-		}
-	
 		function highlightButton(button, color='#8ff0a4', highlightSeconds=1) {
 			button.style = `box-shadow: 0px 0px 10px 12px ${color} inset;`;
 			setTimeout(() => {
