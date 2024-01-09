@@ -11,7 +11,7 @@ from django.http import JsonResponse, HttpResponseBadRequest
 
 from .models import Item, Cart, Area, Item_type, Occasion, Tea_set_type, Tea_type, Taste, Flavor, Image, Review, Favorite, Information, Coupon
 from .forms import CartUpdateForm, ItemCreateForm, AreaCreateForm, ItemTypeCreateForm, OccasionCreateForm, TeaSetTypeCreateForm, TeaTypeCreateForm, TasteCreateForm, FlavorCreateForm
-from .forms import ImageCreateForm, ReviewForm, InformationCreateForm, FavoriteAddForm, SearchForm, CouponCreateForm
+from .forms import ImageCreateForm, ReviewForm, InformationCreateForm, FavoriteAddForm, CouponCreateForm
 
 
 # class Index(generic.ListView):
@@ -223,6 +223,7 @@ class Item_list(generic.ListView):
         price_filters = self.request.GET.getlist("price_filter", [])
         taste_filters = self.request.GET.getlist("taste_filter", [])
         occasion_filters = self.request.GET.getlist("occasion_filter", [])
+        search_query = self.request.GET.get("query")
         
         items = Item.objects.all()
         if tea_type_filters:
@@ -248,6 +249,8 @@ class Item_list(generic.ListView):
             items = items.filter(taste__name__in=taste_filters)
         if occasion_filters:
             items = items.filter(occasion__name__in=occasion_filters)
+        if search_query:
+            items = items.filter(name__contains=search_query)
         
         return items
     
@@ -300,8 +303,9 @@ def add_item(request,pk):
         user=request.user,
         ordered=False
     )
-    
-    cart_amount = int(request.POST["amount"])
+    cart_amount = 1
+    if "amount" in request.POST:
+        cart_amount = int(request.POST["amount"])
     
     if created:
         cart_item.amount = cart_amount
@@ -547,15 +551,14 @@ class Favorite_delete(LoginRequiredMixin, generic.DeleteView):
 
 
 # キーワード検索
-def item_search(request):
-    form = SearchForm(request.GET)
-    items = []
+# def item_search(request):
+    # form = SearchForm(request.GET)
 
-    if form.is_valid():
-        search_term = form.cleaned_data['search_term']
-        items = Item.objects.filter(name__startswith=search_term)
+    # if form.is_valid():
+    #     search_term = form.cleaned_data['search_term']
+    #     items = Item.objects.filter(name__startswith=search_term)
 
-    return render(request, 'item_list.html', {'items': items, 'item_search_form': form})
+    # return render(request, 'item_list.html', {'items': items, 'item_search_form': form})
     
 class Coupon_list(LoginRequiredMixin, generic.ListView):
     model = Coupon
