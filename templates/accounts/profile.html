@@ -1,0 +1,45 @@
+{% extends "layouts/default_minimum.html" %}
+ 
+{% block title %}{{ title }}{% endblock %}
+ 
+{% block content %}
+    <h1>{{ title }}</h1>
+    
+    <table  class="ui celled table table table-hover" >
+        <tr><td class="bg-light text-center">ユーザー名</td><td class="pl-5">{{user.username}}</td></tr>
+        <tr><td class="bg-light text-center">お名前</td><td class="pl-5">{{user.name}}</td></tr>
+        <tr><td class="bg-light text-center">フリガナ</td><td class="pl-5">{{user.kana}}</td></tr>
+        <tr>
+            <td class="bg-light text-center">住所</td>
+                {%if user.building_name %}
+                    <td class="pl-5">〒{{user.postal_code}}　{{user.prefecture}}{{user.city}}{{user.street_address}}{{user.building_name}}</td>
+                {% else %}
+                    <td class="pl-5">〒{{user.postal_code}}　{{user.prefecture}}{{user.city}}{{user.street_address}}</td>
+                {% endif %}
+            </tr>
+        <tr><td class="bg-light text-center">電話番号</td><td class="pl-5">{{user.tel_number}}</td></tr>
+        <tr>
+            <td class="bg-light text-center">性別</td>
+                {% if user.gender == "female" %}
+                    <td class="pl-5">女性</td>
+                {% elif user.gender == "male" %}
+　　　　　          <td class="pl-5">男性</td>
+　　　　　      {% else %}
+　　　　　          <td class="pl-5">未回答</td>
+                {% endif %}
+        </tr>
+        <tr><td class="bg-light text-center">生年月日</td>
+            {% if user.birthdate %}
+                <td class="pl-5">{{user.birthdate}}</td>
+            {% else %}
+                <td class="pl-5">未回答</td>
+            {% endif %}
+        </tr>
+        <tr><td class="bg-light text-center">メールアドレス</td><td class="pl-5">{{user.email}}</td></tr>
+    </table>
+    
+        <div class="return_link d-flex justify-content-center">
+            <button class="btn" type="submit" name="next" value="back">＜ 戻る</button>
+        </div>
+    
+{% endblock %}
