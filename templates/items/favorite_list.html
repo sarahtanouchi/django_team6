@@ -20,7 +20,9 @@
 						<div class="row item_row">
 							<div class="col-md-3 item_figure">
 								{% with favorite.item.item_images.all.0 as first_image %}
+								<a href="{% url 'items:item_detail' favorite.item.pk %}">
 	                       			<img class="rounded img-fluid auto" src="{{ first_image.image.url }}">
+	                       		</a>
 	                    		{% endwith %}
 	           <!--                 <form method="POST" action="{% url 'items:favorite_delete' favorite.pk %}">-->
 		    						<!--{% csrf_token %}-->
