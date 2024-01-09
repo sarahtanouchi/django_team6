@@ -27,27 +27,23 @@
                     </div>
                     <div class="row">
                          <div class="col-12">
-                            {% if user.is_authenticated %}
-                                <form id="FavoriteForm" method="post" action="{% url 'items:favorite_add' item.pk %}">
-                                    {% csrf_token %}
-                                    <div class="d-flex justify-content-end item_upper_icons">
-            				            <a onclick="submitFavoriteForm('{{ item.id }}')">
+                            <div class="d-flex justify-content-end item_upper_icons"> 
+                                {% if user.is_authenticated %}
+                                    <button class="bg-transparent border-0 " onclick="addToFavoritesAsync(this, '{{ item.pk }}')">
+        						    	{% if item in favorite_items %}
+        						        <img src="{% static 'images/icon/favorite_pink_icon.png' %}" alt="お気に入り">
+        						        {% else %}
+        						        <img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入り">
+        						        {% endif %}
+    						        </button>    
+            					{% else %}
+            					    <div class="d-flex justify-content-end item_upper_icons">
+            				            <a onclick="showLoginModal();">
             				                <img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入り">
             				            </a>
-            				         </div>
-                                </form>       
-                                <script>
-                                    function submitFavoriteForm(itemId) {
-                                        document.getElementById('favoriteForm').submit();
-                                    }
-                                </script>        				                
-        					{% else %}
-        					    <div class="d-flex justify-content-end item_upper_icons">
-        				            <a onclick="showLoginModal();">
-        				                <img src="{% static 'images/icon/favorite_icon.png' %}" alt="お気に入り">
-        				            </a>
-        				        </div>
-    				        {% endif %}
+            				        </div>
+        				        {% endif %}
+    				        </div>
 
                             <h2 class="font-weight-bold">{{ item.name }}</h2>
                             <p class="ml-5">{{ item.description }}</p>
@@ -101,4 +97,105 @@
         </div>
         {% load static %}
         <script src="{% static 'js/spinner_script.js' %}"></script>
+        
+        <script>
+		var isAuthenticated = ('{{user.is_authenticated}}' == "True");
+		const csrf_token = '{{csrf_token}}';
+	
+		function showLoginModal() {
+			// ログインしていない場合はモーダルを表示
+			if (!isAuthenticated) {
+				$('#loginModal').modal('show');
+				return false;  
+			}
+			return true;  // ログインしている場合は通常の動作を続行
+		}
+	
+	
+		async function addToFavoritesAsync(button, itemId) {
+		    if (itemId == undefined || itemId == null)
+		        return;
+		
+		    const formData = new FormData();
+		    // formData.append('amount', amount.toString());
+		
+		    const request =  createRequest(formData);
+		    const url = "{% url 'items:favorite_add' 11111 %}".replace("11111", itemId);
+		    const succeed = await sendRequestAsync(url, request);
+		
+		    if (button) {
+		        const successColor = '#8ff0a4';
+		        const failColor = 'lightred';
+		
+		        const imgIcon = button.querySelector('img');
+		        const addFavoriteIcon = "{% static 'images/icon/favorite_pink_icon.png' %}";
+		        const removeFavoriteIcon = "{% static 'images/icon/favorite_icon.png' %}";
+		
+		        if (succeed) {
+		            highlightButton(button, successColor, 1.25);
+		
+		            if (imgIcon && imgIcon.src.includes(removeFavoriteIcon))
+		                imgIcon.src = addFavoriteIcon;
+		            else if (imgIcon && imgIcon.src.includes(addFavoriteIcon))
+		                imgIcon.src = removeFavoriteIcon;
+		        }
+		        else
+		            highlightButton(button, failColor, 1.25);
+		    }
+		}
+		// 	simulateAsyncRequest().then(() => {
+		// 		icon.classList.toggle('favorited');
+		// 	});
+		// }
+	
+		// 非同期リクエストを模倣する関数
+		function simulateAsyncRequest() {
+			return new Promise(resolve => {
+				// 仮の非同期処理（実際にはAjaxなどを使用する）
+				setTimeout(resolve, 1000);
+			});
+		}
+	
+		function highlightButton(button, color='#8ff0a4', highlightSeconds=1) {
+			button.style = `box-shadow: 0px 0px 10px 12px ${color} inset;`;
+			setTimeout(() => {
+				button.style = '';
+			}, highlightSeconds * 1000);
+		}
+	
+		function createRequest(formData) {
+			const requestHeaders = {'X-CSRFToken': `${csrf_token}`};
+			const request = {
+				headers: requestHeaders,
+				method: 'POST',
+				body: formData
+			}
+			return request;
+		}
+	
+		async function sendRequestAsync(url, request) {
+			try {
+				const response = await fetch(url, request);
+				if (!response.ok) {
+					const reason = await response.json();
+					if (reason.message || reason.statusText)
+						console.error(reason.message || reason.statusText);
+					console.error("request failed");
+					console.error('Url', url);
+					console.error('Request', request);
+				}
+	
+				return true;
+			} catch(err) {
+				console.error(err);
+				console.error("request failed!");
+				console.error('Url', url);
+				console.error('Method:', request.method);
+				console.error('Headers:', request.headers);
+				console.error('Data', request.body);
+			}
+	
+			return false;
+		}
+	</script>
 {% endblock %}
