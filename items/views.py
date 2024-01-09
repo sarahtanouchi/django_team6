@@ -303,8 +303,9 @@ def add_item(request,pk):
         user=request.user,
         ordered=False
     )
-    
-    cart_amount = int(request.POST["amount"])
+    cart_amount = 1
+    if "amount" in request.POST:
+        cart_amount = int(request.POST["amount"])
     
     if created:
         cart_item.amount = cart_amount
