@@ -34,7 +34,7 @@
                                 <dd>{{ cart.item.description }}</dd>
                              </dl>
                         </div>
-                        <div class="col-3 item_description">
+                        <div class="col-3 item_description ml-5">
                     		<dl>
                                 <!--<dt>価格(税込)</dt>-->
                                 <!--<dd>{{ cart.item.price }}円</dd>-->
@@ -54,9 +54,9 @@
                                    		 </div>
                                 	</form>
 					            </dd>
-                                <dt>税込価格</dt>
-                                <dd>{{ cart.item.price | intcomma }}円
-                                	<small>(内税{{ cart.item.tax_percent }}%)</small>
+                                <dt class="text-left">税込価格</dt>
+                                <dd class="">{{ cart.item.price | intcomma }}円
+                                	<small class="">(内税{{ cart.item.tax_percent }}%)</small>
                                 </dd>
                             </dl>
 						</div>

@@ -14,7 +14,7 @@
             	</div>
                 <div class="col-6 mb-5">
                     <div class="row">
-                        <div class="d-flex flex-row bd-highlight ml-4 mb-5">
+                        <div class="d-flex flex-row bd-highlight ml-5 mb-5">
                              {% for image in item.item_images.all %}
                 			     {%if forloop.first %}
                                  {% else %}
@@ -83,7 +83,8 @@
             </div>
             <div class="row mt-5">
                 <div class="col-5 offset-1 mb-5">
-                    <h2>産地情報等</h2>
+                    <h2>商品の産地</h2>
+                    <p class="ml-5"> 【 {{item.area}} 】</p>
                     <p class="ml-5">{{item.area.description}}</p>
                 </div>
                 <div class="col-5 mt-5 mb-5 ml-auto">
