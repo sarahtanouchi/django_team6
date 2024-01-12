@@ -38,7 +38,7 @@
 		    						</button>
                 				</form>
 							</div>
-							<div class="col-md-4 item_description">
+							<div class="col-md-6 item_description">
 								<dl>
 	                                <dt>{{ favorite.item.name }}</dt>
 	                                <dd>{{ favorite.item.description }}</dd>
@@ -48,8 +48,8 @@
 	                                </dd>
 	                             </dl>
 	                        </div>
-	                        <div class="col-md-3 offset-1">
-	                        	<form class="form-group" method="post" action="{% url 'items:add_item' favorite.item.pk %}">
+	                        <div class="col-md-3">
+	                        	<form class="form-group text-right" method="post" action="{% url 'items:add_item' favorite.item.pk %}">
 	                                        {% csrf_token %}
 	                                <div class="row mb-3">
 		                                <div class="spinner-container col-md-6">

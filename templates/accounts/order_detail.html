@@ -51,54 +51,56 @@
     		</div>
         </div>
         <div class="row mt-3">
-            <table  class="col-md-7 ui celled table table table-hover" >
-                {% if order.coupon %}
-                    <tr>
-                        <td class="bg-light text-center">
-                            クーポン内容
-                        </td>
-                        <td class="pl-5">
-                            税抜き価格から{{ order.coupon.discount_percent }}％OFF
-                        </td>
-                    </tr>
-                {% endif %}
-                <tr>
-                    <td class="bg-light text-center">お受取人</td>
-                    <td class="pl-5">
-                        {% if order.destination %}
-                            {{ order.destination.name }}様
-                        {% else %}
-                            ご本人様
+                <div class="col-md-7 ui">
+                    <table  class="celled table table table-hover" >
+                        {% if order.coupon %}
+                            <tr>
+                                <td class="bg-light text-center">
+                                    クーポン内容
+                                </td>
+                                <td class="pl-5">
+                                    税抜き価格から{{ order.coupon.discount_percent }}％OFF
+                                </td>
+                            </tr>
                         {% endif %}
-                    </td>
-                </tr>
-                <tr><td class="bg-light text-center">お届け日指定</td>
-                    <td class="pl-5">
-                        {% if order.arrival_date %}
-                            {{ order.arrival_date}}
-                        {% else %}
-                            なし
-                        {% endif %}
-                    </td>
-                </tr>
-                <tr><td class="bg-light text-center">ギフト包装</td>
-                    <td class="pl-5">
-                        {% if order.gift_wrapping == True %}
-                            希望する
-                        {% else %}
-                            希望しない
-                        {% endif %}
-                    </td>
-                </tr>
-                <tr>
-                    <td class="bg-light text-center">
-                        その他ご要望
-                    </td>
-                    <td class="pl-5">
-                        {{ order.request_comment }}
-                    </td>
-                </tr>
-            </table>
+                        <tr>
+                            <td class="bg-light text-center">お受取人</td>
+                            <td class="pl-5">
+                                {% if order.destination %}
+                                    {{ order.destination.name }}様
+                                {% else %}
+                                    ご本人様
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr><td class="bg-light text-center">お届け日指定</td>
+                            <td class="pl-5">
+                                {% if order.arrival_date %}
+                                    {{ order.arrival_date}}
+                                {% else %}
+                                    なし
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr><td class="bg-light text-center">ギフト包装</td>
+                            <td class="pl-5">
+                                {% if order.gift_wrapping == True %}
+                                    希望する
+                                {% else %}
+                                    希望しない
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="bg-light text-center">
+                                その他ご要望
+                            </td>
+                            <td class="pl-5">
+                                {{ order.request_comment }}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
     		<div class="col-md-5 mb-4">
     		   <div class="row">
     			    <div class="col-md-7">
