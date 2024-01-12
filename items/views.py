@@ -482,7 +482,7 @@ class Review_history(LoginRequiredMixin, generic.ListView):
     model = Review
     form_class = ReviewForm
     template_name = "items/review_history.html"
-    ordering = "-created_at"
+    ordering = "-create_date"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
