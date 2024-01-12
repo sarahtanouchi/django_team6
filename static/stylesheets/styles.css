@@ -50,7 +50,7 @@ ul li{
 	justify-content: center;
 	margin: 30px;
   padding: 10px 20px;
-  font-size: 14px;
+  font-size: 16px;
   cursor: pointer;
 }
 /*ボタン　中*/
@@ -134,12 +134,12 @@ ul li{
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 200px;
+  height: 350px;
   padding: 20px;
 }
 
-.complete_message p{
-  font-size: 1.5em;
+.complete_message {
+  font-size: 24px;
 }
 
 /* エラーメッセージ用のスタイル */
