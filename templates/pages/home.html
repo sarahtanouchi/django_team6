@@ -227,9 +227,72 @@
         <div class="row mt-3 justify-content-center">
             <div class="col-6 col-md-5 mt-3">
                 <h3 class="font-weight-bold">好み診断</h3>
-                <a href="#">
+                <div data-toggle="modal" data-target="#testModal" data-backdrop="true">
                     <img src="{% static 'images/top/preference_question.jpg' %}" alt="好み診断" class="banner_image">
-                </a>
+                </div>
+                <div class="modal fade" id="testModal" tabindex="-1" role="dialog" aria-labelledby="basicModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myModalLabel">土佐茶好み診断</h4>
+                            </div>
+                            <div class="modal-body bg-light">
+                                <form action="">
+                                    <div class="mb-4">
+                                        <p>Q1. 和食より洋食が好き</p>
+                                        <div class="row">
+                                            <p class="col-md-3 offset-1 mb-0 text-success">当てはまる</p>
+                                            <input class="col-md-1" type="radio"  name="meal_preference" value="煎茶">
+                                            <input class="col-md-1" type="radio" name="meal_preference" value="玉露">
+                                            <input class="col-md-1" type="radio" name="meal_preference" value="ほうじ茶">
+                                            <input class="col-md-1"  type="radio" name="meal_preference" value="番茶">
+                                            <p class="col-md-4 mb-0 text-danger">当てはまらない</p>
+                                        </div>
+                                    </div>
+                                    <div class="mb-4">
+                                        <p>Q2. 夜より朝にお茶を飲むことが多い</p>
+                                        <div class="row">
+                                            <p class="col-md-3 offset-1 mb-0 text-success">当てはまる</p>
+                                            <input class="col-md-1" type="radio"  name="time_preference" value="煎茶">
+                                            <input class="col-md-1" type="radio" name="time_preference" value="玉露">
+                                            <input class="col-md-1" type="radio" name="time_preference" value="ほうじ茶">
+                                            <input class="col-md-1"  type="radio" name="time_preference" value="番茶">
+                                            <p class="col-md-4 mb-0 text-danger">当てはまらない</p>
+                                        </div>
+                                    </div>
+                                    <div class="mb-4">
+                                        <p>Q3. 渋みがあり、しっかりとした口当たりが好き</p>
+                                        <div class="row">
+                                            <p class="col-md-3 offset-1 mb-0 text-success">当てはまる</p>
+                                            <input class="col-md-1" type="radio"  name="taste_preference" value="煎茶">
+                                            <input class="col-md-1" type="radio" name="taste_preference" value="玉露">
+                                            <input class="col-md-1" type="radio" name="taste_preference" value="ほうじ茶">
+                                            <input class="col-md-1"  type="radio" name="taste_preference" value="番茶">
+                                            <p class="col-md-4 mb-0 text-danger">当てはまらない</p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p>Q4. リラックスしたい時にお茶を飲むことが多い</p>
+                                        <div class="row">
+                                            <p class="col-md-3 offset-1 mb-0 text-success">当てはまる</p>
+                                            <input class="col-md-1" type="radio"  name="occasion_preference" value="煎茶">
+                                            <input class="col-md-1" type="radio" name="occasion_preference" value="玉露">
+                                            <input class="col-md-1" type="radio" name="occasion_preference" value="ほうじ茶">
+                                            <input class="col-md-1"  type="radio" name="occasion_preference" value="番茶">
+                                            <p class="col-md-4 mb-0 text-danger">当てはまらない</p>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-light" data-dismiss="modal">閉じる</button>
+                                <button class="btn btn-success">診断する</button>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <div class="col-6 col-md-5 mt-3">
                 <h3 class="font-weight-bold">土佐茶とは</h3>
