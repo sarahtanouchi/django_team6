@@ -37,6 +37,10 @@ ALLOWED_HOSTS = ["8d6505a2d4544c27be984d7d7f97653a.vfs.cloud9.us-east-1.amazonaw
                  "d0e58b8e3e6841a1a1003693de453a77.vfs.cloud9.us-east-1.amazonaws.com",
                  "127.0.0.1"]
 
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:    
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+
 
 # Application definition
 
