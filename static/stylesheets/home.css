@@ -110,7 +110,7 @@ header{
 
 /*ヘッダーフッター共通*/
 .navbar_box{
-    background-image: url('../images/header_footer_back.jpg');
+    background-image: url('/static/images/header_footer_back.jpg');
     background-size: cover;
     background-position: center center;
 }
@@ -258,7 +258,6 @@ footer{
 /*TOP~から探す*/
 .item_search_container{
     /*width: 90%;*/
-    /*background-image: url('../images/top_background.jpg');*/
     padding: 30px;
 }
 
