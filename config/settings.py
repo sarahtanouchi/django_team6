@@ -28,9 +28,12 @@ env.read_env(os.path.join(BASE_DIR, ".env"))
 SECRET_KEY = 'f%axi2zlyspuh8kh0kqmv$yni(n%@2j*v599h6l=mlm%dkwl$u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = 'RENDER' not in os.environ
 
-ALLOWED_HOSTS = ["8d6505a2d4544c27be984d7d7f97653a.vfs.cloud9.us-east-1.amazonaws.com",
+ALLOWED_HOSTS = []
+if DEBUG:
+    ALLOWED_HOSTS = ["8d6505a2d4544c27be984d7d7f97653a.vfs.cloud9.us-east-1.amazonaws.com",
                  "4fffdffa8f0244efb6c00b6acae26f60.vfs.cloud9.us-east-1.amazonaws.com",
                  "231c042d19b445b7800e17e44b1cddae.vfs.cloud9.us-east-1.amazonaws.com",
                  "c125b0ec6ea245dda5e504819d79257b.vfs.cloud9.us-east-1.amazonaws.com",
